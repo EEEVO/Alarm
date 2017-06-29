@@ -15,7 +15,7 @@
           <img src="./03.png">
         </div>
       </div>
-      <p class="loading-text">正在连接…</p>
+      <p class="loading-text">{{loginStatusText[0]}}</p>
     </div>
     <!--<button @click="updataLogin"></button>-->
   </div>
@@ -23,6 +23,11 @@
 
 <script type="es6">
 export default {
+  data() {
+    return {
+      loginStatusText: ["正在连接…", "服务器请求超时", "服务器请求错误"]
+    }
+  },
   methods: {
     // updataLogin() {
     //   this.$store.commit('updataLogin');
