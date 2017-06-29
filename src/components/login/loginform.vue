@@ -31,7 +31,7 @@ export default {
     // 登录函数
     Login() {
       if (this.checkSubMsg()) {
-        setTimeout(this.$store.commit("updataLogin"),1000);
+        setTimeout(this.$store.commit("updataLogin"), 1000);
       }
     },
     // 检查登录信息
@@ -102,6 +102,10 @@ export default {
         opacity: 1;
       }
     }
+    @media (max-width:992px) {
+      padding-right: 34px;
+      font-size: 16px;
+    }
     i {
       margin-left: 4px;
       position: absolute;
@@ -109,6 +113,12 @@ export default {
       top: auto;
       opacity: 0;
       transition: opacity 218ms ease;
+      @media (max-width: 992px) {
+        line-height: 44px; // height: 41px;
+        top: 2px;
+        font-size: 18px;
+        opacity: 1;
+      }
     }
   }
   .message {

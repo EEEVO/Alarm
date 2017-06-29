@@ -36,29 +36,18 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 #loading-center {
   top: 35%;
-  left: 45%;
-  width: auto;
+  width: 100%;
   height: auto;
-  position: fixed; // height: auto;
-  // width: auto;
-  // position: relative;
-  // z-index: 1;
-  // top: 0;
-  // left: 0;
-  // right: 0;
-  // bottom: 0;
+  position: fixed; 
   #loading-center-absolute {
-    margin: 0 auto; // position: absolute;
-    // left: 45%; 
-    // top: 30%;
     height: 70px;
     width: 70px;
+    margin: 0 auto;
     transition: all 3s cubic-bezier(0.470, 0.000, 0.745, 0.715);
     animation: changehovertree 3s linear infinite;
-
     .object {
       position: absolute;
       img {
