@@ -8,15 +8,7 @@
 # install dependencies
 npm install
 
-#install sass
-npm install --save-dev sass-loader
-
-npm install --save-dev node-sass
-
-# install axios
-npm install axios -s
-
-# serve with hot reload at localhost:8080
+# serve with hot reload at localhost:8080Ï
 npm run dev
 
 # build for production with minification
