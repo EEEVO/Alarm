@@ -1,17 +1,19 @@
 <template>
   <div>
     <div class="loginForm">
-      <loginForm v-if="!count" class="flipInX animated"></loginForm>
-      <loginAni v-else></loginAni>
+      <transition name="loginForm" enter-active-class="flipX animated" leave-active-class="flipOutX animated">
+        <loginForm v-if="!count"></loginForm>
+      </transition>
     </div>
+    <transition name="loginAni">
+      <loginAni v-if="count"></loginAni>
+    </transition>
   </div>
 </template>
 
-
-
 <script type="es6">
+// flipOutX animated
 
-// "flipOutX animated"
 
 import loginForm from './loginform';
 import loginAni from './logingAnimation';
@@ -52,6 +54,10 @@ body {
     margin: 100px;
     color: #fff
   }
+  loginForm,
+  loginAni {
+    position: fixed;
+    top: 30%;
+  }
 }
-
 </style>

@@ -31,7 +31,7 @@ export default {
     // 登录函数
     Login() {
       if (this.checkSubMsg()) {
-        this.$store.commit("updataLogin");
+        setTimeout(this.$store.commit("updataLogin"),1000);
       }
     },
     // 检查登录信息
@@ -68,14 +68,14 @@ export default {
       color: #bfbfbf;
       left: 16px;
       height: 62px;
-      line-height: 62px;
+      line-height: 56px;
       font-size: 22px;
     }
     input {
       display: block;
       width: 100%;
       height: 54px;
-      padding: 12px 6px 6px 46px;
+      padding: 12px 6px 12px 46px;
       border: 1px solid #2779e5;
       font-size: 14px;
       color: #bfbfbf;
