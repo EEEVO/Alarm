@@ -36,7 +36,7 @@ export default {
     // 登录函数
     Login() {
       if (this.checkSubMsg()) {
-        setTimeout(this.$store.commit("updataLogin"), 1000);
+        setTimeout(this.$store.commit("switchLogin"), 1000);
       }
     },
     // 检查登录信息
@@ -83,9 +83,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../../style/public.css';
-@import '../../fonts/iconfont.css';
-
+// @import '../../style/public.css';
+// @import '../../fonts/iconfont.css';
 .login-content {
   width: 330px;
   margin: 0 auto;

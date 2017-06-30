@@ -61,7 +61,7 @@ export default {
             this.$store.commit('updataLoginMsg', {
               msg: this.loginStatusText[this.loginStatusText_index]
             })
-            this.$store.commit("updataLogin")
+            this.$store.commit("switchLogin")
           }
         }
       }).catch((error) => {
