@@ -13,7 +13,7 @@
         登录
         <i class="iconfont icon-youjiantou2"></i>
       </button>
-      <div class="message">{{warnMsg}}</div>
+      <div class="message">{{now_warnMsg}}</div>
     </form>
   </div>
 </template>
@@ -24,7 +24,12 @@ export default {
     return {
       userName: '',
       userPwd: '',
-      warnMsg: ''
+      warnMsg: '',
+    }
+  },
+  computed: {
+    now_warnMsg() {
+      return this.warnMsg = this.$store.state.login_warnMsg
     }
   },
   methods: {
@@ -37,16 +42,41 @@ export default {
     // 检查登录信息
     checkSubMsg() {
       if (this.userName === "") {
-        this.warnMsg = "用户名不能为空"
+        // let msg = "用户名不能为空";
+        this.$store.commit('updataLoginMsg', {
+          msg: "用户名不能为空"
+        })
         return false
       }
       if (this.userPwd === "") {
-        this.warnMsg = "密码不能为空"
+        // let msg = "密码不能为空";
+        this.$store.commit('updataLoginMsg', {
+          msg: "密码不能为空"
+        })
         return false
       }
+
+      window.localStorage.userName = this.userName;
+      window.localStorage.userPWD = this.Encrypt(this.userPwd);
+      window.localStorage.LOGIN_COMPLETE = "false";
+
       return true
-      // window.localStorage.userName = this.userName;
-      // window.localStorage.userPWD = this.userPwd;
+    },
+    Encrypt(Text) {
+      let output = new String;
+      let alterText = new Array();
+      let varCost = new Array();
+      let TextSize = Text.length;
+      let idea;
+      for (let i = 0; i < TextSize; i++) {
+        idea = Math.round(Math.random() * 111) + 77;
+        alterText[i] = Text.charCodeAt(i) + idea;
+        varCost[i] = idea;
+      }
+      for (let i = 0; i < TextSize; i++) {
+        output += String.fromCharCode(alterText[i], varCost[i]);
+      }
+      return output;
     }
   }
 }

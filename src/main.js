@@ -2,11 +2,12 @@
  * @Author: zhanghaoran 
  * @Date: 2017-06-29 11:29:24 
  * @Last Modified by: zhanghaoran
- * @Last Modified time: 2017-06-29 17:32:17
+ * @Last Modified time: 2017-06-30 13:25:45
  */
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Vuex from 'vuex'
+
 
 import App from './App';
 import routes from './router/index';
@@ -19,6 +20,7 @@ Vue.config.productionTip = false;
 
 Vue.use(VueRouter);
 Vue.use(Vuex);
+// Vue.user(Axios)
 
 const router = new VueRouter({
   routes
@@ -43,8 +45,8 @@ const vue = new Vue({
   methods: {
     checkLogin() {
       try {
-        if (window.localStorage.userName != "" && window.localStorage.userName != null) {
-          this.$router.push('/index');
+        if (window.localStorage.userName != "" && window.localStorage.userName != null && window.localStorage.LOGIN_COMPLETE === "true") {
+          this.$router.push('/home');
         } else {
           this.$router.push('/login');
         }

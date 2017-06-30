@@ -1,10 +1,10 @@
 import Login from '../components/login/login';
-import Index from '../components/index';
+import Home from '../components/home/home.vue';
 
 export default [{
   path: '/login',
   component: Login,
 }, {
-  path: '/index',
-  component: Index,
+  path: '/home',
+  component: Home,
 }];

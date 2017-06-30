@@ -31,13 +31,8 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import '../../style/animate.min.css';
-
-html,
-body {
-  background: #2d2e30;
-}
 
 .loginForm {
   top: 30%;
@@ -61,3 +56,11 @@ body {
   }
 }
 </style>
+
+<style lang="scss">
+html,
+body {
+  background: #2d2e30;
+}
+</style>
+

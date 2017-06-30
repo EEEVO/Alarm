@@ -15,23 +15,99 @@
           <img src="./03.png">
         </div>
       </div>
-      <p class="loading-text">{{loginStatusText[0]}}</p>
+      <p class="loading-text">{{loginStatusText[loginStatusText_index]}}</p>
     </div>
-    <!--<button @click="updataLogin"></button>-->
   </div>
 </template>
 
 <script type="es6">
+import Axios from 'axios'
+
 export default {
   data() {
     return {
-      loginStatusText: ["正在连接…", "服务器请求超时", "服务器请求错误"]
+      loginStatusText: ["正在连接…", "服务器请求超时", "已连接服务器", "登录失败"],
+      loginStatusText_index: 0,
+      userName: window.localStorage.userName,
+      userPwd: window.localStorage.userPWD,
+      //服务器链接次数
+      numbToService: 0,
+      urlCommon: 'http://localhost:8080/GWServices.asmx/'
     }
   },
+  created() {
+    this.ajaxGWServiceInit()
+  },
   methods: {
-    // updataLogin() {
-    //   this.$store.commit('updataLogin');
-    // }
+    //登录服务器
+    ajaxGWServiceInit() {
+      this.numbToService++;
+      Axios.post(`${this.urlCommon}ConnectService`, {
+        user_name: this.userName
+      }).then((response) => {
+        let res_data = response.data.d;
+        if (res_data !== null && res_data !== "" && res_data !== "false") {
+          this.ajaxGWLogin();
+        } else {
+          if (this.numbToService < 3) {
+            this.loginStatusText_index = 2
+            this.$store.commit('updataLoginMsg', {
+              msg: this.loginStatusText[this.loginStatusText_index]
+            })
+            this.ajaxGWServiceInit();
+          } else {
+            // 更换链接状态
+            this.loginStatusText_index = 1
+            this.$store.commit('updataLoginMsg', {
+              msg: this.loginStatusText[this.loginStatusText_index]
+            })
+            this.$store.commit("updataLogin")
+          }
+        }
+      }).catch((error) => {
+        console.log(error);
+      });
+    },
+    //验证用户名和密码
+    ajaxGWLogin() {
+      Axios.post(`${this.urlCommon}LoginService`, {
+        userName: this.userName,
+        userPwd: this.unEncrypt(this.userPwd)
+      }).then((response) => {
+        let res_data = response.data.d;
+        if (res_data !== null && res_data !== "" && res_data !== "false") {
+          // 更新登录状态
+          window.localStorage.LOGIN_COMPLETE = "true"
+          //跳转到首页
+          this.$router.push('/home');
+        } else {
+          this.loginStatusText_index = 3;
+          this.$store.commit('updataLoginMsg', {
+            msg: "用户名或密码错误！"
+          })
+          setTimeout(this.$store.commit("updataLogin"), 1000);
+        }
+      }).catch((error) => {
+
+      })
+
+
+    },
+    //解密
+    unEncrypt(Text) {
+      let output = new String();
+      let alterText = new Array();
+      let varCost = new Array();
+      let TextSize = Text.length;
+      for (let i = 0; i < TextSize; i++) {
+        alterText[i] = Text.charCodeAt(i);
+        varCost[i] = Text.charCodeAt(i + 1);
+      }
+      for (let i = 0; i < TextSize; i = i + 2) {
+        output += String.fromCharCode(alterText[i] - varCost[i]);
+      }
+      return output;
+    }
   }
 }
 </script>
@@ -41,7 +117,7 @@ export default {
   top: 35%;
   width: 100%;
   height: auto;
-  position: fixed; 
+  position: fixed;
   #loading-center-absolute {
     height: 70px;
     width: 70px;
@@ -87,9 +163,6 @@ export default {
     }
   }
   .loading-text {
-    // width: 70px;
-    // position: absolute;
-    // top: 52%;
     color: #fff
   }
 }
