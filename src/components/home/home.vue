@@ -11,9 +11,12 @@
         <button class="btn btns-style-2" title="全屏" @click="fullScreen()">
           <i class="iconfont icon-quanping"></i>
         </button>
-        <button class="btn btns-style-2" title="注销" data-action="userLogout">
+        <button class="btn btns-style-2" title="注销" @click="switchLogout()">
           <i class="iconfont icon-logout"></i>
         </button>
+        <transition enter-active-class="fadein animated">
+          <logout v-if="logoutStatus"></logout>
+        </transition>
         <div class="popupSkin">
           <button class="btn btns-style-2" title="主题" @click="Skin_STATUS = !Skin_STATUS">
             <i class="iconfont icon-skin"></i>
@@ -34,11 +37,17 @@
 
 <script type="es6">
 import popupSkin from './popupSkin'
+import logout from './logout'
 
 export default {
   data() {
     return {
       Skin_STATUS: false
+    }
+  },
+  computed: {
+    logoutStatus() {
+      return this.$store.state.LOGOUT_STATUS
     }
   },
   methods: {
@@ -63,12 +72,24 @@ export default {
         } else if (document.documentElement.msRequestFullscreen) {
           document.documentElement.msRequestFullscreen();
         }
-        this.$store.commit('updataFullStatus');
+        this.$store.commit('switchFullStatus');
       }
+    },
+    //切换注销状态组件显示
+    switchLogout() {
+      this.$store.commit('switchLogout')
+    },
+    depositBG() {
+      if (window.localStorage.bg === "") {
+        window.localStorage.bg = "./bg_9.jpg";
+      }
+      //TODO:给html元素设置背景图片
+
     }
   },
   components: {
-    popupSkin
+    popupSkin,
+    logout
   }
 }
 
@@ -143,7 +164,7 @@ header {
 <style lang="scss">
 html,
 body {
-  background: url("./bg_1.jpg")
+  background: url("./bg_9.jpg")
 }
 </style>
 

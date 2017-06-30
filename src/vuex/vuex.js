@@ -1,8 +1,8 @@
 /*
- * @Author: zhanghaoran 
- * @Date: 2017-06-29 17:31:35 
- * @Last Modified by: zhanghaoran
- * @Last Modified time: 2017-06-30 17:20:41
+ * @Author: zhanghaoran
+ * @Date: 2017-06-29 17:31:35
+ * @Last Modified by: 张浩然
+ * @Last Modified time: 2017-07-01 00:16:34
  */
 
 const state = {
@@ -13,13 +13,18 @@ const state = {
   //登录所用的提示信息
   login_warnMsg: '',
   //全屏状态，true为全屏，false反之
-  FULL_STATUS: false
+  FULL_STATUS: false,
+  LOGOUT_STATUS: false
 }
 
 const mutations = {
   // 切换登录过程标识
   switchLogin(state) {
     state.LOGIN_STATUS = !state.LOGIN_STATUS
+  },
+  // 切换注销过程标识
+  switchLogout(state) {
+    state.LOGOUT_STATUS = !state.LOGOUT_STATUS
   },
   //更新登录信息
   updataLoginMsg(state, text) {
@@ -31,7 +36,4 @@ const mutations = {
   }
 }
 
-export {
-  state,
-  mutations
-};
+export {state, mutations};

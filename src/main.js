@@ -1,8 +1,8 @@
 /*
  * @Author: zhanghaoran 
  * @Date: 2017-06-29 11:29:24 
- * @Last Modified by: zhanghaoran
- * @Last Modified time: 2017-06-30 13:25:45
+ * @Last Modified by: 张浩然
+ * @Last Modified time: 2017-06-30 20:47:29
  */
 import Vue from 'vue';
 import VueRouter from 'vue-router';
@@ -44,15 +44,18 @@ const vue = new Vue({
   },
   methods: {
     checkLogin() {
-      try {
-        if (window.localStorage.userName != "" && window.localStorage.userName != null && window.localStorage.LOGIN_COMPLETE === "true") {
-          this.$router.push('/home');
-        } else {
-          this.$router.push('/login');
-        }
-      } catch (ex) {
-        this.$router.push('/login');
-      }
+      // 家里测试写组件
+      this.$router.push('/home');
+      // TODO:代码可用
+      // try {
+      //   if (window.localStorage.userName != "" && window.localStorage.userName != null && window.localStorage.LOGIN_COMPLETE === "true") {
+      //     this.$router.push('/home');
+      //   } else {
+      //     this.$router.push('/login');
+      //   }
+      // } catch (ex) {
+      //   this.$router.push('/login');
+      // }
     }
   }
 });
