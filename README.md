@@ -51,4 +51,4 @@ npm test
 
   1. 子组件内切换html根元素的背景未完成
 
-  2.皮肤功能切换，并且皮肤选择也应该存入localStroage
+  2. 皮肤功能切换，并且皮肤选择也应该存入localStroage

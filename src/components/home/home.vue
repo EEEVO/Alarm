@@ -42,7 +42,8 @@ import logout from './logout'
 export default {
   data() {
     return {
-      Skin_STATUS: false
+      Skin_STATUS: false,
+      bgSkin: './bg_9.jpg'
     }
   },
   computed: {
@@ -83,7 +84,8 @@ export default {
       if (window.localStorage.bg === "") {
         window.localStorage.bg = "./bg_9.jpg";
       }
-      //TODO:给html元素设置背景图片
+
+      //TODO:给根节点元素设置背景图片
 
     }
   },
@@ -162,10 +164,10 @@ header {
 </style>
 
 <style lang="scss">
-html,
-body {
-  background: url("./bg_9.jpg")
-}
+// html,
+// body {
+//   background: url("./bg_9.jpg")
+// }
 </style>
 
 

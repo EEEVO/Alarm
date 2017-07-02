@@ -1,27 +1,41 @@
 <template>
   <div>
-    <div class="userSkin">
-      <img src="./bg_1.jpg">
-      <img src="./bg_2.jpg">
-      <img src="./bg_3.jpg">
+    <div class="userSkin" v-once>
+      <img src="../../img/bg_1.jpg" @click="chooseSkin($event.currentTarget)">
+      <img src="../../img/bg_2.jpg" @click="chooseSkin($event.currentTarget)">
+      <img src="../../img/bg_3.jpg" @click="chooseSkin($event.currentTarget)">
       <div class="clear"></div>
-      <img src="./bg_4.jpg">
-      <img src="./bg_5.jpg">
-      <img src="./bg_6.jpg">
+      <img src="../../img/bg_4.jpg" @click="chooseSkin($event.currentTarget)">
+      <img src="../../img/bg_5.jpg" @click="chooseSkin($event.currentTarget)">
+      <img src="../../img/bg_6.jpg" @click="chooseSkin($event.currentTarget)">
       <div class="clear"></div>
-      <img src="./bg_7.jpg">
-      <img src="./bg_8.jpg">
-      <img src="./bg_9.jpg">
+      <img src="../../img/bg_7.jpg" @click="chooseSkin($event.currentTarget)">
+      <img src="../../img/bg_8.jpg" @click="chooseSkin($event.currentTarget)">
+      <img src="../../img/bg_9.jpg" @click="chooseSkin($event.currentTarget)">
       <div class="clear"></div>
     </div>
   </div>
 </template>
 
 <script type="es6">
-export default {
 
+export default {
+  data() {
+    return {
+      bg: ''
+    }
+  },
+  methods: {
+    chooseSkin(currentTarget) {
+      document.querySelector('body').style.backgroundImage = `url("./bg_1.jpg")`
+    }
+  }
 }
 </script>
+
+<style lang="scss">
+
+</style>
 
 <style lang="scss" scopedSlots>
 /*皮肤块*/

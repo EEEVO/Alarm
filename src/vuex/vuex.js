@@ -2,7 +2,7 @@
  * @Author: zhanghaoran
  * @Date: 2017-06-29 17:31:35
  * @Last Modified by: 张浩然
- * @Last Modified time: 2017-07-01 00:16:34
+ * @Last Modified time: 2017-07-01 17:43:01
  */
 
 const state = {
@@ -14,10 +14,15 @@ const state = {
   login_warnMsg: '',
   //全屏状态，true为全屏，false反之
   FULL_STATUS: false,
-  LOGOUT_STATUS: false
+  LOGOUT_STATUS: false,
+  bg_url: ''
 }
 
 const mutations = {
+  // 更换背景图片
+  updata_bg_url(state, url) {
+    state.bg_url = url
+  },
   // 切换登录过程标识
   switchLogin(state) {
     state.LOGIN_STATUS = !state.LOGIN_STATUS
