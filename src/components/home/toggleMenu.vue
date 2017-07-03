@@ -10,10 +10,13 @@
       <div class="navList">
         <ul :class="{minifieds:!toggleMenuStatus}">
           <li v-for="(item,index) of items" :key="index" v-if="item.value=='1'" :class="{active:isAcitve==item.name}" @click="selected(item.name)">
-            <a>
-              <i :class="item.icon" class="iconfont"></i>
-              <span v-show="toggleMenuStatus">{{item.name}}</span>
-            </a>
+            <!--此处应该是路由标签-->
+            <router-link to="">
+              <a href="">
+                <i :class="item.icon" class="iconfont"></i>
+                <span v-show="toggleMenuStatus">{{item.name}}</span>
+              </a>
+            </router-link>
           </li>
         </ul>
       </div>
@@ -37,64 +40,64 @@ export default {
           icon: 'icon-yingsaitong'
         },
         {
-          'name': '设备数据',
-          'htmlName': 'RealTime',
-          'value': '1',
-          'icon': 'icon-shishizhuangtai'
+          name: '设备数据',
+          htmlName: 'RealTime',
+          value: '1',
+          icon: 'icon-shishizhuangtai'
         },
         {
-          'name': '实时快照',
-          'htmlName': 'ActualSys',
-          'value': '1',
-          'icon': 'icon-kuaizhao'
+          name: '实时快照',
+          htmlName: 'ActualSys',
+          value: '1',
+          icon: 'icon-kuaizhao'
         },
         {
-          'name': '系统配置',
-          'htmlName': 'Systems',
-          'value': '1',
-          'icon': 'icon-xujicanshupeizhi'
+          name: '系统配置',
+          htmlName: 'Systems',
+          value: '1',
+          icon: 'icon-xujicanshupeizhi'
         },
         {
-          'name': '事件查询',
-          'htmlName': 'EvtSelect',
-          'value': '1',
-          'icon': 'icon-chaxun'
+          name: '事件查询',
+          htmlName: 'EvtSelect',
+          value: '1',
+          icon: 'icon-chaxun'
         },
         {
-          'name': '报警排表',
-          'htmlName': 'AlarmTabulate',
-          'value': '1',
-          'icon': 'icon-renyuanpaiban'
+          name: '报警排表',
+          htmlName: 'AlarmTabulate',
+          value: '1',
+          icon: 'icon-renyuanpaiban'
         },
         {
-          'name': '定时任务',
-          'htmlName': 'TimedTask',
-          'value': '1',
-          'icon': 'icon-dingshirenwu'
+          name: '定时任务',
+          htmlName: 'TimedTask',
+          value: '1',
+          icon: 'icon-dingshirenwu'
         },
         {
-          'name': '设备联动',
-          'htmlName': 'EquipLink',
-          'value': '1',
-          'icon': 'icon-shebeiguanli'
+          name: '设备联动',
+          htmlName: 'EquipLink',
+          value: '1',
+          icon: 'icon-shebeiguanli'
         },
         {
-          'name': '门禁系统',
-          'htmlName': 'EntrGuard',
-          'value': '0',
-          'icon': 'icon-menjinxitong'
+          name: '门禁系统',
+          htmlName: 'EntrGuard',
+          value: '0',
+          icon: 'icon-menjinxitong'
         },
         {
-          'name': '视频系统',
-          'htmlName': 'VideoSystem',
-          'value': '0',
-          'icon': 'icon-shipin'
+          name: '视频系统',
+          htmlName: 'VideoSystem',
+          value: '0',
+          icon: 'icon-shipin'
         },
         {
-          'name': '能耗系统',
-          'htmlName': 'Energy',
-          'value': '0',
-          'icon': 'icon-nenghaoguanli'
+          name: '能耗系统',
+          htmlName: 'Energy',
+          value: '0',
+          icon: 'icon-nenghaoguanli'
         },
       ]
     }
