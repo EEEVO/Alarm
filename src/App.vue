@@ -60,6 +60,7 @@ export default {
 #app {
   width: 100%;
   height: 100%;
+  /*先写死以后再换*/
   background: url("../static/img/bg_1.jpg")
 }
 </style>

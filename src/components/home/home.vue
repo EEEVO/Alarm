@@ -35,10 +35,9 @@
     <!--导航菜单栏-->
     <toggleMenu id="toggleMenu" :toggle-menu-status="toggleMenuStatus" :class="{widthtrue:!toggleMenuStatus,widthfalse:toggleMenuStatus}"></toggleMenu>
     <!--主要内容块-->
-    <!--<router-view></router-view>-->
+    <router-view></router-view>
     <!--底部栏-->
     <foot id="foot" :class="{paddtrue:!toggleMenuStatus,paddfalse:toggleMenuStatus }"></foot>
-    <!--<foot id="foot" :class="{paddtrue:toggleMenuStatus }"></foot>-->
   </div>
 </template>
 
@@ -227,13 +226,13 @@ header {
 
 .widthtrue {
   animation: width_true 0.5s 1;
-  width: 45px;
+  width: 48px;
   @keyframes width_true {
     0% {
       width: 220px;
     }
     100% {
-      width: 45px;
+      width: 48px;
     }
   }
 }
@@ -245,7 +244,7 @@ header {
   @keyframes width_false {
     0% {
 
-      width: 45px;
+      width: 48px;
     }
     100% {
       width: 220px;

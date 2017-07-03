@@ -2,7 +2,7 @@
   <div>
     <nav>
       <div class="navUser">
-        <span v-show="toggleMenuStatus">
+        <span v-if="toggleMenuStatus">
           <i class="iconfont icon-yonghu"></i>
           <span class="userName">{{userName}}</span>
         </span>
@@ -11,10 +11,10 @@
         <ul :class="{minifieds:!toggleMenuStatus}">
           <li v-for="(item,index) of items" :key="index" v-if="item.value=='1'" :class="{active:isAcitve==item.name}" @click="selected(item.name)">
             <!--此处应该是路由标签-->
-            <router-link to="">
-              <a href="">
-                <i :class="item.icon" class="iconfont"></i>
-                <span v-show="toggleMenuStatus">{{item.name}}</span>
+            <router-link to="/commontHeader">
+              <a>
+                <i :class="item.icon " class="iconfont "></i>
+                <span v-show="toggleMenuStatus ">{{item.name}}</span>
               </a>
             </router-link>
           </li>
