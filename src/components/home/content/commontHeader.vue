@@ -10,7 +10,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scopedSlots>
 #main {
   color: #fff;
   font-size: 20px;

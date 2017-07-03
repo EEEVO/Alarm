@@ -11,7 +11,7 @@
         <ul :class="{minifieds:!toggleMenuStatus}">
           <li v-for="(item,index) of items" :key="index" v-if="item.value=='1'" :class="{active:isAcitve==item.name}" @click="selected(item.name)">
             <!--此处应该是路由标签-->
-            <router-link to="/commontHeader">
+            <router-link :to="{name:item.nameUrl}">
               <a>
                 <i :class="item.icon " class="iconfont "></i>
                 <span v-show="toggleMenuStatus ">{{item.name}}</span>
@@ -35,69 +35,72 @@ export default {
       items: [
         {
           name: '首页',
-          htmlName: 'index',
           value: '1',
-          icon: 'icon-yingsaitong'
+          icon: 'icon-yingsaitong',
+          nameUrl: "index"
         },
         {
           name: '设备数据',
-          htmlName: 'RealTime',
           value: '1',
-          icon: 'icon-shishizhuangtai'
+          icon: 'icon-shishizhuangtai',
+          nameUrl: "realTime"
         },
         {
           name: '实时快照',
-          htmlName: 'ActualSys',
           value: '1',
-          icon: 'icon-kuaizhao'
+          icon: 'icon-kuaizhao',
+          nameUrl: "actualSys"
         },
         {
           name: '系统配置',
-          htmlName: 'Systems',
           value: '1',
-          icon: 'icon-xujicanshupeizhi'
+          icon: 'icon-xujicanshupeizhi',
+          nameUrl: "optionSys"
         },
         {
           name: '事件查询',
-          htmlName: 'EvtSelect',
           value: '1',
-          icon: 'icon-chaxun'
+          icon: 'icon-chaxun',
+          nameUrl: "evtSelect"
         },
         {
           name: '报警排表',
           htmlName: 'AlarmTabulate',
           value: '1',
-          icon: 'icon-renyuanpaiban'
+          icon: 'icon-renyuanpaiban',
+          nameUrl: "AlarmTabulate"
         },
         {
           name: '定时任务',
           htmlName: 'TimedTask',
           value: '1',
-          icon: 'icon-dingshirenwu'
+          icon: 'icon-dingshirenwu',
+          nameUrl: "TimedTask"
         },
         {
           name: '设备联动',
           htmlName: 'EquipLink',
           value: '1',
-          icon: 'icon-shebeiguanli'
+          icon: 'icon-shebeiguanli',
+          nameUrl: "EquipLink"
         },
         {
           name: '门禁系统',
-          htmlName: 'EntrGuard',
           value: '0',
-          icon: 'icon-menjinxitong'
+          icon: 'icon-menjinxitong',
+          nameUrl: "EntrGuard"
         },
         {
           name: '视频系统',
-          htmlName: 'VideoSystem',
           value: '0',
-          icon: 'icon-shipin'
+          icon: 'icon-shipin',
+          nameUrl: "VideoSystem"
         },
         {
           name: '能耗系统',
-          htmlName: 'Energy',
           value: '0',
-          icon: 'icon-nenghaoguanli'
+          icon: 'icon-nenghaoguanli',
+          nameUrl: "Energy"
         },
       ]
     }

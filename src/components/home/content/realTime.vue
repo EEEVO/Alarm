@@ -1,5 +1,7 @@
 <template>
-  <div></div>
+  <div>
+    我是realTime
+  </div>
 </template>
 
 <script type="es6">

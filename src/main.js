@@ -2,7 +2,7 @@
  * @Author: zhanghaoran 
  * @Date: 2017-06-29 11:29:24 
  * @Last Modified by: 张浩然
- * @Last Modified time: 2017-06-30 20:47:29
+ * @Last Modified time: 2017-07-03 22:20:52
  */
 import Vue from 'vue';
 import VueRouter from 'vue-router';
@@ -36,9 +36,9 @@ const vue = new Vue({
   store,
   el: '#app',
   render: h => h(App),
-  watch: {
-    "$route": 'checkLogin'
-  },
+  // watch: {
+  //   "$route": 'checkLogin'
+  // },
   created() {
     this.checkLogin();
   },

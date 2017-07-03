@@ -29,13 +29,13 @@
         </div>
         <button class="btn btns-style-2" title="折叠菜单" @click="toggleMenuStatus=!toggleMenuStatus">
           <i class="iconfont icon-caidan"></i>
-        </button>
+        </button><!---->
       </div>
     </header>
     <!--导航菜单栏-->
     <toggleMenu id="toggleMenu" :toggle-menu-status="toggleMenuStatus" :class="{widthtrue:!toggleMenuStatus,widthfalse:toggleMenuStatus}"></toggleMenu>
     <!--主要内容块-->
-    <router-view></router-view>
+    <router-view id="content"></router-view>
     <!--底部栏-->
     <foot id="foot" :class="{paddtrue:!toggleMenuStatus,paddfalse:toggleMenuStatus }"></foot>
   </div>
@@ -251,6 +251,12 @@ header {
     }
   }
   width: 220px;
+}
+
+#content {
+  width: 500px;
+  height: 500px;
+  border: 1px solid red;
 }
 </style>
 
