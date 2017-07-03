@@ -1,5 +1,5 @@
 <template>
-  <div id="app" v-bind:style="bg">
+  <div id="app">
     <!--<Login></Login>-->
     <router-view></router-view>
   </div>
@@ -10,22 +10,51 @@
 
 export default {
   name: 'app',
-  data() {
-    return {
-      // bg: this.$store.bg_url
-      // TODO:背景图片路径地址找不到
-      bg: {
-        background: 'url("./img/bg_9.jpg")',
-        border: "1px solid red"
-      }
-    }
-  }
+  // data() {
+  //   return {
+  //     // TODO:背景图片因为打包等原因必须放在static文件夹下
+  //     bg: {
+  //       // background: `url("../static/img/${this.nowBg}")`,
+  //       border: "1px solid red"
+  //     },
+  //     // bg_url: '',
+  //   }
+  // },
+  // computed: {
+  //   nowBg() {
+  //     if (window.localStorage.bg_url) {
+  //       let a = window.localStorage.bg_url;
+  //       this.$store.commit('updata_bg_url', {
+  //         a
+  //       })
+  //       import './style/Skin/bg1.css'
+  //       // return this.bg_url
+  //     } else {
+  //       window.localStorage.bg_url= this.$store.state.bg_url
+  //       // return this.bg_url
+  //     }
+  //   }
+  // },
+  // methods: {
+  //   initBg() {
+  //     if (window.localStorage.bg_url) {
+  //       this.$store.state.bg_url = this.bg_url = window.localStorage.bg_url;
+  //       // this.bg_url
+  //       return this.bg_url
+  //     } else {
+  //       window.localStorage.bg_url = this.bg_url = this.$store.state.bg_url
+  //       return this.bg_url
+  //     }
+  //   }
+  // }
 };
 </script>
 
 <style>
 @import '../src/style/public.css';
 @import '../src/fonts/iconfont.css';
+
+/*@import '../src/style/Skin/bg1.css';*/
 
 #app {
   width: 100%;
@@ -35,5 +64,6 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  background: url("../static/img/bg_1.jpg")
 }
 </style>

@@ -90,7 +90,8 @@ export default {
           box-shadow: inset 0 -2px 0 rgba(0, 0, 0, .05);
           color: #fff;
           font-family: "Microsoft YaHei";
-          background: rgba(0, 0, 0, .3);
+          background: rgba(0, 0, 0, .2);
+          cursor: pointer;
           &:hover {
             background: rgba(0, 0, 0, .4);
             color: #fff;

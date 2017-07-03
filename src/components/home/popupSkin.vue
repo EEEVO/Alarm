@@ -1,17 +1,17 @@
 <template>
   <div>
     <div class="userSkin" v-once>
-      <img src="../../img/bg_1.jpg" @click="chooseSkin($event.currentTarget)">
-      <img src="../../img/bg_2.jpg" @click="chooseSkin($event.currentTarget)">
-      <img src="../../img/bg_3.jpg" @click="chooseSkin($event.currentTarget)">
+      <img src="../../img/bg_1.jpg" @click="chooseSkin('bg_1.jpg')">
+      <img src="../../img/bg_2.jpg" @click="chooseSkin('bg_2.jpg')">
+      <img src="../../img/bg_3.jpg" @click="chooseSkin('bg_3.jpg')">
       <div class="clear"></div>
-      <img src="../../img/bg_4.jpg" @click="chooseSkin($event.currentTarget)">
-      <img src="../../img/bg_5.jpg" @click="chooseSkin($event.currentTarget)">
-      <img src="../../img/bg_6.jpg" @click="chooseSkin($event.currentTarget)">
+      <img src="../../img/bg_4.jpg" @click="chooseSkin('bg_4.jpg')">
+      <img src="../../img/bg_5.jpg" @click="chooseSkin('bg_5.jpg')">
+      <img src="../../img/bg_6.jpg" @click="chooseSkin('bg_6.jpg')">
       <div class="clear"></div>
-      <img src="../../img/bg_7.jpg" @click="chooseSkin($event.currentTarget)">
-      <img src="../../img/bg_8.jpg" @click="chooseSkin($event.currentTarget)">
-      <img src="../../img/bg_9.jpg" @click="chooseSkin($event.currentTarget)">
+      <img src="../../img/bg_7.jpg" @click="chooseSkin('bg_7.jpg')">
+      <img src="../../img/bg_8.jpg" @click="chooseSkin('bg_8.jpg')">
+      <img src="../../img/bg_9.jpg" @click="chooseSkin('bg_9.jpg')">
       <div class="clear"></div>
     </div>
   </div>
@@ -26,8 +26,13 @@ export default {
     }
   },
   methods: {
-    chooseSkin(currentTarget) {
-      document.querySelector('body').style.backgroundImage = `url("./bg_1.jpg")`
+    chooseSkin(currentURL) {
+      console.log(currentURL);
+      // 存入localStorage
+      window.localStorage.bg_url = currentURL
+      this.$store.commit('updata_bg_url', {
+        currentURL
+      })
     }
   }
 }

@@ -1,8 +1,8 @@
 /*
  * @Author: zhanghaoran
  * @Date: 2017-06-29 17:31:35
- * @Last Modified by: 张浩然
- * @Last Modified time: 2017-07-01 17:43:01
+ * @Last Modified by: zhanghaoran
+ * @Last Modified time: 2017-07-03 09:51:45
  */
 
 const state = {
@@ -15,7 +15,7 @@ const state = {
   //全屏状态，true为全屏，false反之
   FULL_STATUS: false,
   LOGOUT_STATUS: false,
-  bg_url: ''
+  bg_url: 'bg_1.jpg'
 }
 
 const mutations = {
@@ -41,4 +41,7 @@ const mutations = {
   }
 }
 
-export {state, mutations};
+export {
+  state,
+  mutations
+};
