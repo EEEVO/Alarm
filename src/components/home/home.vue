@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!--头部工具栏-->
     <header>
       <!--头部左侧-->
       <div class="headerLeft">
@@ -27,23 +28,32 @@
           </transition>
         </div>
   
-        <button class="btn btns-style-2" title="折叠菜单" data-action="toggleMenu">
+        <button class="btn btns-style-2" title="折叠菜单" @click="toggleMenuStatus=!toggleMenuStatus">
           <i class="iconfont icon-caidan"></i>
         </button>
       </div>
     </header>
+    <!--导航菜单栏-->
+    <toggleMenu id="toggleMenu" :toggle-menu-status="toggleMenuStatus" :class="{widthtrue:!toggleMenuStatus,widthfalse:toggleMenuStatus}"></toggleMenu>
+    <!--底部栏-->
+    <foot id="foot" :class="{paddtrue:!toggleMenuStatus,paddfalse:toggleMenuStatus }"></foot>
+    <!--<foot id="foot" :class="{paddtrue:toggleMenuStatus }"></foot>-->
   </div>
 </template>
 
 <script type="es6">
 import popupSkin from './popupSkin'
 import logout from './logout'
+import toggleMenu from './toggleMenu'
+import foot from './foot'
 
 export default {
   data() {
     return {
       Skin_STATUS: false,
-      bgSkin: './bg_9.jpg'
+      bgSkin: './bg_9.jpg',
+      // 折叠菜单的状态值，true为显示
+      toggleMenuStatus: true
     }
   },
   computed: {
@@ -91,7 +101,9 @@ export default {
   },
   components: {
     popupSkin,
-    logout
+    logout,
+    toggleMenu,
+    foot
   }
 }
 
@@ -99,8 +111,6 @@ export default {
 
 <style lang="scss" scoped>
 @import '../../style/animate.min.css';
-
-
 header {
   width: 100%;
   height: 50px;
@@ -161,13 +171,87 @@ header {
     }
   }
 }
-</style>
 
-<style lang="scss">
-// html,
-// body {
-//   background: url("./bg_9.jpg")
-// }
+#toggleMenu {
+  // width: 220px;
+  height: 100%;
+  background-color: rgba(0, 0, 0, .43);
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 10;
+}
+
+#foot {
+  width: 100%;
+  height: 50px;
+  line-height: 50px;
+  background: rgba(0, 0, 0, .33);
+  border-top: 1px solid rgba(255, 255, 255, .15);
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  z-index: 11;
+}
+
+.paddtrue {
+  animation: move_true .5s 1;
+
+  @keyframes move_true {
+    0% {
+      padding: 0px 0px 0px 233px;
+    }
+    100% {
+      padding: 0px 0px 0px 58px;
+    }
+  }
+  padding: 0px 0px 0px 58px;
+}
+
+
+
+.paddfalse {
+  animation: move_false .5s 1;
+  @keyframes move_false {
+    0% {
+      padding: 0px 0px 0px 58px;
+    }
+    100% {
+      padding: 0px 0px 0px 233px;
+    }
+  }
+  padding: 0px 0px 0px 233px;
+}
+
+
+.widthtrue {
+  animation: width_true 0.5s 1;
+  width: 45px;
+  @keyframes width_true {
+    0% {
+      width: 220px;
+    }
+    100% {
+      width: 45px;
+    }
+  }
+}
+
+
+
+.widthfalse {
+  animation: width_false 0.5s 1;
+  @keyframes width_false {
+    0% {
+
+      width: 45px;
+    }
+    100% {
+      width: 220px;
+    }
+  }
+  width: 220px;
+}
 </style>
 
 
