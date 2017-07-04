@@ -1,7 +1,7 @@
 <template>
   <div class="navBtnList">
     <ul>
-      <li v-for="(item,index) of items" :key="index" v-if="item.value=='1'&&index!==0" :class="{active:isAcitve==item.name}" @click="selected(item.name)">
+      <li v-for="(item,index) of items" :key="index" v-if="item.value=='1'&&index!==0" @click="selected(item.name)">
         <!--此处应该是路由标签-->
         <router-link :to="{name:item.nameUrl}">
           <a class="a">
@@ -24,11 +24,20 @@ export default {
     return {
       items
     }
+  },
+  methods: {
+    selected(gameName) {
+      this.$store.commit("updata_isAcitve", gameName);
+    }
   }
 }
 </script>
 
 <style lang="scss" scoped>
+a {
+  text-decoration: none;
+}
+
 .navBtnList {
   width: auto;
   height: auto;

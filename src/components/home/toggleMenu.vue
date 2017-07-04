@@ -32,86 +32,29 @@ export default {
   data() {
     return {
       // isAcitve: this.items[0].name,
-      isAcitve: "首页",
+      isAcitve: "",
       userName: window.localStorage.userName,
       items: items
-      // items: [
-      //   {
-      //     name: '首页',
-      //     value: '1',
-      //     icon: 'icon-yingsaitong',
-      //     nameUrl: "index"
-      //   },
-      //   {
-      //     name: '设备数据',
-      //     value: '1',
-      //     icon: 'icon-shishizhuangtai',
-      //     nameUrl: "realTime"
-      //   },
-      //   {
-      //     name: '实时快照',
-      //     value: '1',
-      //     icon: 'icon-kuaizhao',
-      //     nameUrl: "actualSys"
-      //   },
-      //   {
-      //     name: '系统配置',
-      //     value: '1',
-      //     icon: 'icon-xujicanshupeizhi',
-      //     nameUrl: "optionSys"
-      //   },
-      //   {
-      //     name: '事件查询',
-      //     value: '1',
-      //     icon: 'icon-chaxun',
-      //     nameUrl: "evtSelect"
-      //   },
-      //   {
-      //     name: '报警排表',
-      //     htmlName: 'AlarmTabulate',
-      //     value: '1',
-      //     icon: 'icon-renyuanpaiban',
-      //     nameUrl: "AlarmTabulate"
-      //   },
-      //   {
-      //     name: '定时任务',
-      //     htmlName: 'TimedTask',
-      //     value: '1',
-      //     icon: 'icon-dingshirenwu',
-      //     nameUrl: "TimedTask"
-      //   },
-      //   {
-      //     name: '设备联动',
-      //     htmlName: 'EquipLink',
-      //     value: '1',
-      //     icon: 'icon-shebeiguanli',
-      //     nameUrl: "EquipLink"
-      //   },
-      //   {
-      //     name: '门禁系统',
-      //     value: '0',
-      //     icon: 'icon-menjinxitong',
-      //     nameUrl: "EntrGuard"
-      //   },
-      //   {
-      //     name: '视频系统',
-      //     value: '0',
-      //     icon: 'icon-shipin',
-      //     nameUrl: "VideoSystem"
-      //   },
-      //   {
-      //     name: '能耗系统',
-      //     value: '0',
-      //     icon: 'icon-nenghaoguanli',
-      //     nameUrl: "Energy"
-      //   },
-      // ]
     }
   },
+  computed: {
+    updataisAcitve() {
+      console.log("计算属性更新？");
+      this.isAcitve = this.$store.state.isAcitve
+    }
+  },
+  // created() {
+  //   this.updataisAcitve();
+  // },
   methods: {
     selected(gameName) {
-      this.isAcitve = gameName
-    }
+      // this.isAcitve = gameName
+      this.$store.commit("updata_isAcitve", gameName);
+      // this.updataisAcitve();
+    },
+    // updataisAcitve() {
+    //   return this.isAcitve = this.$store.state.isAcitve
+    // }
   }
 }
 </script>
@@ -131,7 +74,6 @@ export default {
 .navList {
   width: auto;
   height: auto;
-  /*position: absolute;*/
   left: 0px;
   top: 91px;
   bottom: 51px;
