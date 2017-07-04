@@ -11,7 +11,7 @@
         <ul :class="{minifieds:!toggleMenuStatus}">
           <li v-for="(item,index) of items" :key="index" v-if="item.value=='1'" :class="{active:isAcitve==item.name}" @click="selected(item.name)">
             <!--此处应该是路由标签-->
-            <router-link to="/commontHeader">
+            <router-link :to="{name:item.nameUrl}">
               <a>
                 <i :class="item.icon " class="iconfont "></i>
                 <span v-show="toggleMenuStatus ">{{item.name}}</span>
@@ -25,86 +25,35 @@
 </template>
 
 <script type="es6">
+import { items } from '../data.js'
+
 export default {
   props: ['toggleMenuStatus'],
   data() {
     return {
       // isAcitve: this.items[0].name,
-      isAcitve: "首页",
+      isAcitve: "",
       userName: window.localStorage.userName,
-      items: [
-        {
-          name: '首页',
-          htmlName: 'index',
-          value: '1',
-          icon: 'icon-yingsaitong'
-        },
-        {
-          name: '设备数据',
-          htmlName: 'RealTime',
-          value: '1',
-          icon: 'icon-shishizhuangtai'
-        },
-        {
-          name: '实时快照',
-          htmlName: 'ActualSys',
-          value: '1',
-          icon: 'icon-kuaizhao'
-        },
-        {
-          name: '系统配置',
-          htmlName: 'Systems',
-          value: '1',
-          icon: 'icon-xujicanshupeizhi'
-        },
-        {
-          name: '事件查询',
-          htmlName: 'EvtSelect',
-          value: '1',
-          icon: 'icon-chaxun'
-        },
-        {
-          name: '报警排表',
-          htmlName: 'AlarmTabulate',
-          value: '1',
-          icon: 'icon-renyuanpaiban'
-        },
-        {
-          name: '定时任务',
-          htmlName: 'TimedTask',
-          value: '1',
-          icon: 'icon-dingshirenwu'
-        },
-        {
-          name: '设备联动',
-          htmlName: 'EquipLink',
-          value: '1',
-          icon: 'icon-shebeiguanli'
-        },
-        {
-          name: '门禁系统',
-          htmlName: 'EntrGuard',
-          value: '0',
-          icon: 'icon-menjinxitong'
-        },
-        {
-          name: '视频系统',
-          htmlName: 'VideoSystem',
-          value: '0',
-          icon: 'icon-shipin'
-        },
-        {
-          name: '能耗系统',
-          htmlName: 'Energy',
-          value: '0',
-          icon: 'icon-nenghaoguanli'
-        },
-      ]
+      items: items
     }
   },
+  computed: {
+    updataisAcitve1() {
+      console.log("计算属性更新？");
+      this.isAcitve = this.$store.state.isAcitve
+    }
+  },
+   created() {
+   this.isAcitve = this.$store.state.isAcitve
+  },
   methods: {
+     updataisAcitve() {
+       return this.isAcitve = this.$store.state.isAcitve
+     },
     selected(gameName) {
-      this.isAcitve = gameName
+      // this.isAcitve = gameName
+      this.$store.commit("updata_isAcitve", gameName);
+      this.updataisAcitve();
     }
   }
 }
@@ -125,7 +74,6 @@ export default {
 .navList {
   width: auto;
   height: auto;
-  /*position: absolute;*/
   left: 0px;
   top: 91px;
   bottom: 51px;
