@@ -48,7 +48,6 @@ export default {
   // },
   methods: {
     selected(gameName) {
-      // this.isAcitve = gameName
       this.$store.commit("updata_isAcitve", gameName);
       // this.updataisAcitve();
     },
