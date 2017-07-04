@@ -25,6 +25,8 @@
 </template>
 
 <script type="es6">
+import { items } from '../data.js'
+
 export default {
   props: ['toggleMenuStatus'],
   data() {
@@ -32,77 +34,78 @@ export default {
       // isAcitve: this.items[0].name,
       isAcitve: "首页",
       userName: window.localStorage.userName,
-      items: [
-        {
-          name: '首页',
-          value: '1',
-          icon: 'icon-yingsaitong',
-          nameUrl: "index"
-        },
-        {
-          name: '设备数据',
-          value: '1',
-          icon: 'icon-shishizhuangtai',
-          nameUrl: "realTime"
-        },
-        {
-          name: '实时快照',
-          value: '1',
-          icon: 'icon-kuaizhao',
-          nameUrl: "actualSys"
-        },
-        {
-          name: '系统配置',
-          value: '1',
-          icon: 'icon-xujicanshupeizhi',
-          nameUrl: "optionSys"
-        },
-        {
-          name: '事件查询',
-          value: '1',
-          icon: 'icon-chaxun',
-          nameUrl: "evtSelect"
-        },
-        {
-          name: '报警排表',
-          htmlName: 'AlarmTabulate',
-          value: '1',
-          icon: 'icon-renyuanpaiban',
-          nameUrl: "AlarmTabulate"
-        },
-        {
-          name: '定时任务',
-          htmlName: 'TimedTask',
-          value: '1',
-          icon: 'icon-dingshirenwu',
-          nameUrl: "TimedTask"
-        },
-        {
-          name: '设备联动',
-          htmlName: 'EquipLink',
-          value: '1',
-          icon: 'icon-shebeiguanli',
-          nameUrl: "EquipLink"
-        },
-        {
-          name: '门禁系统',
-          value: '0',
-          icon: 'icon-menjinxitong',
-          nameUrl: "EntrGuard"
-        },
-        {
-          name: '视频系统',
-          value: '0',
-          icon: 'icon-shipin',
-          nameUrl: "VideoSystem"
-        },
-        {
-          name: '能耗系统',
-          value: '0',
-          icon: 'icon-nenghaoguanli',
-          nameUrl: "Energy"
-        },
-      ]
+      items: items
+      // items: [
+      //   {
+      //     name: '首页',
+      //     value: '1',
+      //     icon: 'icon-yingsaitong',
+      //     nameUrl: "index"
+      //   },
+      //   {
+      //     name: '设备数据',
+      //     value: '1',
+      //     icon: 'icon-shishizhuangtai',
+      //     nameUrl: "realTime"
+      //   },
+      //   {
+      //     name: '实时快照',
+      //     value: '1',
+      //     icon: 'icon-kuaizhao',
+      //     nameUrl: "actualSys"
+      //   },
+      //   {
+      //     name: '系统配置',
+      //     value: '1',
+      //     icon: 'icon-xujicanshupeizhi',
+      //     nameUrl: "optionSys"
+      //   },
+      //   {
+      //     name: '事件查询',
+      //     value: '1',
+      //     icon: 'icon-chaxun',
+      //     nameUrl: "evtSelect"
+      //   },
+      //   {
+      //     name: '报警排表',
+      //     htmlName: 'AlarmTabulate',
+      //     value: '1',
+      //     icon: 'icon-renyuanpaiban',
+      //     nameUrl: "AlarmTabulate"
+      //   },
+      //   {
+      //     name: '定时任务',
+      //     htmlName: 'TimedTask',
+      //     value: '1',
+      //     icon: 'icon-dingshirenwu',
+      //     nameUrl: "TimedTask"
+      //   },
+      //   {
+      //     name: '设备联动',
+      //     htmlName: 'EquipLink',
+      //     value: '1',
+      //     icon: 'icon-shebeiguanli',
+      //     nameUrl: "EquipLink"
+      //   },
+      //   {
+      //     name: '门禁系统',
+      //     value: '0',
+      //     icon: 'icon-menjinxitong',
+      //     nameUrl: "EntrGuard"
+      //   },
+      //   {
+      //     name: '视频系统',
+      //     value: '0',
+      //     icon: 'icon-shipin',
+      //     nameUrl: "VideoSystem"
+      //   },
+      //   {
+      //     name: '能耗系统',
+      //     value: '0',
+      //     icon: 'icon-nenghaoguanli',
+      //     nameUrl: "Energy"
+      //   },
+      // ]
     }
   },
   methods: {

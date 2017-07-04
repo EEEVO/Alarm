@@ -2,7 +2,7 @@ import Login from '../components/login/login';
 import Home from '../components/home/home.vue';
 
 // import commontHeader from '../components/home/content/commontHeader.vue'
-import index from '../components/home/content/index.vue'
+import index from '../components/home/content/index/index.vue'
 import realTime from '../components/home/content/realTime.vue'
 import actualSys from '../components/home/content/actualSys.vue'
 import optionSys from '../components/home/content/optionSys.vue'

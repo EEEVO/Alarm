@@ -15,7 +15,8 @@ const state = {
   //全屏状态，true为全屏，false反之
   FULL_STATUS: false,
   LOGOUT_STATUS: false,
-  bg_url: 'bg_1.jpg'
+  bg_url: 'bg_1.jpg',
+  REFRESH_STATUS: false
 }
 
 const mutations = {
@@ -38,6 +39,10 @@ const mutations = {
   //切换全屏状态标识
   switchFullStatus(state) {
     state.FULL_STATUS = !state.FULL_STATUS
+  },
+  // 切换刷新页面状态
+  switchREFRESH_STATUS(state) {
+    state.REFRESH_STATUS = !state.REFRESH_STATUS
   }
 }
 

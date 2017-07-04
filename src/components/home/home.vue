@@ -15,37 +15,51 @@
         <button class="btn btns-style-2" title="注销" @click="switchLogout()">
           <i class="iconfont icon-logout"></i>
         </button>
-        <transition enter-active-class="fadein animated">
-          <logout v-if="logoutStatus"></logout>
-        </transition>
+  
         <div class="popupSkin">
           <button class="btn btns-style-2" title="主题" @click="Skin_STATUS = !Skin_STATUS">
             <i class="iconfont icon-skin"></i>
           </button>
           <!--TODO:enter-active-class未生效-->
-          <transition enter-active-class="flipX animated" leave-active-class="flipOutX animated">
+          <transition enter-active-class="flipInX animated" leave-active-class="flipOutX animated">
             <popupSkin class="popupSkin-content" v-if="Skin_STATUS"></popupSkin>
           </transition>
         </div>
         <button class="btn btns-style-2" title="折叠菜单" @click="toggleMenuStatus=!toggleMenuStatus">
           <i class="iconfont icon-caidan"></i>
-        </button><!---->
+        </button>
+        <!---->
       </div>
     </header>
     <!--导航菜单栏-->
     <toggleMenu id="toggleMenu" :toggle-menu-status="toggleMenuStatus" :class="{widthtrue:!toggleMenuStatus,widthfalse:toggleMenuStatus}"></toggleMenu>
     <!--主要内容块-->
-    <router-view id="content"></router-view>
+    <router-view id="content">
+  
+    </router-view>
     <!--底部栏-->
     <foot id="foot" :class="{paddtrue:!toggleMenuStatus,paddfalse:toggleMenuStatus }"></foot>
+  
+    <!--模态框-->
+    <transition enter-active-class="fadeIn animated" leave-active-class="fadeOut animated">
+      <logout v-if="logoutStatus"></logout>
+      <refreshMsg v-if="refreshStatus"></refreshMsg>
+    </transition>
   </div>
 </template>
 
 <script type="es6">
+// 选择皮肤组件
 import popupSkin from './popupSkin'
+// 退出登录组件
 import logout from './logout'
+// 导航菜单组件
 import toggleMenu from './toggleMenu'
+// 页脚组件块
 import foot from './foot'
+// 刷新组件
+import refreshMsg from './content/refreshMsg'
+// import commontHeader from './content/commontHeader'
 
 export default {
   data() {
@@ -59,7 +73,11 @@ export default {
   computed: {
     logoutStatus() {
       return this.$store.state.LOGOUT_STATUS
+    },
+    refreshStatus() {
+      return this.$store.state.REFRESH_STATUS
     }
+
   },
   methods: {
     // 全屏事件
@@ -103,14 +121,16 @@ export default {
     popupSkin,
     logout,
     toggleMenu,
-    foot
+    foot,
+    refreshMsg
+    // commontHeader
   }
 }
 
 </script>
 
 <style lang="scss" scoped>
-@import '../../style/animate.min.css';
+
 header {
   width: 100%;
   height: 50px;
@@ -254,9 +274,14 @@ header {
 }
 
 #content {
-  width: 500px;
-  height: 500px;
-  border: 1px solid red;
+  width: auto;
+  height: auto;
+  position: fixed;
+  left: 233px;
+  top: 50px;
+  bottom: 50px;
+  right: 13px;
+  z-index: 8;
 }
 </style>
 
