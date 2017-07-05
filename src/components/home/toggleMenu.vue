@@ -39,22 +39,23 @@ export default {
   },
   computed: {
     updataisAcitve1() {
-  },
-   created() {
-   this.isAcitve = this.$store.state.isAcitve
+    },
+    created() {
+      this.isAcitve = this.$store.state.isAcitve
+    },
   },
   methods: {
-     updataisAcitve() {
-       return this.isAcitve = this.$store.state.isAcitve
-     },
+    updataisAcitve() {
+      return this.isAcitve = this.$store.state.isAcitve
+    },
     selected(gameName) {
       // this.isAcitve = gameName
       this.$store.commit("updata_isAcitve", gameName);
       this.updataisAcitve();
     },
- updataisAcitve() {
- return this.isAcitve = this.$store.state.isAcitve
- }
+    updataisAcitve() {
+      return this.isAcitve = this.$store.state.isAcitve
+    }
   }
 }
 </script>
