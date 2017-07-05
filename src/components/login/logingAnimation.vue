@@ -21,7 +21,7 @@
 </template>
 
 <script type="es6">
-import Axios from 'axios'
+// import Axios from 'axios'
 
 export default {
   data() {
@@ -42,11 +42,16 @@ export default {
     //登录服务器
     ajaxGWServiceInit() {
       this.numbToService++;
-      Axios.post(`${this.urlCommon}ConnectService`, {
+      this.$http.post(`${this.urlCommon}ConnectService`, {
         user_name: this.userName
       }).then((response) => {
+        // 获取的是当前用户名，存入vuex
         let res_data = response.data.d;
+        // 验证成功
         if (res_data !== null && res_data !== "" && res_data !== "false") {
+          // this.$store.commit('updata_userName', {
+          //   userName: res_data
+          // })
           this.ajaxGWLogin();
         } else {
           if (this.numbToService < 3) {
@@ -70,7 +75,7 @@ export default {
     },
     //验证用户名和密码
     ajaxGWLogin() {
-      Axios.post(`${this.urlCommon}LoginService`, {
+      this.$http.post(`${this.urlCommon}LoginService`, {
         userName: this.userName,
         userPwd: this.unEncrypt(this.userPwd)
       }).then((response) => {

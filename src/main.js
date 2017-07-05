@@ -7,7 +7,7 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Vuex from 'vuex'
-
+import Axios from 'axios'
 
 import App from './App';
 import routes from './router/index';
@@ -20,6 +20,9 @@ Vue.config.productionTip = false;
 
 Vue.use(VueRouter);
 Vue.use(Vuex);
+// Vue.use(Axios);
+
+Vue.prototype.$http = Axios;
 // Vue.user(Axios)
 
 const router = new VueRouter({

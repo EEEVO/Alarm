@@ -18,10 +18,16 @@ const state = {
   bg_url: 'bg_1.jpg',
   REFRESH_STATUS: false,
   // 默认选中菜单
-  isAcitve: "首页"
+  isAcitve: "首页",
+  // 当前用户名
+  userName: ''
 }
 
 const mutations = {
+  // 更换当前用户名
+  updata_userName(state, userName) {
+    state.userName = userName
+  },
   // 更换菜单选中状态
   updata_isAcitve(state, name) {
     state.isAcitve = name
@@ -52,4 +58,4 @@ const mutations = {
   }
 }
 
-export {state, mutations};
+export { state, mutations };
