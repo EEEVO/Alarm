@@ -130,7 +130,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 header {
   width: 100%;
   height: 50px;
@@ -141,7 +140,7 @@ header {
   top: 0;
   z-index: 11;
   .headerLeft {
-    position: relative;
+    // position: relative;
     img {
       width: 32px;
       height: 32px;
@@ -152,9 +151,10 @@ header {
     span {
       font-size: 15px;
       position: absolute;
-      left: 48px;
-      top: 20px;
+      left: 48px; // top: 20px;
       color: #fff;
+      /*此上边距是根据header高度与span本身高度计算得来*/
+      margin-top: 15px;
     }
   }
   .headerRight {

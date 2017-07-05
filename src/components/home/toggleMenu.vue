@@ -12,7 +12,7 @@
           <li v-for="(item,index) of items" :key="index" v-if="item.value=='1'" :class="{active:isAcitve==item.name}" @click="selected(item.name)">
             <!--此处应该是路由标签-->
             <router-link :to="{name:item.nameUrl}">
-              <a>
+              <a class="a">
                 <i :class="item.icon " class="iconfont "></i>
                 <span v-show="toggleMenuStatus ">{{item.name}}</span>
               </a>
@@ -37,17 +37,19 @@ export default {
       items: items
     }
   },
-  computed: {
+  // TODO:还需要一个实时监听 this.$store.state.isAcitve去改变this.isAcitve
+  // 此方法好像不能用
+  watch: {
     updataisAcitve1() {
-    },
-    created() {
       this.isAcitve = this.$store.state.isAcitve
-    },
+    }
   },
+  // 让首页初始化被选中
+  created() {
+    this.isAcitve = this.$store.state.isAcitve
+  },
+
   methods: {
-    updataisAcitve() {
-      return this.isAcitve = this.$store.state.isAcitve
-    },
     selected(gameName) {
       // this.isAcitve = gameName
       this.$store.commit("updata_isAcitve", gameName);
@@ -62,6 +64,10 @@ export default {
 
 
 <style lang="scss" scopedSlots>
+a {
+  text-decoration: none;
+}
+
 .navUser {
   height: 39px;
   line-height: 39px;
@@ -96,8 +102,7 @@ export default {
         background: rgba(255, 255, 255, .2);
         color: #fff;
       }
-      a {
-        text-decoration: none;
+      .a {
         color: #ebebeb;
         padding: 10px 133px 10px 10px;
         &:hover {
@@ -106,7 +111,7 @@ export default {
       }
     }
     /*选中时候后面增加一个标记*/
-    .active a {
+    .active .a {
       color: #FFD600;
       &:before {
         content: "\e61b";
