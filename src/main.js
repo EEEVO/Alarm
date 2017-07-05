@@ -17,13 +17,11 @@ import {
 } from './vuex/vuex';
 
 Vue.config.productionTip = false;
+Vue.prototype.$http = Axios;
 
 Vue.use(VueRouter);
 Vue.use(Vuex);
-// Vue.use(Axios);
 
-Vue.prototype.$http = Axios;
-// Vue.user(Axios)
 
 const router = new VueRouter({
   routes

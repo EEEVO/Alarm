@@ -3,62 +3,62 @@ import Home from '../components/home/home.vue';
 
 // import commontHeader from '../components/home/content/commontHeader.vue'
 import index from '../components/home/content/index/index.vue'
-import realTime from '../components/home/content/realTime.vue'
-import actualSys from '../components/home/content/actualSys.vue'
+import realTime from '../components/home/content/realTime/realTime.vue'
+import actualSys from '../components/home/content/actualSys/actualSys.vue'
 import optionSys from '../components/home/content/optionSys.vue'
 import evtSelect from '../components/home/content/evtSelect.vue'
 import AlarmTabulate from '../components/home/content/AlarmTabulate.vue'
 import TimedTask from '../components/home/content/TimedTask.vue'
 import EquipLink from '../components/home/content/EquipLink.vue'
 
-export default[
+export default [
   {
-    path : '/login',
-    name:'Login',
-    component : Login
+    path: '/login',
+    name: 'Login',
+    component: Login
   }, {
-    path : '/home',
-    name:'Home',
-    component : Home,
-    children : [
+    path: '/home',
+    name: 'Home',
+    component: Home,
+    children: [
       {
         path: '/index',
-        name:'index',
+        name: 'index',
         component: index
       },
       {
         path: '/realTime',
-        name:'realTime',
+        name: 'realTime',
         component: realTime
       },
       {
         path: '/actualSys',
-        name:'actualSys',
+        name: 'actualSys',
         component: actualSys
       },
       {
         path: '/optionSys',
-        name:'optionSys',
+        name: 'optionSys',
         component: optionSys
       },
       {
         path: '/evtSelect',
-        name:'evtSelect',
+        name: 'evtSelect',
         component: evtSelect
       },
       {
         path: '/AlarmTabulate',
-        name:'AlarmTabulate',
+        name: 'AlarmTabulate',
         component: AlarmTabulate
       },
       {
         path: '/TimedTask',
-        name:'TimedTask',
+        name: 'TimedTask',
         component: TimedTask
       },
       {
         path: '/EquipLink',
-        name:'EquipLink',
+        name: 'EquipLink',
         component: EquipLink
       },
     ]

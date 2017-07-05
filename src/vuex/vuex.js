@@ -20,7 +20,9 @@ const state = {
   // 默认选中菜单
   isAcitve: "首页",
   // 当前用户名
-  userName: ''
+  userName: '',
+  // 请求的公共头
+  urlCommon: 'http://localhost:8080/GWServices.asmx/'
 }
 
 const mutations = {
