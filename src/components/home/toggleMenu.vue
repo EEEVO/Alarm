@@ -38,22 +38,23 @@ export default {
     }
   },
   computed: {
-    updataisAcitve() {
-      console.log("计算属性更新？");
-      this.isAcitve = this.$store.state.isAcitve
-    }
+    updataisAcitve1() {
   },
-  // created() {
-  //   this.updataisAcitve();
-  // },
+   created() {
+   this.isAcitve = this.$store.state.isAcitve
+  },
   methods: {
+     updataisAcitve() {
+       return this.isAcitve = this.$store.state.isAcitve
+     },
     selected(gameName) {
+      // this.isAcitve = gameName
       this.$store.commit("updata_isAcitve", gameName);
-      // this.updataisAcitve();
+      this.updataisAcitve();
     },
-    // updataisAcitve() {
-    //   return this.isAcitve = this.$store.state.isAcitve
-    // }
+ updataisAcitve() {
+ return this.isAcitve = this.$store.state.isAcitve
+ }
   }
 }
 </script>
