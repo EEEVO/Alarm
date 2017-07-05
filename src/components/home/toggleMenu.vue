@@ -39,9 +39,6 @@ export default {
   },
   computed: {
     updataisAcitve1() {
-      console.log("计算属性更新？");
-      this.isAcitve = this.$store.state.isAcitve
-    }
   },
    created() {
    this.isAcitve = this.$store.state.isAcitve
@@ -54,7 +51,10 @@ export default {
       // this.isAcitve = gameName
       this.$store.commit("updata_isAcitve", gameName);
       this.updataisAcitve();
-    }
+    },
+ updataisAcitve() {
+ return this.isAcitve = this.$store.state.isAcitve
+ }
   }
 }
 </script>

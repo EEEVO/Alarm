@@ -1,8 +1,8 @@
 /*
  * @Author: zhanghaoran
  * @Date: 2017-06-29 17:31:35
- * @Last Modified by: zhanghaoran
- * @Last Modified time: 2017-07-03 09:51:45
+ * @Last Modified by: 张浩然
+ * @Last Modified time: 2017-07-04 23:07:41
  */
 
 const state = {
@@ -15,10 +15,17 @@ const state = {
   //全屏状态，true为全屏，false反之
   FULL_STATUS: false,
   LOGOUT_STATUS: false,
-  bg_url: 'bg_1.jpg'
+  bg_url: 'bg_1.jpg',
+  REFRESH_STATUS: false,
+  // 默认选中菜单
+  isAcitve: "首页"
 }
 
 const mutations = {
+  // 更换菜单选中状态
+  updata_isAcitve(state, name) {
+    state.isAcitve = name
+  },
   // 更换背景图片
   updata_bg_url(state, url) {
     state.bg_url = url
@@ -38,10 +45,11 @@ const mutations = {
   //切换全屏状态标识
   switchFullStatus(state) {
     state.FULL_STATUS = !state.FULL_STATUS
+  },
+  // 切换刷新页面状态
+  switchREFRESH_STATUS(state) {
+    state.REFRESH_STATUS = !state.REFRESH_STATUS
   }
 }
 
-export {
-  state,
-  mutations
-};
+export {state, mutations};
