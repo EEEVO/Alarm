@@ -58,6 +58,7 @@ export default {
 
 
 
+
 /*@import '../src/style/Skin/bg1.css';*/
 
 #app {

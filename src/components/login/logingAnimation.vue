@@ -79,19 +79,17 @@ export default {
           // 更新登录状态
           window.localStorage.LOGIN_COMPLETE = "true"
           //跳转到首页
-          this.$router.push('/home');
+          this.$router.push('/index');
         } else {
           this.loginStatusText_index = 3;
           this.$store.commit('updataLoginMsg', {
             msg: "用户名或密码错误！"
           })
-          setTimeout(this.$store.commit("updataLogin"), 1000);
+          setTimeout(this.$store.commit("switchLogin"), 1000);
         }
       }).catch((error) => {
 
       })
-
-
     },
     //解密
     unEncrypt(Text) {
@@ -163,7 +161,8 @@ export default {
     }
   }
   .loading-text {
-    color: #fff
+    color: #fff;
+    text-align: center;
   }
 }
 

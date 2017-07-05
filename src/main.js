@@ -45,17 +45,17 @@ const vue = new Vue({
   methods: {
     checkLogin() {
       // 家里测试写组件
-      this.$router.push('/home');
+      // this.$router.push('/index');
       // TODO:代码可用
-      // try {
-      //   if (window.localStorage.userName != "" && window.localStorage.userName != null && window.localStorage.LOGIN_COMPLETE === "true") {
-      //     this.$router.push('/home');
-      //   } else {
-      //     this.$router.push('/login');
-      //   }
-      // } catch (ex) {
-      //   this.$router.push('/login');
-      // }
+      try {
+        if (window.localStorage.userName != "" && window.localStorage.userName != null && window.localStorage.LOGIN_COMPLETE === "true") {
+          this.$router.push('/index');
+        } else {
+          this.$router.push('/login');
+        }
+      } catch (ex) {
+        this.$router.push('/login');
+      }
     }
   }
 });
