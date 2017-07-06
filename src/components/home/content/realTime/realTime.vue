@@ -19,6 +19,7 @@
 import commontHeader from '../commontHeader'
 import contentTable from './contentTable'
 
+
 export default {
   data() {
     return {
@@ -69,6 +70,7 @@ export default {
       bottom: 13px;
       right: 13px;
       position: absolute;
+      animation: slideInTopSlow 900ms forwards;
     }
   }
 }

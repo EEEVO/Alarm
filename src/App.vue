@@ -54,6 +54,7 @@ export default {
 @import '../src/style/public.css';
 @import '../src/fonts/iconfont.css';
 @import '../src/style/transitionStyle.css';
+@import '../src/style/scrollbarStyle.css';
 @import '../src/style/animate.min.css';
 
 

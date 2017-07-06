@@ -1,20 +1,14 @@
 <template>
   <div>
-    写个树形例子
-    <ul>
-      <li v-for="(item_A,index) of children" :key="index">
-        <span>{{item_A.name}}</span>
-        <ul v-if="item_A.children">
-          <li v-for="(item_B,index_B) of item_A.children" :key="index_B">
-            <span>{{item_B.name}}</span>
-          </li>
-        </ul>
-      </li>
-    </ul>
+    <!--写个树形例子-->
+    <tree ref='tree' :treeData="treeData" :options="options" @node-click='handleNode'></tree>
+    <!--<button @click='getselected'>selected</button>-->
   </div>
 </template>
 
 <script type="es6">
+import tree from './tree/tree'
+
 export default {
   data() {
     return {
@@ -24,30 +18,112 @@ export default {
       AllEquipStat: '',
       // 设备列表数组
       treeList: '',
-
       // 写个假数组
       arr_menuList: '',
-      open: false,
-      children: [
-        { name: 'hello' },
-        { name: 'wat' },
+      
+      // tree组件配置项
+      options: {
+        showCheckbox: false,
+        search: {
+          useInitial: true,
+          useEnglish: false,
+          customFilter: null
+        }
+      },
+      treeData: [
         {
-          name: 'child folder',
+          id: 1,
+          label: '一级节点',
+          open: true,
+          checked: false,
+          nodeSelectNotAll: false,//新增参数，表示父框可以半钩状态
+          parentId: null,
+          visible: true,
+          searched: false,
+          bgName: "CommunicationOK.png",
           children: [
             {
-              name: 'child folder',
-              children: [
-                { name: 'hello' },
-                { name: 'wat' }
-              ]
+              id: 2,
+              label: '二级节点-1',
+              checked: false,
+              nodeSelectNotAll: false,
+              parentId: 1,
+              searched: false,
+              visible: true,
+              bgName: "NoCommunication.png"
             },
-            { name: 'hello' },
-            { name: 'wat' },
             {
-              name: 'child folder',
+              label: '二级节点-2',
+              open: true,
+              checked: false,
+              nodeSelectNotAll: false,
+              id: 3,
+              parentId: 1,
+              visible: true,
+              searched: false,
+              bgName: "HaveAlarm.png",
               children: [
-                { name: 'hello' },
-                { name: 'wat' }
+                {
+                  // id: 4,
+                  parentId: 3,
+                  label: '三级节点-1',
+                  visible: true,
+                  searched: false,
+                  checked: false,
+                  bgName: "HaveAlarm.png",
+                  nodeSelectNotAll: false
+
+                },
+                {
+                  // id: 5,
+                  label: '三级节点-2',
+                  parentId: 3,
+                  searched: false,
+                  bgName: "NoCommunication.png",
+                  visible: true,
+                  checked: false,
+                  nodeSelectNotAll: false
+                }, {
+                  // id: 4,
+                  parentId: 3,
+                  label: '三级节点-1',
+                  visible: true,
+                  searched: false,
+                  checked: false,
+                  bgName: "HaveAlarm.png",
+                  nodeSelectNotAll: false
+
+                },
+                {
+                  // id: 5,
+                  label: '三级节点-2',
+                  parentId: 3,
+                  searched: false,
+                  bgName: "NoCommunication.png",
+                  visible: true,
+                  checked: false,
+                  nodeSelectNotAll: false
+                }, {
+                  // id: 4,
+                  parentId: 3,
+                  label: '三级节点-1',
+                  visible: true,
+                  searched: false,
+                  checked: false,
+                  bgName: "HaveAlarm.png",
+                  nodeSelectNotAll: false
+
+                },
+                {
+                  // id: 5,
+                  label: '三级节点-2',
+                  parentId: 3,
+                  searched: false,
+                  bgName: "NoCommunication.png",
+                  visible: true,
+                  checked: false,
+                  nodeSelectNotAll: false
+                }
               ]
             }
           ]
@@ -81,20 +157,25 @@ export default {
   },
 
   methods: {
-
+    getselected() {
+      console.log(this.$refs.tree.getSelectedNodeIds())
+    },
+    handleNode(e) {
+      console.log(e)
+    },
     // 验证请求的权限
     checkIsAdmin() {
-      return this.$http.post(`${this.$store.state.urlCommon}/UserPermissions`, {
+      return this.$http.post(`${this.$store.state.urlCommon}UserPermissions`, {
         userName: window.localStorage.userName
       })
     },
     // 获取所有设备的状态
     allEquipSatatus() {
-      return this.$http.post(`${this.$store.state.urlCommon}/GetEquipAllState`)
+      return this.$http.post(`${this.$store.state.urlCommon}GetEquipAllState`)
     },
     // 获取设备列表
     treeConfList2() {
-      return this.$http.post(`${this.$store.state.urlCommon}/GWEquipTree`)
+      return this.$http.post(`${this.$store.state.urlCommon}GWEquipTree`)
     },
     // 处理xml串
     getXmlStr(str) {
@@ -110,12 +191,25 @@ export default {
       else
         return new DOMParser().parseFromString(str, "text/xml")
     }
+  },
+  components: {
+    tree
   }
 }
 </script>
 
-<style lang="scss">
-
+<style lang="scss" scoped>
+div {
+  overflow: auto;
+  height: 100%;
+  min-height: 20px;
+  border-radius: 4px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 77%;
+  bottom: 0;
+}
 </style>
 
 
