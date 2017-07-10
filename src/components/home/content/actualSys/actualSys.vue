@@ -51,7 +51,6 @@
                   </tr>
                 </thead>
                 <tbody>
-  
                 </tbody>
               </table>
             </div>
@@ -82,26 +81,31 @@ export default {
      * 获取报警数据
      */
     GetAlarmConfig() {
-      this.$http.post(`${this.$store.state.urlCommon}GetAlarmConfig`, {
-        userName: window.localStorage.userName
-      }).then((res) => {
-
-        const arr_data = JSON.parse(res.data.d)
-        for (let index = 0; index < arr_data.length; index++) {
-          // debugger
-          let element = arr_data[index];
-          let min = parseInt(element.SnapshotLevelMin);
-          let max = parseInt(element.SnapshotLevelMax);
-          for (let index = min; index <= max; index++) {
-            this.event_Level_list += `${index.toString()},`
+      return new Promise((resolve, reject) => {
+        this.$http.post(`${this.$store.state.urlCommon}GetAlarmConfig`, {
+          userName: window.localStorage.userName
+        }).then((res) => {
+          const arr_data = JSON.parse(res.data.d)
+          for (let index = 0; index < arr_data.length; index++) {
+            // debugger
+            let element = arr_data[index];
+            let min = parseInt(element.SnapshotLevelMin);
+            let max = parseInt(element.SnapshotLevelMax);
+            for (let index = min; index <= max; index++) {
+              this.event_Level_list += `${index.toString()},`
+            }
+            if (this.event_Level_list.endsWith(',')) {
+              this.event_Level_list = this.event_Level_list.substring(0, this.event_Level_list.length - 1);
+              this.event_Level_list += ";"
+            }
           }
-          if (this.event_Level_list.endsWith(',')) {
-            this.event_Level_list = this.event_Level_list.substring(0, this.event_Level_list.length - 1);
-            this.event_Level_list += ";"
-          }
-        }
+          //好像得在这里写
+          // TODO:这里不知道能不能拿到
+          reslove()
+        })
       })
     },
+
     /**
      * 获取系统的实时快照（事件）各个消息类型的总数
      */
@@ -127,15 +131,9 @@ export default {
     }
   },
   created() {
-    this.GetAlarmConfig();
-    // this.SysEvtCounts();
-    // clearInterval(SysEvtCountsSet);
-
-    setTimeout(() => {
+    this.GetAlarmConfig().then(() => {
       this.SysEvtCounts();
-    }, 3000);
-
-    // var SysEvtCountsSet = setInterval("this.SsEvtCounts()", 4000);
+    })
   },
 
 }
