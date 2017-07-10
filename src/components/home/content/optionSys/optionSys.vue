@@ -4,14 +4,12 @@
     <div class="contents">
       <div class="contentHeader">
         <span>
-          <i class="iconfont icon-kuaizhao"></i>
+          <i class="iconfont icon-shishizhuangtai"></i>
           {{currentPageName}}
         </span>
       </div>
       <div class="contentBody">
-        <div class="contentBodyInAn Slide-in-topSlow">
   
-        </div>
       </div>
     </div>
   </div>
@@ -23,7 +21,7 @@ import commontHeader from '../commontHeader'
 export default {
   data() {
     return {
-      currentPageName: '实时快照'
+      currentPageName: '系统配置'
     }
   },
   components: {

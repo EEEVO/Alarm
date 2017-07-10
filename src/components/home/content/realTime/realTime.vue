@@ -9,7 +9,7 @@
         </span>
       </div>
       <div class="contentBody">
-        <contentTable class="contentBodyInAn"></contentTable>
+        <contentTable class="contentBodyInAn .Slide-in-topSlow"></contentTable>
       </div>
     </div>
   </div>
@@ -66,7 +66,7 @@ export default {
       width: auto;
       height: auto;
       left: 13px;
-      top: 13px;
+      top: 10px;
       bottom: 13px;
       right: 13px;
       position: absolute;

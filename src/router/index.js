@@ -5,11 +5,11 @@ import Home from '../components/home/home.vue';
 import index from '../components/home/content/index/index.vue'
 import realTime from '../components/home/content/realTime/realTime.vue'
 import actualSys from '../components/home/content/actualSys/actualSys.vue'
-import optionSys from '../components/home/content/optionSys.vue'
-import evtSelect from '../components/home/content/evtSelect.vue'
-import AlarmTabulate from '../components/home/content/AlarmTabulate.vue'
-import TimedTask from '../components/home/content/TimedTask.vue'
-import EquipLink from '../components/home/content/EquipLink.vue'
+import optionSys from '../components/home/content/optionSys/optionSys.vue'
+import evtSelect from '../components/home/content/evtSelect/evtSelect.vue'
+import AlarmTabulate from '../components/home/content/AlarmTabulate/AlarmTabulate.vue'
+import TimedTask from '../components/home/content/TimedTask/TimedTask.vue'
+import EquipLink from '../components/home/content/EquipLink/EquipLink.vue'
 
 export default [
   {

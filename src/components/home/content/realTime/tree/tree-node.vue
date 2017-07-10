@@ -3,15 +3,15 @@
     <!--<li v-for="(item,index) in nodeData" v-show="item.visible" :class="[(item.children && item.children.length > 0) ? '':'leaf']" :key='index'>-->
     <li v-for="(item,index) in nodeData" v-show="item.visible" :key='index' class="leaf">
       <!--如果有子节点则显示当前switch-->
-      <span class="item">
+      <span class="item" :class="{'node-selected':(item.checked && !options.showCheckbox) || item.searched }">
         <i v-if="item.children && item.children.length > 0" @click.stop='handleNodeExpand(item)' :class="[item.open? 'icon-jian':'icon-jia','icon']">
         </i>
         <!--TODO:搜索框-->
         <!--<div class="inputCheck" :class="{notAllNodes:item.nodeSelectNotAll}" :style="{width:inputWidth+'px', height:inputWidth+'px'}" @click="walkCheckBox(item)">
-          <input type="checkbox" class="check" v-if="options.showCheckbox && options.halfCheckedStatus  &&  !item.nodeSelectNotAll" v-model='item.checked' @change="handlecheckedChange(item)"></input>
-        </div>-->
+                    <input type="checkbox" class="check" v-if="options.showCheckbox && options.halfCheckedStatus  &&  !item.nodeSelectNotAll" v-model='item.checked' @change="handlecheckedChange(item)"></input>
+                  </div>-->
         <img :src="`/static/alarm/${item.bgName}`" class="bg">
-        <span @click="handleNode(item)" :class="{'node-selected':(item.checked && !options.showCheckbox) || item.searched }" class="name">
+        <span @click="handleNode(item)" class="name">
           {{item.label}}
         </span>
       </span>
@@ -50,7 +50,7 @@ export default {
     }
     this.nodeData = (this.treeData || []).slice(0)
     // TODO:明天就从这里入手
-    console.log(this.nodeData);
+    // console.log(this.nodeData);
   },
   computed: {
     inputWidth: function () {
@@ -106,7 +106,6 @@ export default {
 
 <style lang="scss" scoped>
 li {
-
   .item {
     border: 1px dotted #999;
     border-radius: 5px;
@@ -174,9 +173,11 @@ li {
       padding: 0 0 0 22px!important;
       font-weight: 400;
     }
-    .node-selected {
-      background-color: #ddd
-    }
+  }
+  .node-selected {
+    background: rgba(254, 166, 36, 0.3);
+    border: 1px solid #f79710;
+    box-shadow: 0 0 20px rgba(254, 166, 36, 0.6), inset 0 0 10px rgba(254, 166, 36, 0.5);
   }
 }
 
@@ -249,6 +250,11 @@ li {
   /*background-image: url("../../assets/search.png");*/
   background-image: url("/static/img/assets/search.png");
 }
+
+
+
+
+
 
 
 

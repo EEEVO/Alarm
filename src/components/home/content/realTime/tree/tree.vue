@@ -40,7 +40,7 @@ export default {
       root: (this.treeData || []).slice(0),
       last: null
     })
-    console.log(this.store);
+    // console.log(this.store);
   },
   watch: {
     search: function (val) {
