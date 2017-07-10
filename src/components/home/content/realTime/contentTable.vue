@@ -48,6 +48,7 @@ export default {
       .then(this.$http.spread((getWebUser, AllEquipStat, treeList) => {
         if (getWebUser != 'false') {
           this.getWebUser = getWebUser.data.d;
+          this.$store.commit("getWebUser", getWebUser.data.d);
         }
         if (AllEquipStat.data != false) {
           this.AllEquipStat = this.getXmlStr(AllEquipStat.data).split(';');

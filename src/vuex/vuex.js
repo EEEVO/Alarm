@@ -22,10 +22,15 @@ const state = {
   // 当前用户名
   userName: '',
   // 请求的公共头
-  urlCommon: 'http://localhost:8080/GWServices.asmx/'
+  urlCommon: 'http://localhost:8080/GWServices.asmx/',
+  // 用户权限信息相关数据
+  getWebUser: ''
 }
 
 const mutations = {
+  getWebUser(state, getWebUser) {
+    state.getWebUser = getWebUser
+  },
   // 更换当前用户名
   updata_userName(state, userName) {
     state.userName = userName
