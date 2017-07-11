@@ -4,12 +4,12 @@
     <div class="contents">
       <div class="contentHeader">
         <span>
-          <i class="iconfont icon-shishizhuangtai"></i>
+          <i class="iconfont icon-xujicanshupeizhi"></i>
           {{currentPageName}}
         </span>
       </div>
       <div class="contentBody">
-  
+        <contentTable class="contentBodyInAn .Slide-in-topSlow"></contentTable>
       </div>
     </div>
   </div>
@@ -17,6 +17,7 @@
 
 <script type="es6">
 import commontHeader from '../commontHeader'
+import contentTable from './contentTable'
 
 export default {
   data() {
@@ -26,7 +27,7 @@ export default {
   },
   components: {
     commontHeader,
-    // navList
+    contentTable
   }
 }
 </script>
@@ -60,6 +61,16 @@ export default {
     right: 0px;
     background: rgba(0, 0, 0, .18)!important;
     border: 1px solid rgba(0, 0, 0, .13)!important;
+    .contentBodyInAn {
+      width: auto;
+      height: auto;
+      left: 13px;
+      top: 10px;
+      bottom: 13px;
+      right: 13px;
+      position: absolute;
+      animation: slideInTopSlow 900ms forwards;
+    }
   }
 }
 </style>
