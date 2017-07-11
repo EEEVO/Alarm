@@ -114,10 +114,11 @@ export default {
   height: auto;
   clear: both;
   position: absolute;
-  left: 12px;
+  /*left: 12px;
   top: 28px;
   right: 0;
-  bottom: 0;
+  bottom: 0;*/
+  @include trbl(28px, 0, 0, 12px);
   .tab-pane {
     width: auto;
     height: auto;

@@ -100,10 +100,14 @@ div {
     background: url("/static/img/bg_1.jpg");
     .MessageBox_top {
       position: absolute;
-      top: 0;
+      /*top: 0;
       left: 0;
-      right: 0;
+      right: 0;*/
       z-index: 200;
+      @include trbl(0,
+      0,
+      auto,
+      0);
       span {
         display: block;
         float: left;
@@ -133,11 +137,9 @@ div {
       margin: 0px;
       padding: 6px 12px;
       display: block;
-      width: 100%;
-      transition: all 300ms linear 0s;
-      height: 100px;
       max-width: 100%;
       max-height: 100px;
+      transition: all 300ms linear 0s;
     }
     p {
       label {
@@ -220,14 +222,15 @@ div {
       button {
         border: none;
         border-radius: 2px;
+        margin-right: 10px;
         padding: 6px 12px;
         box-shadow: inset 0 -2px 0 rgba(0, 0, 0, .05);
         color: #fff;
         font-family: "Microsoft YaHei";
         background: rgba(0, 0, 0, .3);
-        margin-right: 10px;
-        padding-left: 15px;
-        padding-right: 15px;
+        /*padding-left: 15px;
+        padding-right: 15px;*/
+        padding: auto, 15px, auto, 15px;
         font-size: 14px;
         &:hover {
           background: rgba(0, 0, 0, .4);

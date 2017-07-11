@@ -246,31 +246,22 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@mixin btn($bgcolor, $hoColor) {
-  border: none;
-  border-radius: 2px;
-  box-shadow: inset 0 -2px 0 rgba(0, 0, 0, .05);
-  color: #fff;
-  font-family: "Microsoft YaHei";
-  position: relative;
-  padding: 12px 12px;
-  cursor: pointer;
-  margin-right: 5px;
-  background-color: $bgcolor;
-  &:hover {
-    background-color: $hoColor;
-    color: #fff;
-  }
+@mixin absoluteWH($width, $height) {
+  width: $width;
+  height: $height;
+  position: absolute;
 }
 
 .contents {
-  width: auto;
+  /*width: auto;
   height: auto;
-  position: absolute;
-  left: 0px;
+  position: absolute;*/
+  @include absoluteWH(auto, auto);
+  /*left: 0px;
   top: 40px;
   bottom: 0;
-  right: 0px;
+  right: 0px;*/
+  @include trbl(40px, 0, 0, 0);
   .contentHeader {
     width: auto;
     height: 34px;
@@ -282,23 +273,27 @@ export default {
   }
 
   .contentBody {
-    width: auto;
+    /*width: auto;
     height: auto;
-    position: absolute;
-    left: 0px;
+    position: absolute;*/
+    /*left: 0px;
     top: 34px;
     bottom: 13px;
-    right: 0px;
+    right: 0px;*/
+    @include absoluteWH(auto, auto);
+    @include trbl(34px, 0, 13px, 0);
     background: rgba(0, 0, 0, .18)!important;
     border: 1px solid rgba(0, 0, 0, .13)!important;
     .contentBodyInAn {
-      width: auto;
-      height: auto;
-      left: 13px;
+      /*width: auto;
+      height: auto;*/
+      /*left: 13px;
       top: 13px;
       bottom: 13px;
-      right: 13px;
-      position: absolute;
+      right: 13px;*/
+      // position: absolute;
+      @include absoluteWH(auto, auto);
+      @include trbl(13px, 13px, 13px, 13px);
       /* 条件选择栏*/
       .inforbtnList {
         button {
@@ -306,8 +301,10 @@ export default {
             width: 32px;
             height: 32px;
             position: absolute;
-            left: 6px;
-            top: 6px;
+            /*left: 6px;
+            top: 6px;*/
+            @include absoluteWH(32px, 32px);
+            @include trbl(6px, auto, auto, 6px);
           }
           span {
             padding-left: 30px;
@@ -333,22 +330,26 @@ export default {
       }
       /* table块*/
       .actualbody {
-        width: auto;
+        /*width: auto;
         height: auto;
-        position: absolute;
-        left: 0;
+        position: absolute;*/
+        @include absoluteWH(auto, auto);
+        /*left: 0;
         top: 44px;
         right: 0;
-        bottom: 0;
+        bottom: 0;*/
+        @include trbl(44px, 0, 0, 0);
         .tableAuto {
           overflow: auto;
-          width: auto;
+          /*width: auto;
           height: auto;
-          position: absolute;
-          left: 0;
+          position: absolute;*/
+          @include absoluteWH(auto, auto);
+          /*left: 0;
           top: 0;
           right: 0;
-          bottom: 0;
+          bottom: 0;*/
+          @include trbl(0, 0, 0, 0);
           table {
             background: rgba(0, 0, 0, .15);
             border: 1px solid rgba(255, 255, 225, .15);
@@ -403,10 +404,11 @@ export default {
   .fullScreenAll {
     background: rgba(0, 0, 0, 0.6);
     position: absolute;
-    top: 0;
+    /*top: 0;
     right: 0;
     bottom: 0;
-    left: 0;
+    left: 0;*/
+    @include trbl(0, 0, 0, 0);
     z-index: 10;
   }
 }
