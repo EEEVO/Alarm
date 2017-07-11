@@ -43,8 +43,9 @@ export default {
     // 查询设备数据
     handleNode(e) {
       console.log(e);
+      // TODO:待测试
+      this.$refs.tree.getSelectedNodeIds();
     },
-
     handlecheckedChange(e) {
       console.log(e);
     },
@@ -80,17 +81,19 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '../../../../style/mixin.scss';
+
 div {
   .tree {
-    overflow: auto;
-    height: 100%;
+    overflow: auto; // height: 100%;
     min-height: 20px;
-    border-radius: 4px;
-    position: absolute;
-    left: 0;
+    border-radius: 4px; // position: absolute;
+    @include absoluteWH(auto, 100%);
+    @include trbl(0, 77%, 0, 0);
+    /*left: 0;
     top: 0;
     right: 77%;
-    bottom: 0;
+    bottom: 0;*/
   }
 }
 </style>

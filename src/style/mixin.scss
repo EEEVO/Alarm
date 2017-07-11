@@ -21,3 +21,9 @@
     color: #fff;
   }
 }
+
+@mixin absoluteWH($width, $height) {
+  width: $width;
+  height: $height;
+  position: absolute;
+}

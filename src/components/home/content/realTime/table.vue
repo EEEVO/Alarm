@@ -89,6 +89,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '../../../../style/mixin.scss';
 .nav-tabList {
   list-style: none;
   margin: 0;
@@ -110,32 +111,31 @@ export default {
 
 .tab-content {
   border: 1px solid rgba(255, 255, 255, .15);
-  width: auto;
+  /*width: auto;
   height: auto;
+  position: absolute;*/
   clear: both;
-  position: absolute;
+
   /*left: 12px;
   top: 28px;
   right: 0;
   bottom: 0;*/
+  @include absoluteWH(auto, auto);
   @include trbl(28px, 0, 0, 12px);
   .tab-pane {
-    width: auto;
+    /*width: auto;
     height: auto;
     position: absolute;
     left: 0;
     top: 0;
     right: 0;
-    bottom: 0;
+    bottom: 0;*/
+    @include absoluteWH(auto, auto);
+    @include trbl(0, 0, 0, 0);
     .tableAuto {
       overflow: auto;
-      width: auto;
-      height: auto;
-      position: absolute;
-      left: 0;
-      top: 0;
-      right: 0;
-      bottom: 0;
+      @include absoluteWH(auto, auto);
+      @include trbl(0, 0, 0, 0);
       table {
         background: rgba(0, 0, 0, .15);
         border: 1px solid rgba(255, 255, 225, .15);

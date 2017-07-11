@@ -246,12 +246,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@mixin absoluteWH($width, $height) {
-  width: $width;
-  height: $height;
-  position: absolute;
-}
-
+@import '../../../../style/mixin.scss';
 .contents {
   /*width: auto;
   height: auto;
@@ -298,9 +293,9 @@ export default {
       .inforbtnList {
         button {
           img {
-            width: 32px;
+            /*width: 32px;
             height: 32px;
-            position: absolute;
+            position: absolute;*/
             /*left: 6px;
             top: 6px;*/
             @include absoluteWH(32px, 32px);

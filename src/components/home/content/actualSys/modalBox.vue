@@ -84,6 +84,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '../../../../style/mixin.scss';
 div {
   .fullScreenCenter {
     color: #fff;
