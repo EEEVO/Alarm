@@ -12,30 +12,10 @@
         <div class="contentBodyInAn Slide-in-topSlow">
           <!--条件选择栏-->
           <div class="inforbtnList">
-            <button class="btn">
-              <img src="/static/infor/Fatal.png">
-              <span>故障</span>
-              <b class="badge">{{eventCountMsg[0]}}</b>
-            </button>
-            <button class="btn">
-              <img src="/static/infor/Warn.png">
-              <span>警告</span>
-              <b class="badge">{{eventCountMsg[1]}}</b>
-            </button>
-            <button class="btn">
-              <img src="/static/infor/Info.png">
-              <span>信息</span>
-              <b class="badge">{{eventCountMsg[2]}}</b>
-            </button>
-            <button class="btn">
-              <img src="/static/infor/SetParm.png">
-              <span>设置</span>
-              <b class="badge">{{eventCountMsg[3]}}</b>
-            </button>
-            <button class="btn">
-              <img src="/static/infor/ZiChan.png">
-              <span>资产</span>
-              <b class="badge">{{eventCountMsg[4]}}</b>
+            <button v-for="(item,index) of btnInfo" :key="index" :checkBtn="item.btnStatus" @click="checkCondition(index)" :class="{btn:item.btnStatus,btnNo:!item.btnStatus}">
+              <img :src="item.bgName">
+              <span>{{item.spanName}}</span>
+              <b class="badge">{{eventCountMsg[index]}}</b>
             </button>
           </div>
           <div class="actualbody">
@@ -51,6 +31,18 @@
                   </tr>
                 </thead>
                 <tbody>
+                  <tr v-for="(item,index) of tableInfo" :key="index">
+                    <td>
+                      <img :src="imgToken(item.类型)">
+                    </td>
+                    <td>{{item.时间}}</td>
+                    <td>{{item.事件}}</td>
+                    <td>
+                      <button v-if="item.确认=='False'" class="btn" @click="updataModalMsg(item)">请确认</button>
+                      <i v-else class="iconfont icon-queren"></i>
+                    </td>
+                    <td>{{item.处理意见}}</td>
+                  </tr>
                 </tbody>
               </table>
             </div>
@@ -58,25 +50,90 @@
         </div>
       </div>
     </div>
+    <!--table弹出的模态框-->
+    <!--TODO:这里因为fullScreenPopup的遮罩层导致里面的transition动画效果未出现-->
+    <div class="fullScreenPopup" v-if="modalBoxStatus">
+      <div class="fullScreenAll"></div>
+      <transition name="numList" enter-active-class="bounceInDown  animated" leave-active-class="fadeOut animated">
+        <modalBox v-if="modalBoxStatus" @child="updataModal" :modal-box-info="modalBoxInfo" :ator-info="atorMsg"></modalBox>
+      </transition>
+    </div>
   </div>
 </template>
 
 <script type="es6">
 import commontHeader from '../commontHeader'
+import modalBox from './modalBox'
 
 export default {
   data() {
     return {
       currentPageName: '实时快照',
       event_Level_list: '',
-      eventCountMsg: [0, 0, 0, 0, 0]
+      eventCountMsg: [0, 0, 0, 0, 0],
+      btnInfo: [{
+        bgName: "/static/infor/Fatal.png",
+        spanName: "故障",
+        btnStatus: true
+      }, {
+        bgName: "/static/infor/Warn.png",
+        spanName: "警告",
+        btnStatus: true
+      }, {
+        bgName: "/static/infor/Info.png",
+        spanName: "信息",
+        btnStatus: true
+      }, {
+        bgName: "/static/infor/SetParm.png",
+        spanName: "设置",
+        btnStatus: true
+      }, {
+        bgName: "/static/infor/ZiChan.png",
+        spanName: "资产",
+        btnStatus: true
+      }],
+      tableInfo: '',
+
+      // 模态框所用数据
+      modalBoxInfo: '',
+      modalBoxStatus: false,
+      // 短信号码名单
+      atorMsg: ''
     }
   },
-  components: {
-    commontHeader,
-    // navList
-  },
   methods: {
+
+    updataModalMsg(param) {
+      console.log(param);
+      this.modalBoxInfo = param
+      this.updataModal()
+    },
+    updataModal() {
+      this.modalBoxStatus = !this.modalBoxStatus
+    },
+    imgToken(param) {
+      let arrtem = this.event_Level_list.split(';');
+      for (let i = 0; i < arrtem.length; i++) {
+        if (arrtem[i] == "" || typeof (arrtem[i]) == "undefined") {
+          arrtem.splice(i, 1);
+          i = i - 1;
+        }
+        arrtem[i] = arrtem[i].split(',');
+        for (var m = 0; m < arrtem[i].length; m++) {
+          let element = arrtem[i][m];
+          if (param === element) {
+            return this.btnInfo[i].bgName
+          }
+        }
+      }
+    },
+
+    checkCondition(param) {
+      this.btnInfo[param].btnStatus = !this.btnInfo[param].btnStatus
+      this.postGetRealTimeEvent().then((res) => {
+        this.tableInfo = JSON.parse(res.data.d);
+      })
+    },
     /**
      * 获取报警数据
      */
@@ -101,7 +158,7 @@ export default {
           }
           //好像得在这里写
           // TODO:这里不知道能不能拿到
-          reslove()
+          resolve("第一个回调函数跑完")
         })
       })
     },
@@ -110,12 +167,57 @@ export default {
      * 获取系统的实时快照（事件）各个消息类型的总数
      */
     SysEvtCounts() {
-      this.$http.post(`${this.$store.state.urlCommon}GetRealTimeEventCount`, {
+      // console.log(this.$http.all());
+      this.$http.all([this.postGetRealTimeEventCount(), this.postGetRealTimeEvent(), this.postAtorData()])
+        .then(this.$http.spread((eventCountMsg, perms, atorMsg) => {
+          // 处理消息总数
+          this.eventCountMsg = eventCountMsg.data.d.split(",")
+          // 处理table数据
+          this.tableInfo = JSON.parse(perms.data.d);
+          // 处理短信数据，为模态框提供
+          this.atorMsg = JSON.parse(atorMsg.data.d);
+        }));
+    },
+
+    postGetRealTimeEventCount() {
+      return this.$http.post(`${this.$store.state.urlCommon}GetRealTimeEventCount`, {
         event_Level_list: this.event_Level_list,
         equip_no_list: this.Browse_Equip_List_Get()
-      }).then((res) => {
-        this.eventCountMsg = res.data.d.split(",")
       })
+    },
+    postAtorData() {
+      return this.$http.post(`${this.$store.state.urlCommon}QueryTableData`, {
+        tableName: "Administrator"
+      })
+    },
+    postGetRealTimeEvent() {
+      return this.$http.post(`${this.$store.state.urlCommon}GetRealTimeEvent`, {
+        event_Level_list: this.btnTobool(),
+        // 此参数有误
+        equip_no_list: this.Browse_Equip_List_Get()
+      })
+    },
+
+    /**
+     * 通过按钮状态组合查询参数
+     */
+    btnTobool() {
+      let arrtem = this.event_Level_list.split(';');
+      for (let i = 0; i < arrtem.length; i++) {
+        if (arrtem[i] == "" || typeof (arrtem[i]) == "undefined") {
+          arrtem.splice(i, 1);
+          i = i - 1;
+        }
+      }
+      let result = '';
+      for (let index = 0; index < this.btnInfo.length; index++) {
+        let element = this.btnInfo[index];
+        if (element.btnStatus) {
+          result += `${arrtem[index]},`
+        }
+      }
+      result = result.substring(0, result.length - 1);
+      return result
     },
     /**
      * 查询用户可查看设备
@@ -131,15 +233,36 @@ export default {
     }
   },
   created() {
-    this.GetAlarmConfig().then(() => {
+    this.GetAlarmConfig().then((value) => {
+      console.log(value);
       this.SysEvtCounts();
     })
   },
-
+  components: {
+    commontHeader,
+    modalBox
+  },
 }
 </script>
 
 <style lang="scss" scoped>
+@mixin btn($bgcolor, $hoColor) {
+  border: none;
+  border-radius: 2px;
+  box-shadow: inset 0 -2px 0 rgba(0, 0, 0, .05);
+  color: #fff;
+  font-family: "Microsoft YaHei";
+  position: relative;
+  padding: 12px 12px;
+  cursor: pointer;
+  margin-right: 5px;
+  background-color: $bgcolor;
+  &:hover {
+    background-color: $hoColor;
+    color: #fff;
+  }
+}
+
 .contents {
   width: auto;
   height: auto;
@@ -179,16 +302,6 @@ export default {
       /* 条件选择栏*/
       .inforbtnList {
         button {
-          border: none;
-          border-radius: 2px;
-          padding: 6px 12px;
-          box-shadow: inset 0 -2px 0 rgba(0, 0, 0, .05);
-          color: #fff;
-          font-family: "Microsoft YaHei";
-          background-color: rgba(125, 191, 255, .3);
-          position: relative;
-          padding: 12px 12px;
-          cursor: pointer;
           img {
             width: 32px;
             height: 32px;
@@ -211,6 +324,12 @@ export default {
             margin-left: 6px;
           }
         }
+        .btn {
+          @include btn(rgba(125, 191, 255, .3), rgba(125, 191, 255, .4));
+        }
+        .btnNo {
+          @include btn(rgba(0, 0, 0, .3), rgba(0, 0, 0, .4));
+        }
       }
       /* table块*/
       .actualbody {
@@ -218,7 +337,7 @@ export default {
         height: auto;
         position: absolute;
         left: 0;
-        top: 42px;
+        top: 44px;
         right: 0;
         bottom: 0;
         .tableAuto {
@@ -249,10 +368,46 @@ export default {
                 }
               }
             }
+            tbody {
+              tr {
+                transition: all 300ms linear 0s;
+                &:nth-child(odd) {
+                  background: rgba(0, 0, 0, .13);
+                  border: 1px solid rgba(255, 255, 225, .15);
+                }
+                &:hover {
+                  background: rgba(255, 255, 255, .2)!important;
+                }
+                td {
+                  border: 1px solid rgba(255, 255, 225, .15);
+                  padding: 8px 10px;
+                  .btn {
+                    @include btn( rgba(50, 219, 1, 0.3), rgba(50, 219, 1, 0.6));
+                    padding: 6px 12px;
+                    &:hover {
+                      box-shadow: 0 0 2rem 0.5rem rgba(50, 219, 1, 0.3);
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
     }
+  }
+}
+
+
+.fullScreenPopup {
+  .fullScreenAll {
+    background: rgba(0, 0, 0, 0.6);
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 10;
   }
 }
 </style>
