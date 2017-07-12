@@ -98,7 +98,8 @@ export default {
       modalBoxInfo: '',
       modalBoxStatus: false,
       // 短信号码名单
-      atorMsg: ''
+      atorMsg: '',
+      // that: this
     }
   },
   methods: {
@@ -156,9 +157,7 @@ export default {
               this.event_Level_list += ";"
             }
           }
-          //好像得在这里写
-          // TODO:这里不知道能不能拿到
-          resolve("第一个回调函数跑完")
+          resolve()
         })
       })
     },
@@ -167,7 +166,7 @@ export default {
      * 获取系统的实时快照（事件）各个消息类型的总数
      */
     SysEvtCounts() {
-      // console.log(this.$http.all());
+      console.log("获取事件总数");
       this.$http.all([this.postGetRealTimeEventCount(), this.postGetRealTimeEvent(), this.postAtorData()])
         .then(this.$http.spread((eventCountMsg, perms, atorMsg) => {
           // 处理消息总数
@@ -233,8 +232,14 @@ export default {
     }
   },
   created() {
+    // TODO:循环请求，此代码可用
+    // clearInterval(setIn);
+    // var setIn = setInterval(() => {
+    //   this.GetAlarmConfig().then((value) => {
+    //     this.SysEvtCounts();
+    //   })
+    // }, 3000)
     this.GetAlarmConfig().then((value) => {
-      console.log(value);
       this.SysEvtCounts();
     })
   },
@@ -242,20 +247,17 @@ export default {
     commontHeader,
     modalBox
   },
+  deactivate() {
+    console.log("触发了deactivate");
+  }
 }
 </script>
 
 <style lang="scss" scoped>
 @import '../../../../style/mixin.scss';
+
 .contents {
-  /*width: auto;
-  height: auto;
-  position: absolute;*/
   @include absoluteWH(auto, auto);
-  /*left: 0px;
-  top: 40px;
-  bottom: 0;
-  right: 0px;*/
   @include trbl(40px, 0, 0, 0);
   .contentHeader {
     width: auto;
@@ -268,36 +270,17 @@ export default {
   }
 
   .contentBody {
-    /*width: auto;
-    height: auto;
-    position: absolute;*/
-    /*left: 0px;
-    top: 34px;
-    bottom: 13px;
-    right: 0px;*/
     @include absoluteWH(auto, auto);
     @include trbl(34px, 0, 13px, 0);
     background: rgba(0, 0, 0, .18)!important;
     border: 1px solid rgba(0, 0, 0, .13)!important;
     .contentBodyInAn {
-      /*width: auto;
-      height: auto;*/
-      /*left: 13px;
-      top: 13px;
-      bottom: 13px;
-      right: 13px;*/
-      // position: absolute;
       @include absoluteWH(auto, auto);
       @include trbl(13px, 13px, 13px, 13px);
       /* 条件选择栏*/
       .inforbtnList {
         button {
           img {
-            /*width: 32px;
-            height: 32px;
-            position: absolute;*/
-            /*left: 6px;
-            top: 6px;*/
             @include absoluteWH(32px, 32px);
             @include trbl(6px, auto, auto, 6px);
           }
@@ -325,25 +308,11 @@ export default {
       }
       /* table块*/
       .actualbody {
-        /*width: auto;
-        height: auto;
-        position: absolute;*/
         @include absoluteWH(auto, auto);
-        /*left: 0;
-        top: 44px;
-        right: 0;
-        bottom: 0;*/
         @include trbl(44px, 0, 0, 0);
         .tableAuto {
           overflow: auto;
-          /*width: auto;
-          height: auto;
-          position: absolute;*/
           @include absoluteWH(auto, auto);
-          /*left: 0;
-          top: 0;
-          right: 0;
-          bottom: 0;*/
           @include trbl(0, 0, 0, 0);
           table {
             background: rgba(0, 0, 0, .15);
@@ -399,10 +368,6 @@ export default {
   .fullScreenAll {
     background: rgba(0, 0, 0, 0.6);
     position: absolute;
-    /*top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;*/
     @include trbl(0, 0, 0, 0);
     z-index: 10;
   }
