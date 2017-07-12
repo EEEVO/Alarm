@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="sysbtn">
-      <button @click="queryEquip()">
+      <button @click="requestData()">
         <i class="iconfont icon-chaxun"></i>
         查询
       </button>
@@ -155,14 +155,27 @@ export default {
       ycpData: '',
       yxpData: '',
       SetParmData: '',
-
+      equip_no_list: ""
       // updataStatus: "true",
     }
   },
-  computed: {
-    equip_no_list() {
-      console.log("2");
-      return this.equipNo.join(",")
+  // computed: {
+  //   equip_no_list() {
+  //     // console.log("2");
+  //     // return this.equipNo.join(",")
+  //     this.equip_no_list = this.equipNo.join(",")
+  //   }
+  // },
+  watch: {
+    equipNo() {
+      debugger
+      console.log("3");
+      this.equip_no_list = this.equipNo.join(",");
+      this.getArgument();
+      // handler=(val, oldval) => {
+
+      // },
+      // deep: true,//对象内部的属性监听，也叫深度监听
     }
   },
   methods: {
@@ -195,24 +208,38 @@ export default {
       this.curractiveIndex = index
     },
     // 查询事件
-    queryEquip() {
+    /* queryEquip() {
       // TODO:这个地方需要修改，用setTimeout很弱智
       this.requestData().then(() => {
+        if ("全局变量变化了?") {
+          // 在执行?
+          this.getArgument();
+        }
+
         setTimeout(() => {
           this.getArgument();
         }, 1000);
       })
-    },
+    }, */
 
+    // 查询事件
     requestData() {
-      return new Promise((resolve, reject) => {
-        this.$emit("get-equipno")
-        console.log("3");
-        resolve();
-      })
+      console.log("1");
+      this.$emit("get-equipno")
+      // new Promise((resolve, reject) => {
+      //   console.log("1，把事件传到父组件");
+      //   this.$emit("get-equipno")
+      //   console.log("3。这里应该是2跑完才能跑。所以必须知道什么时候该组件更新了父组件传过来的数据");
+      //   resolve();
+      // }).then(() => {
+      //   setTimeout(() => {
+      //     this.getArgument();
+      //   }, 1000);
+      // })
     },
     getArgument() {
-      for (let item of this.tableName) {
+      console.log("4。发送请求");
+      /* for (let item of this.tableName) {
         this.$http.post(`${this.$store.state.urlCommon}GetSystemConfig`, {
           table_name: item.name,
           equip_no_list: this.equip_no_list
@@ -220,7 +247,7 @@ export default {
           item.value = JSON.parse(res.data.d)
           console.log(JSON.parse(res.data.d));
         })
-      }
+      } */
     },
     // 配置事件
     configuration() {
