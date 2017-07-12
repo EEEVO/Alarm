@@ -2,12 +2,13 @@
   <div>
     <!--写个树形例子-->
     <tree ref='tree' :treeData="treeData" :options="options" @node-click='handleNode' class="tree"></tree>
-  
+    <vtable class="vtalbe"></vtable>
   </div>
 </template>
 
 <script type="es6">
 import tree from './tree/tree'
+import vtable from './table'
 
 export default {
   data() {
@@ -36,7 +37,8 @@ export default {
     }
   },
   components: {
-    tree
+    tree,
+    vtable
   },
   methods: {
     // 节点的点击回调
@@ -84,6 +86,10 @@ div {
     border-radius: 4px;
     @include absoluteWH(auto, 100%);
     @include trbl(0, 77%, 0, 0);
+  }
+  .vtalbe {
+    position: absolute;
+    @include trbl(0, 0, 0, 23%);
   }
 }
 </style>

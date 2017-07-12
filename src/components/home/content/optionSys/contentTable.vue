@@ -2,12 +2,13 @@
   <div>
     <!--写个树形例子-->
     <tree ref='tree' :treeData="treeData" :options="options" @node-click='handleNode' class="tree"></tree>
-  
+    <vtable class="vtalbe" @get-equipno='getEquipNo' :equip-no="equipNo" :query-table-data="QueryTableData"></vtable>
   </div>
 </template>
 
 <script type="es6">
 import tree from './tree/tree'
+import vtable from './table'
 
 export default {
   data() {
@@ -33,20 +34,39 @@ export default {
         visible: true,
         children: []
       }],
+      equipNo: '',
+
+      QueryTableData: [{
+        name: "AlarmProc",
+        value: ''
+      }, {
+        name: "GW_VideoInfo",
+        value: ''
+      }, {
+        name: "GWZiChanTable",
+        value: ''
+      }, {
+        name: "GWPlan",
+        value: ''
+      }],
     }
   },
   components: {
-    tree
+    tree,
+    vtable
   },
   methods: {
     // 节点的点击回调
     // 查询设备数据
     handleNode(e) {
-      // console.log(e);
-      // TODO:待测试
-      console.log(this.$refs.tree.getSelectedNodeIds());
+    },
+    getEquipNo() {
+      console.log("1");
+      console.log(this.equipNo);
+      this.equipNo = this.$refs.tree.getSelectedNodeIds()
     },
     httpEquipItemList() {
+      // 请求树形菜单数据
       this.$http.post(`${this.$store.state.urlCommon}EquipItemList`, {}).then((res) => {
         let arr_res = JSON.parse(res.data.d);
         for (let i = 0; i < arr_res.length; i++) {
@@ -66,6 +86,14 @@ export default {
           }
         }
       })
+      for (let item of this.QueryTableData) {
+        this.$http.post(`${this.$store.state.urlCommon}QueryTableData`, {
+          tableName: item.name
+        }).then((res) => {
+          // console.log(JSON.parse(res.data.d));
+          item.value = JSON.parse(res.data.d);
+        })
+      }
     }
   },
   created() {
@@ -84,6 +112,10 @@ div {
     border-radius: 4px;
     @include absoluteWH(auto, 100%);
     @include trbl(0, 77%, 0, 0);
+  }
+  .vtalbe {
+    position: absolute;
+    @include trbl(0, 0, 0, 23%);
   }
 }
 </style>

@@ -225,18 +225,10 @@ div {
     min-height: 20px;
     border-radius: 4px;
     position: absolute;
-    /*left: 0;
-    top: 0;
-    right: 77%;
-    bottom: 0;*/
     @include trbl(0, 77%, 0, 0);
   }
   .vtalbe {
     position: absolute;
-    /*left: 23%;
-    top: 0;
-    right: 0;
-    bottom: 0;*/
     @include trbl(0, 0, 0, 23%);
   }
 }
