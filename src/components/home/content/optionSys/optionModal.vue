@@ -73,7 +73,7 @@
         <button>应用</button>
       </p>
     </div>
-  
+
   </div>
 </template>
 
@@ -100,20 +100,17 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '../../../../style/mixin.scss';
+
 .fullScreenPopup {
-  width: 100%;
-  height: 100%;
+  @include absoluteWH(100%, 100%);
   position: fixed;
-  top: 0;
-  left: 0;
+  @include trbl(0, auto, auto, 0);
   background: rgba(0, 0, 0, .6);
   z-index: 100;
   .fullScreenAll {
     position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
+    @include trbl(0, 0, 0, 0);
     z-index: 1;
   }
   .fullScreenCenter {
@@ -131,9 +128,7 @@ export default {
     background: url(/static/img/bg_1.jpg);
     .MessageBox_top {
       position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
+      @include trbl(0, 0, auto, 0);
       z-index: 200;
       span {
         display: block;
@@ -178,29 +173,16 @@ export default {
       }
       .tab-content {
         border: 1px solid rgba(255, 255, 255, .15);
-        width: auto;
-        height: auto;
         clear: both;
-        position: absolute;
-        left: 13px;
-        top: 28px;
-        right: 0;
-        bottom: 0; // 内容块
+        @include absoluteWH(auto, auto);
+        @include trbl(28px, 0, 0, 13px);
         article {
-          width: auto;
-          height: auto;
-          position: absolute;
-          left: 0;
-          top: 0;
-          right: 0;
-          bottom: 0;
+          @include absoluteWH(auto, auto);
+          @include trbl(0, 0, 0, 0);
           #commonlyList_Equip {
             .system_plug_list {
               position: absolute;
-              left: 0;
-              top: 0;
-              right: 66%;
-              bottom: 0;
+              @include trbl(0, 66%, 0, 0);
               overflow-y: auto;
               display: block;
               border: 1px solid rgba(255, 255, 225, .15);
@@ -233,10 +215,7 @@ export default {
             }
             .system_plug_Data {
               position: absolute;
-              left: 34%;
-              top: 0;
-              right: 0;
-              bottom: 0;
+              @include trbl(0, 0, 0, 34%);
               display: block;
               bottom: 35px!important;
               .sys_plug_ul_height_1 {
