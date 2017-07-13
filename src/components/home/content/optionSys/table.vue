@@ -15,9 +15,10 @@
       <li v-for="(item,index) of tabsItemName" :key="index" :class="{active:curractiveIndex==index}" @click="select(index)">{{tabsItemName[index]}}</li>
     </ul>
     <div class="tab-content">
+      <!-- 设备配置表 -->
       <article v-if="curractiveIndex===0" id="tableYcp" class="tab-pane animated active fadeIn">
         <div class="tableAuto alarmReal">
-          <table id="tableYcpID">
+          <table id="tableYcpID" thnum="9">
             <thead>
               <tr>
                 <th>设备号</th>
@@ -34,8 +35,8 @@
             <tbody>
               <template v-for="(item,index) of tableName[0].value">
                 <tr class="showtr">
-                  <td>
-                    <i class="iconfont icon-jia"></i>
+                  <td @click="selectTr(tableName[0].value,index,item)">
+                    <i class="iconfont" :class="{'icon-jia': !item.open,'icon-jian': item.open}"></i>
                     {{item.equip_no}}
                   </td>
                   <td>{{item.equip_nm}}</td>
@@ -52,88 +53,93 @@
                   <td>
                     <input type="checkbox">
                   </td>
-                  <!-- 这里是我的弹出块 -->
                 </tr>
-                <tr class="hiddentd">
-                  <td colspan="9">
-                    <div class="listStyle">
-                      <ul>
-                        <li>
-                          <b>设备属性 :</b>
-                          {{item.detail}}
-                        </li>
-                        <li>
-                          <b>通讯刷新周期 :</b>
-                          {{item.acc_cyc}}
-                        </li>
-                        <li>
-                          <b>通故障处理意见 :</b>
-                          {{item.proc_advice}}
-                        </li>
-                        <li>
-                          <b>故障提示 :</b>
-                          {{item.out_of_contact}}
-                        </li>
-                        <li>
-                          <b>故障恢复提示 :</b>
-                          {{item.contacted}}
-                        </li>
-                        <li>
-                          <b>报警声音文件 :</b>
-                          {{item.event_wav}}
-                        </li>
-                        <li>
-                          <b>驱动文件 :</b>
-                          {{item.communication_drv}}
-                        </li>
-                        <li>
-                          <b>通讯端口 :</b>
-                          {{item.local_addr}}
-                        </li>
-                        <li>
-                          <b>设备地址 :</b>
-                          {{item.equip_addr}}
-                        </li>
-                        <li>
-                          <b>通讯参数 :</b>
-                          {{item.communication_param}}
-                        </li>
-                        <li>
-                          <b>通讯时间参数 :</b>
-                          {{item.communication_time_param}}
-                        </li>
-                        <li>
-                          <b>报警升级周期（分钟）:</b>
-                          {{item.AlarmRiseCycle}}
-                        </li>
-                        <li>
-                          <b>模板设备号 :</b>
-                          {{item.raw_equip_no}}
-                        </li>
-                        <li>
-                          <b>附表名称:</b>
-                          {{item.tabname}}
-                        </li>
-                        <li>
-                          <b>属性:</b>
-                          {{item.attrib}}
-                        </li>
-                        <li>
-                          <b>安全时段:</b>
-                          {{item.SafeTime}}
-                        </li>
-                      </ul>
-                    </div>
-                  </td>
-                </tr>
+                <!-- 这里是我的弹出块 -->
+                <!-- <template> -->
+                <transition name="tr">
+                  <tr v-show="item.open" class="hiddentd">
+                    <td colspan="9">
+                      <div class="listStyle">
+                        <ul>
+                          <li>
+                            <b>设备属性 :</b>
+                            {{item.detail}}
+                          </li>
+                          <li>
+                            <b>通讯刷新周期 :</b>
+                            {{item.acc_cyc}}
+                          </li>
+                          <li>
+                            <b>通故障处理意见 :</b>
+                            {{item.proc_advice}}
+                          </li>
+                          <li>
+                            <b>故障提示 :</b>
+                            {{item.out_of_contact}}
+                          </li>
+                          <li>
+                            <b>故障恢复提示 :</b>
+                            {{item.contacted}}
+                          </li>
+                          <li>
+                            <b>报警声音文件 :</b>
+                            {{item.event_wav}}
+                          </li>
+                          <li>
+                            <b>驱动文件 :</b>
+                            {{item.communication_drv}}
+                          </li>
+                          <li>
+                            <b>通讯端口 :</b>
+                            {{item.local_addr}}
+                          </li>
+                          <li>
+                            <b>设备地址 :</b>
+                            {{item.equip_addr}}
+                          </li>
+                          <li>
+                            <b>通讯参数 :</b>
+                            {{item.communication_param}}
+                          </li>
+                          <li>
+                            <b>通讯时间参数 :</b>
+                            {{item.communication_time_param}}
+                          </li>
+                          <li>
+                            <b>报警升级周期（分钟）:</b>
+                            {{item.AlarmRiseCycle}}
+                          </li>
+                          <li>
+                            <b>模板设备号 :</b>
+                            {{item.raw_equip_no}}
+                          </li>
+                          <li>
+                            <b>附表名称:</b>
+                            {{item.tabname}}
+                          </li>
+                          <li>
+                            <b>属性:</b>
+                            {{item.attrib}}
+                          </li>
+                          <li>
+                            <b>安全时段:</b>
+                            {{item.SafeTime}}
+                          </li>
+                        </ul>
+                      </div>
+                    </td>
+                  </tr>
+                </transition>
+                <!-- </template> -->
               </template>
             </tbody>
           </table>
         </div>
       </article>
+      <!-- 模拟量配置 -->
       <article v-else-if="curractiveIndex===1" id="tableYxp" class="tab-pane animated active fadeIn">
         <div class="tableAuto alarmReal">
-          <table id="tableYxpID">
+          <table id="tableYxpID" thnum="16">
             <thead>
               <tr>
                 <th>设备号</th>
@@ -155,30 +161,136 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="(item,index) of tableName[1].value" :key="index">
-                <td>
-                  <i class="iconfont icon-jia"></i>
-                  {{item.equip_no}}
-                </td>
-                <td>{{item.equip_nm}}</td>
-                <td>{{item.related_pic}}</td>
-                <td>{{get_related_video(item.related_video)}}</td>
-                <td>{{item.ZiChanID}}</td>
-                <td>{{item.PlanNo}}</td>
-                <td>
-                  <input type="checkbox" :checked="alarmSchemes(item,1)">
-                </td>
-                <td>
-                  <input type="checkbox" :checked="alarmSchemes(item,2)">
-                </td>
-                <td>
-                  <input type="checkbox">
-                </td>
-              </tr>
+              <template v-for="(item,index) of tableName[1].value">
+                <tr class="showtr">
+                  <td @click="selectTr(tableName[1].value,index,item)">
+                    <i class="iconfont" :class="{'icon-jia': !item.open,'icon-jian': item.open}"></i>
+                    {{item.equip_no}}
+                  </td>
+                  <td>{{item.yc_no}}</td>
+                  <td>{{item.yc_nm}}</td>
+                  <td>{{item.val_min}}</td>
+                  <td>{{item.restore_min}}</td>
+                  <td>{{item.restore_max}}</td>
+                  <td>{{item.val_max}}</td>
+                  <td>{{item.unit}}</td>
+                  <td>{{item.related_pic}}</td>
+                  <td>{{get_related_video(item.related_video)}}</td>
+                  <td>{{item.ZiChanID}}</td>
+                  <td>{{item.PlanNo}}</td>
+                  <!-- 曲线报警 -->
+                  <td>
+                    <input type="checkbox" :checked="item.curve_rcd">
+                  </td>
+                  <td>
+                    <input type="checkbox" :checked="alarmSchemes(item,1)">
+                  </td>
+                  <td>
+                    <input type="checkbox" :checked="alarmSchemes(item,2)">
+                  </td>
+                  <td>
+                    <input type="checkbox">
+                  </td>
+                </tr>
+                <!-- 这里是我的弹出块 -->
+                <!-- <template> -->
+                <transition name="tr">
+                  <tr v-show="item.open" class="hiddentd">
+                    <td colspan="16">
+                      <div class="listStyle">
+                        <ul>
+                          <li>
+                            <b>比例变换 :</b>
+                            <input type="checkbox" :checked="item.mapping">
+                          </li>
+                          <li>
+                            <b>曲线记录阈值 :</b>
+                            {{item.curve_limit}}
+                          </li>
+                          <li>
+                            <b>实测最小值 :</b>
+                            {{item.yc_min}}
+                          </li>
+                          <li>
+                            <b>实测最大值 :</b>
+                            {{item.yc_max}}
+                          </li>
+                          <li>
+                            <b>最小值 :</b>
+                            {{item.physic_min}}
+                          </li>
+                          <li>
+                            <b>最大值 :</b>
+                            {{item.physic_max}}
+                          </li>
+                          <li>
+                            <b>属性值 :</b>
+                            {{item.val_trait}}
+                          </li>
+                          <li>
+                            <b>操作指令 :</b>
+                            {{item.main_instruction}}
+                          </li>
+                          <li>
+                            <b>操作参数 :</b>
+                            {{item.minor_instruction}}
+                          </li>
+                          <li>
+                            <b>越线滞纳时间(秒) :</b>
+                            {{item.alarm_acceptable_time}}
+                          </li>
+                          <li>
+                            <b>回恢复滞纳时间(秒) :</b>
+                            {{item.restore_acceptable_time}}
+                          </li>
+                          <li>
+                            <b>重复报警时间(分钟):</b>
+                            {{item.alarm_repeat_time}}
+                          </li>
+                          <li>
+                            <b>处理意见 :</b>
+                            {{item.proc_advice}}
+                          </li>
+                          <li>
+                            <b>报警级别:</b>
+                            {{item.lvl_level}}
+                          </li>
+                          <li>
+                            <b>报警升级周期:</b>
+                            {{item.AlarmRiseCycle}}
+                          </li>
+                          <li>
+                            <b>越下限事件:</b>
+                            {{item.outmin_evt}}
+                          </li>
+                          <li>
+                            <b>越上限事件:</b>
+                            {{item.outmax_evt}}
+                          </li>
+                          <li>
+                            <b>声音文件:</b>
+                            {{item.wave_file}}
+                          </li>
+                          <li>
+                            <b>报警屏蔽:</b>
+                            {{item.alarm_shield}}
+                          </li>
+                          <li>
+                            <b>安全时段:</b>
+                            {{item.SafeTime}}
+                          </li>
+                        </ul>
+                      </div>
+                    </td>
+                  </tr>
+                </transition>
+                <!-- </template> -->
+              </template>
             </tbody>
           </table>
         </div>
       </article>
+      <!-- 状态量配置 -->
       <article v-else-if="curractiveIndex===2" id="tableSet" class="tab-pane animated active fadeIn">
         <div class="tableAuto alarmReal">
           <table id="tableSetID">
@@ -198,6 +310,106 @@
                 <th>Email报警</th>
               </tr>
             </thead>
+            <tbody>
+              <template v-for="(item,index) of tableName[2].value">
+                <tr class="showtr">
+                  <td @click="selectTr(tableName[2].value,index,item)">
+                    <i class="iconfont" :class="{'icon-jia': !item.open,'icon-jian': item.open}"></i>
+                    {{item.equip_no}}
+                  </td>
+                  <td>{{item.yx_no}}</td>
+                  <td>{{item.yx_nm}}</td>
+                  <td>{{item.evt_01}}</td>
+                  <td>{{item.evt_10}}</td>
+                  <td>{{item.related_pic}}</td>
+                  <td>{{get_related_video(item.related_video)}}</td>
+                  <td>{{item.ZiChanID}}</td>
+                  <td>{{item.PlanNo}}</td>
+                  <td>
+                    <input type="checkbox" :checked="alarmSchemes(item,1)">
+                  </td>
+                  <td>
+                    <input type="checkbox" :checked="alarmSchemes(item,2)">
+                  </td>
+                  <td>
+                    <input type="checkbox">
+                  </td>
+                </tr>
+                <!-- 这里是我的弹出块 -->
+                <!-- <template> -->
+                <transition name="tr">
+                  <tr v-show="item.open" class="hiddentd">
+                    <td colspan="16">
+                      <div class="listStyle">
+                        <ul>
+                          <li>
+                            <b>取反 :</b>
+                            <input type="checkbox" :checked="item.inversion">
+                          </li>
+                          <li>
+                            <b>处理意见0-1 :</b>
+                            {{item.proc_advice_r}}
+                          </li>
+                          <li>
+                            <b>处理意见1-0 :</b>
+                            {{item.proc_advice_d}}
+                          </li>
+                          <li>
+                            <b>0-1级别 :</b>
+                            {{item.level_r}}
+                          </li>
+                          <li>
+                            <b>1-0级别 :</b>
+                            {{item.level_d}}
+                          </li>
+                          <li>
+                            <b>初始状态 :</b>
+                            {{item.initval}}
+                          </li>
+                          <li>
+                            <b>属性值 :</b>
+                            {{item.val_trait}}
+                          </li>
+                          <li>
+                            <b>操作命令 :</b>
+                            {{item.main_instruction}}
+                          </li>
+                          <li>
+                            <b>操作参数 :</b>
+                            {{item.minor_instruction}}
+                          </li>
+                          <li>
+                            <b>越线滞纳时间(秒) :</b>
+                            {{item.alarm_acceptable_time}}
+                          </li>
+                          <li>
+                            <b>回恢复滞纳时间(秒) :</b>
+                            {{item.restore_acceptable_time}}
+                          </li>
+                          <li>
+                            <b>重复报警时间(分钟):</b>
+                            {{item.alarm_repeat_time}}
+                          </li>
+                          <li>
+                            <b>声音文件:</b>
+                            {{item.wave_file}}
+                          </li>
+                          <li>
+                            <b>报警屏蔽:</b>
+                            {{item.alarm_shield}}
+                          </li>
+                          <li>
+                            <b>安全时段:</b>
+                            {{item.SafeTime}}
+                          </li>
+                        </ul>
+                      </div>
+                    </td>
+                  </tr>
+                </transition>
+                <!-- </template> -->
+              </template>
+            </tbody>
           </table>
         </div>
       </article>
@@ -218,14 +430,38 @@
                 <th>是否可执行</th>
               </tr>
             </thead>
+            <tbody>
+              <tr class="showtr" v-for="(item,index) of tableName[3].value" :key="index">
+                <td>
+                  {{item.equip_no}}
+                </td>
+                <td>{{item.set_no}}</td>
+                <td>{{item.set_nm}}</td>
+                <td>{{item.set_type}}</td>
+                <td>{{item.main_instruction}}</td>
+                <td>{{item.minor_instruction}}</td>
+                <td>
+                  <input type="checkbox" :checked="item.record">
+                </td>
+                <td>{{item.action}}</td>
+                <td>{{item.value}}</td>
+                <td>
+                  <input type="checkbox" :checked="item.canexecution">
+                </td>
+              </tr>
+            </tbody>
           </table>
         </div>
       </article>
     </div>
+    <!-- 弹出的配置模态框 -->
+    <optionModal></optionModal>
   </div>
 </template>
 
-<script type="es6">
+ <script type="es6">
+import optionModal from './optionModal'
+
 export default {
   props: ['equipNo', 'QueryTableData'],
   data() {
@@ -263,6 +499,14 @@ export default {
     }
   },
   methods: {
+    // 选择打开tr对应的详细信息
+    selectTr(arr, index, value) {
+      let newValue = value;
+      newValue.open = !newValue.open
+      this.$set(arr, index, newValue)
+      console.log("关闭");
+    },
+
     get_related_video(item) {
       for (let i of this.QueryTableData[1].value) {
         if (item == this.QueryTableData[1].name) {
@@ -304,14 +548,21 @@ export default {
           equip_no_list: this.equip_no_list
         }).then((res) => {
           item.value = JSON.parse(res.data.d)
+          for (let obj of item.value) {
+            obj.open = false;
+          }
           console.log(JSON.parse(res.data.d));
         })
       }
     },
     // 配置事件
     configuration() {
-
+      this.requestData();
+      this.$emit()
     }
+  },
+  components: {
+    optionModal
   }
 }
 </script>
@@ -412,7 +663,7 @@ export default {
             }
           }
           .hiddentd {
-            background: rgba(0, 0, 0, .13)!important;
+            background: rgba(0, 0, 0, .13)!important; // transition: all 300ms linear 0s;
             td {
               padding: 0!important;
               div {
@@ -425,7 +676,6 @@ export default {
                     line-height: 30px;
                     padding: 0 12px;
                     cursor: default;
-                    transition: all 300ms linear 0s;
                     @include trtdhover;
                   }
                 }
@@ -437,6 +687,11 @@ export default {
     }
   }
 }
+
+// .tr-enter-active,
+// .tr-leave-active {}
+// .tr-enter,
+// .tr-leave-to {}
 </style>
 
 
