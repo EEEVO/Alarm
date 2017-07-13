@@ -32,26 +32,101 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="(item,index) of tableName[0].value" :key="index">
-                <td>
-                  <i class="iconfont icon-jia"></i>
-                  {{item.equip_no}}
-                </td>
-                <td>{{item.equip_nm}}</td>
-                <td>{{item.related_pic}}</td>
-                <td>{{get_related_video(item.related_video)}}</td>
-                <td>{{item.ZiChanID}}</td>
-                <td>{{item.PlanNo}}</td>
-                <td>
-                  <input type="checkbox" :checked="alarmSchemes(item,1)">
-                </td>
-                <td>
-                  <input type="checkbox" :checked="alarmSchemes(item,2)">
-                </td>
-                <td>
-                  <input type="checkbox">
-                </td>
-              </tr>
+              <template v-for="(item,index) of tableName[0].value">
+                <tr class="showtr">
+                  <td>
+                    <i class="iconfont icon-jia"></i>
+                    {{item.equip_no}}
+                  </td>
+                  <td>{{item.equip_nm}}</td>
+                  <td>{{item.related_pic}}</td>
+                  <td>{{get_related_video(item.related_video)}}</td>
+                  <td>{{item.ZiChanID}}</td>
+                  <td>{{item.PlanNo}}</td>
+                  <td>
+                    <input type="checkbox" :checked="alarmSchemes(item,1)">
+                  </td>
+                  <td>
+                    <input type="checkbox" :checked="alarmSchemes(item,2)">
+                  </td>
+                  <td>
+                    <input type="checkbox">
+                  </td>
+                  <!-- 这里是我的弹出块 -->
+                </tr>
+                <tr class="hiddentd">
+                  <td colspan="9">
+                    <div class="listStyle">
+                      <ul>
+                        <li>
+                          <b>设备属性 :</b>
+                          {{item.detail}}
+                        </li>
+                        <li>
+                          <b>通讯刷新周期 :</b>
+                          {{item.acc_cyc}}
+                        </li>
+                        <li>
+                          <b>通故障处理意见 :</b>
+                          {{item.proc_advice}}
+                        </li>
+                        <li>
+                          <b>故障提示 :</b>
+                          {{item.out_of_contact}}
+                        </li>
+                        <li>
+                          <b>故障恢复提示 :</b>
+                          {{item.contacted}}
+                        </li>
+                        <li>
+                          <b>报警声音文件 :</b>
+                          {{item.event_wav}}
+                        </li>
+                        <li>
+                          <b>驱动文件 :</b>
+                          {{item.communication_drv}}
+                        </li>
+                        <li>
+                          <b>通讯端口 :</b>
+                          {{item.local_addr}}
+                        </li>
+                        <li>
+                          <b>设备地址 :</b>
+                          {{item.equip_addr}}
+                        </li>
+                        <li>
+                          <b>通讯参数 :</b>
+                          {{item.communication_param}}
+                        </li>
+                        <li>
+                          <b>通讯时间参数 :</b>
+                          {{item.communication_time_param}}
+                        </li>
+                        <li>
+                          <b>报警升级周期（分钟）:</b>
+                          {{item.AlarmRiseCycle}}
+                        </li>
+                        <li>
+                          <b>模板设备号 :</b>
+                          {{item.raw_equip_no}}
+                        </li>
+                        <li>
+                          <b>附表名称:</b>
+                          {{item.tabname}}
+                        </li>
+                        <li>
+                          <b>属性:</b>
+                          {{item.attrib}}
+                        </li>
+                        <li>
+                          <b>安全时段:</b>
+                          {{item.SafeTime}}
+                        </li>
+                      </ul>
+                    </div>
+                  </td>
+                </tr>
+              </template>
             </tbody>
           </table>
         </div>
@@ -79,6 +154,28 @@
                 <th>Email报警</th>
               </tr>
             </thead>
+            <tbody>
+              <tr v-for="(item,index) of tableName[1].value" :key="index">
+                <td>
+                  <i class="iconfont icon-jia"></i>
+                  {{item.equip_no}}
+                </td>
+                <td>{{item.equip_nm}}</td>
+                <td>{{item.related_pic}}</td>
+                <td>{{get_related_video(item.related_video)}}</td>
+                <td>{{item.ZiChanID}}</td>
+                <td>{{item.PlanNo}}</td>
+                <td>
+                  <input type="checkbox" :checked="alarmSchemes(item,1)">
+                </td>
+                <td>
+                  <input type="checkbox" :checked="alarmSchemes(item,2)">
+                </td>
+                <td>
+                  <input type="checkbox">
+                </td>
+              </tr>
+            </tbody>
           </table>
         </div>
       </article>
@@ -156,26 +253,13 @@ export default {
       yxpData: '',
       SetParmData: '',
       equip_no_list: ""
-      // updataStatus: "true",
     }
   },
-  // computed: {
-  //   equip_no_list() {
-  //     // console.log("2");
-  //     // return this.equipNo.join(",")
-  //     this.equip_no_list = this.equipNo.join(",")
-  //   }
-  // },
   watch: {
     equipNo() {
-      debugger
       console.log("3");
       this.equip_no_list = this.equipNo.join(",");
       this.getArgument();
-      // handler=(val, oldval) => {
-
-      // },
-      // deep: true,//对象内部的属性监听，也叫深度监听
     }
   },
   methods: {
@@ -184,7 +268,6 @@ export default {
         if (item == this.QueryTableData[1].name) {
           item = i
           return item
-          // break
         }
       }
     },
@@ -207,39 +290,15 @@ export default {
     select(index) {
       this.curractiveIndex = index
     },
-    // 查询事件
-    /* queryEquip() {
-      // TODO:这个地方需要修改，用setTimeout很弱智
-      this.requestData().then(() => {
-        if ("全局变量变化了?") {
-          // 在执行?
-          this.getArgument();
-        }
-
-        setTimeout(() => {
-          this.getArgument();
-        }, 1000);
-      })
-    }, */
 
     // 查询事件
     requestData() {
       console.log("1");
       this.$emit("get-equipno")
-      // new Promise((resolve, reject) => {
-      //   console.log("1，把事件传到父组件");
-      //   this.$emit("get-equipno")
-      //   console.log("3。这里应该是2跑完才能跑。所以必须知道什么时候该组件更新了父组件传过来的数据");
-      //   resolve();
-      // }).then(() => {
-      //   setTimeout(() => {
-      //     this.getArgument();
-      //   }, 1000);
-      // })
     },
     getArgument() {
       console.log("4。发送请求");
-      /* for (let item of this.tableName) {
+      for (let item of this.tableName) {
         this.$http.post(`${this.$store.state.urlCommon}GetSystemConfig`, {
           table_name: item.name,
           equip_no_list: this.equip_no_list
@@ -247,7 +306,7 @@ export default {
           item.value = JSON.parse(res.data.d)
           console.log(JSON.parse(res.data.d));
         })
-      } */
+      }
     },
     // 配置事件
     configuration() {
@@ -259,6 +318,21 @@ export default {
 
 <style lang="scss" scoped>
 @import '../../../../style/mixin.scss';
+
+@mixin trtdhover {
+  &:nth-child(odd) {
+    background: rgba(0, 0, 0, .13);
+    border-top: 1px solid rgba(255, 255, 225, .15);
+    border-bottom: 1px solid rgba(255, 255, 225, .15);
+  }
+  &:nth-child(even) {
+    background-color: transparent;
+  }
+  &:hover {
+    background: rgba(255, 255, 255, .2)!important;
+  }
+}
+
 .sysbtn {
   float: right;
   button {
@@ -325,26 +399,36 @@ export default {
           }
         }
         tbody {
-          tr {
+          .showtr {
             transition: all 300ms linear 0s;
-            &:nth-child(odd) {
-              background: rgba(0, 0, 0, .13);
-              border: 1px solid rgba(255, 255, 225, .15);
-            }
-            &:nth-child(even) {
-              background-color: transparent;
-            }
-            &:hover {
-              background: rgba(255, 255, 255, .2)!important;
-            }
+            @include trtdhover;
             td {
               border: 1px solid rgba(255, 255, 225, .15);
               padding: 8px 10px;
-              &:first-child {
-                cursor: pointer;
-              }
+              &:first-child,
               input {
                 cursor: pointer;
+              }
+            }
+          }
+          .hiddentd {
+            background: rgba(0, 0, 0, .13)!important;
+            td {
+              padding: 0!important;
+              div {
+                ul {
+                  list-style: none;
+                  padding: 0;
+                  margin: 0;
+                  white-space: nowrap;
+                  li {
+                    line-height: 30px;
+                    padding: 0 12px;
+                    cursor: default;
+                    transition: all 300ms linear 0s;
+                    @include trtdhover;
+                  }
+                }
               }
             }
           }
