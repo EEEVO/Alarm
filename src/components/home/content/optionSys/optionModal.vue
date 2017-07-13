@@ -102,6 +102,21 @@ export default {
 <style lang="scss" scoped>
 @import '../../../../style/mixin.scss';
 
+@mixin child-odd {
+  background: rgba(0, 0, 0, .13);
+  border-top: 1px solid rgba(255, 255, 225, .15);
+  border-bottom: 1px solid rgba(255, 255, 225, .15);
+}
+
+@mixin comBtn {
+  border: none;
+  border-radius: 2px;
+  padding: 6px 12px;
+  box-shadow: inset 0 -2px 0 rgba(0, 0, 0, .05);
+  color: #fff;
+  font-family: "Microsoft YaHei";
+}
+
 .fullScreenPopup {
   @include absoluteWH(100%, 100%);
   position: fixed;
@@ -199,9 +214,7 @@ export default {
                     cursor: default;
                     transition: all 300ms linear 0s;
                     &:nth-child(odd) {
-                      background: rgba(0, 0, 0, .13);
-                      border-top: 1px solid rgba(255, 255, 225, .15);
-                      border-bottom: 1px solid rgba(255, 255, 225, .15);
+                      @include child-odd;
                     }
                     &.active {
                       background: rgba(255, 255, 255, .36)!important;
@@ -233,9 +246,7 @@ export default {
                     cursor: default;
                     transition: all 300ms linear 0s;
                     &:nth-child(odd) {
-                      background: rgba(0, 0, 0, .13);
-                      border-top: 1px solid rgba(255, 255, 225, .15);
-                      border-bottom: 1px solid rgba(255, 255, 225, .15);
+                      @include child-odd;
                     }
                     &:hover {
                       background: none!important;
@@ -289,9 +300,7 @@ export default {
                     cursor: default;
                     transition: all 300ms linear 0s;
                     &:nth-child(odd) {
-                      background: rgba(0, 0, 0, .13);
-                      border-top: 1px solid rgba(255, 255, 225, .15);
-                      border-bottom: 1px solid rgba(255, 255, 225, .15);
+                      @include child-odd;
                     }
                     &:hover {
                       background: none!important;
@@ -312,19 +321,12 @@ export default {
             }
             .system_plug_botton {
               position: absolute;
-              left: 13px;
-              bottom: 0;
-              right: 13px;
+              @include trbl(auto, 13px, 0, 13px);
               p {
                 margin: 3px 0;
                 text-align: right;
                 button {
-                  border: none;
-                  border-radius: 2px;
-                  padding: 6px 12px;
-                  box-shadow: inset 0 -2px 0 rgba(0, 0, 0, .05);
-                  color: #fff;
-                  font-family: "Microsoft YaHei";
+                  @include comBtn;
                   background-color: rgba(50, 219, 1, 0.3);
                   &:hover {
                     background-color: rgba(50, 219, 1, 0.6);
@@ -344,12 +346,7 @@ export default {
     .MessageBox_p3 {
       text-align: right;
       button {
-        border: none;
-        border-radius: 2px;
-        padding: 6px 12px;
-        box-shadow: inset 0 -2px 0 rgba(0, 0, 0, .05);
-        color: #fff;
-        font-family: "Microsoft YaHei";
+        @include comBtn;
         background: rgba(0, 0, 0, .3);
         margin-right: 10px;
         padding-left: 15px;
