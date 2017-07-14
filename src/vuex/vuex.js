@@ -17,6 +17,11 @@ const state = {
   LOGOUT_STATUS: false,
   bg_url: 'bg_1.jpg',
   REFRESH_STATUS: false,
+
+  // 系统配置模态框数据与状态
+  OPTIONMODAL_STATUS: false,
+  optionModelData: "",
+  queryEquip: false,
   // 默认选中菜单
   isAcitve: "首页",
   // 当前用户名
@@ -24,10 +29,23 @@ const state = {
   // 请求的公共头
   urlCommon: 'http://localhost:8080/GWServices.asmx/',
   // 用户权限信息相关数据
-  getWebUser: ''
+  getWebUser: '',
+
+
 }
 
 const mutations = {
+  updatequeryEquip(state) {
+    console.log("配置按钮点击");
+    state.queryEquip = !state.queryEquip
+  },
+  // 系统配置页面，配置弹出框状态与数据更新
+  optionModalStatus(state, modelData) {
+    console.log("触发了？");
+    state.OPTIONMODAL_STATUS = !state.OPTIONMODAL_STATUS
+    state.optionModelData = modelData
+  },
+
   getWebUser(state, getWebUser) {
     state.getWebUser = getWebUser
   },

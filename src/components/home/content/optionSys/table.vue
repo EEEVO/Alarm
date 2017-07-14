@@ -189,6 +189,7 @@
                     <input type="checkbox" :checked="alarmSchemes(item,2)">
                   </td>
                   <td>
+                    <!-- TODO:不确定判断字段 -->
                     <input type="checkbox">
                   </td>
                 </tr>
@@ -455,12 +456,12 @@
       </article>
     </div>
     <!-- 弹出的配置模态框 -->
-    <optionModal></optionModal>
+    <!-- <optionModal></optionModal> -->
   </div>
 </template>
 
  <script type="es6">
-import optionModal from './optionModal'
+// import optionModal from './optionModal'
 
 export default {
   props: ['equipNo', 'QueryTableData'],
@@ -488,7 +489,8 @@ export default {
       ycpData: '',
       yxpData: '',
       SetParmData: '',
-      equip_no_list: ""
+      equip_no_list: "",
+      // queryEquip:"",
     }
   },
   watch: {
@@ -534,7 +536,6 @@ export default {
     select(index) {
       this.curractiveIndex = index
     },
-
     // 查询事件
     requestData() {
       console.log("1");
@@ -554,15 +555,20 @@ export default {
           console.log(JSON.parse(res.data.d));
         })
       }
+      if (this.$store.state.queryEquip) {
+        this.$store.commit("optionModalStatus", this.tableName)
+      }
     },
     // 配置事件
     configuration() {
+      console.log("开始传递？");
+      // 先进行数据查询
       this.requestData();
-      this.$emit()
+      this.$store.commit('updatequeryEquip')
     }
   },
   components: {
-    optionModal
+    // optionModal
   }
 }
 </script>

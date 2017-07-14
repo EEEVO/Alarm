@@ -45,6 +45,9 @@
       <logout v-if="logoutStatus"></logout>
       <refreshMsg v-if="refreshStatus"></refreshMsg>
     </transition>
+    <transition>
+      <optionModal v-if="OPTIONMODAL_STATUS" :option-model-data="optionModelData"></optionModal>
+    </transition>
   </div>
 </template>
 
@@ -59,7 +62,8 @@ import toggleMenu from './toggleMenu'
 import foot from './foot'
 // 刷新组件
 import refreshMsg from './content/refreshMsg'
-// import commontHeader from './content/commontHeader'
+// 系统配置模态框
+import optionModal from './modal/optionModal'
 
 export default {
   data() {
@@ -67,17 +71,23 @@ export default {
       Skin_STATUS: false,
       bgSkin: './bg_9.jpg',
       // 折叠菜单的状态值，true为显示
-      toggleMenuStatus: true
+      toggleMenuStatus: true,
+      // OPTIONMODAL_STATUS: false
     }
   },
   computed: {
+    OPTIONMODAL_STATUS() {
+      return this.$store.state.OPTIONMODAL_STATUS
+    },
+    optionModelData() {
+      return this.$store.state.optionModelData
+    },
     logoutStatus() {
       return this.$store.state.LOGOUT_STATUS
     },
     refreshStatus() {
       return this.$store.state.REFRESH_STATUS
     }
-
   },
   methods: {
     // 全屏事件
@@ -112,17 +122,20 @@ export default {
       if (window.localStorage.bg === "") {
         window.localStorage.bg = "./bg_9.jpg";
       }
-
       //TODO:给根节点元素设置背景图片
-
-    }
+    },
+    // optionModalStatus() {
+    //   console.log("触发了？");
+    //   this.OPTIONMODAL_STATUS = !this.OPTIONMODAL_STATUS
+    // }
   },
   components: {
     popupSkin,
     logout,
     toggleMenu,
     foot,
-    refreshMsg
+    refreshMsg,
+    optionModal
     // commontHeader
   }
 }
@@ -130,8 +143,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
-
 header {
   width: 100%;
   height: 50px;
