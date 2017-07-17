@@ -85,6 +85,8 @@ export default {
             this.treeData[0].children.push(obj_tem);
           }
         }
+        // 提交到vuex，给配置model弹出层用
+        this.$store.commit("getoptionModelData", this.treeData)
       })
       for (let item of this.QueryTableData) {
         this.$http.post(`${this.$store.state.urlCommon}QueryTableData`, {

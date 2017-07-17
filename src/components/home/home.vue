@@ -45,7 +45,7 @@
       <logout v-if="logoutStatus"></logout>
       <refreshMsg v-if="refreshStatus"></refreshMsg>
     </transition>
-    <transition>
+    <transition enter-active-class="bounceInDown  animated" leave-active-class="fadeOut animated">
       <optionModal v-if="OPTIONMODAL_STATUS" :option-model-data="optionModelData"></optionModal>
     </transition>
   </div>

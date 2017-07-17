@@ -104,3 +104,8 @@ npm test
 系统配置模块，配置模态框组件应用功能未实现
 
 模态框整体移出到body下。以后所有模态框统一设置到body下，方便维护
+
+### 17/07/17
+
+["SystemEquipChange", "SystemYcpChange", "SystemYxpChange", "SystemSetParmChange"]
+ 四个接口怀疑有问题 

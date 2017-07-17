@@ -31,17 +31,22 @@ const state = {
   // 用户权限信息相关数据
   getWebUser: '',
 
-
+  // 配置模态框使用数据
+  optiontreeData: ''
 }
 
 const mutations = {
+  getoptionModelData(state, param) {
+    state.optiontreeData = param
+  },
+
   updatequeryEquip(state) {
-    console.log("配置按钮点击");
+    // console.log("配置按钮点击");
     state.queryEquip = !state.queryEquip
   },
   // 系统配置页面，配置弹出框状态与数据更新
   optionModalStatus(state, modelData) {
-    console.log("触发了？");
+    // console.log("触发了？");
     state.OPTIONMODAL_STATUS = !state.OPTIONMODAL_STATUS
     state.optionModelData = modelData
   },
