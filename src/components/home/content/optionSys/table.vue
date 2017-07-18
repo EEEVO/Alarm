@@ -241,7 +241,7 @@
                             {{item.alarm_acceptable_time}}
                           </li>
                           <li>
-                            <b>回恢复滞纳时间(秒) :</b>
+                            <b>恢复滞纳时间(秒) :</b>
                             {{item.restore_acceptable_time}}
                           </li>
                           <li>
@@ -495,8 +495,9 @@ export default {
   },
   watch: {
     equipNo() {
-      console.log("3");
+
       this.equip_no_list = this.equipNo.join(",");
+      this.$store.commit("getEquipNoArr", this.equipNo)
       this.getArgument();
     }
   },
@@ -538,21 +539,22 @@ export default {
     },
     // 查询事件
     requestData() {
-      console.log("1");
       this.$emit("get-equipno")
     },
     getArgument() {
-      console.log("4。发送请求");
       for (let item of this.tableName) {
         this.$http.post(`${this.$store.state.urlCommon}GetSystemConfig`, {
           table_name: item.name,
           equip_no_list: this.equip_no_list
         }).then((res) => {
-          item.value = JSON.parse(res.data.d)
-          for (let obj of item.value) {
-            obj.open = false;
+          if (res.data.d !== "false") {
+            item.value = JSON.parse(res.data.d)
+            for (let obj of item.value) {
+              obj.open = false;
+            }
+          } else {
+            console.log("请勾选具体设备");
           }
-          console.log(JSON.parse(res.data.d));
         })
       }
       if (this.$store.state.queryEquip) {

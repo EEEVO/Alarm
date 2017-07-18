@@ -71,8 +71,6 @@ npm test
 
 * [X] ~~*点击首页时，上面logo部分文字掉落*~~
 
->问是在commontHeader组件中的样式影响，原因在于style标签中scoped才是此项目内而不是scopedSlots
-
 * [ ] 完成首页内容块
 
 * [X] ~~*刷新模态框完成，但初始动画有问题*~~
@@ -105,7 +103,6 @@ npm test
 
 模态框整体移出到body下。以后所有模态框统一设置到body下，方便维护
 
-### 17/07/17
+### 17/07/18
 
-["SystemEquipChange", "SystemYcpChange", "SystemYxpChange", "SystemSetParmChange"]
- 四个接口怀疑有问题 
+配置模态应拆分成小组件，change应该用事件代理解决，不然绑定到dom上很脏

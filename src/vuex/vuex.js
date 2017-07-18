@@ -32,10 +32,16 @@ const state = {
   getWebUser: '',
 
   // 配置模态框使用数据
-  optiontreeData: ''
+  optiontreeData: '',
+
+  // 配置模态框当前配置页面所需设备数据
+  equipNoArr: []
 }
 
 const mutations = {
+  getEquipNoArr(state, param) {
+    state.equipNoArr = param
+  },
   getoptionModelData(state, param) {
     state.optiontreeData = param
   },

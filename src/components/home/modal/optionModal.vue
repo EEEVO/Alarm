@@ -54,14 +54,14 @@
                       <li>
                         <span>资产编号：</span>
                         <select v-model="tableItemName[curractiveIndex].value[currentLiIndex].ZiChanName" @change="getChangeData(curractiveIndex,tableItemName[curractiveIndex].value[currentLiIndex].equip_no,'ZiChanName',tableItemName[curractiveIndex].value[currentLiIndex].ZiChanName)">
-                          <option v-for="(item,index) of QueryTableData[2].value" :key="index" :value="item.ZiChanName">{{item.ZiChanName}}</option>
+                          <option v-for="(item,index) of QueryTableData[2].value" :key="index">{{item.ZiChanName}}</option>
                         </select>
                         <div class="clear"></div>
                       </li>
                       <li>
                         <span>预案号：</span>
                         <select v-model="tableItemName[curractiveIndex].value[currentLiIndex].PlanNo" @change="getChangeData(curractiveIndex,tableItemName[curractiveIndex].value[currentLiIndex].equip_no,'PlanNo',tableItemName[curractiveIndex].value[currentLiIndex].PlanNo)">
-                          <option v-for="(item,index) of QueryTableData[3].value" :key="index" :value="item.PlanNo">{{item.PlanNo}}</option>
+                          <option v-for="(item,index) of QueryTableData[3].value" :key="index">{{item.PlanNo}}</option>
                         </select>
                         <div class="clear"></div>
                       </li>
@@ -197,12 +197,12 @@
                 <!-- TODO:此处好像不能用虚标签做状态切换 -->
                 <div class="system_plug_list">
                   <div class="listStyle">
-                    <select @change="selectYxpIndex()" v-model='currentId'>
+                    <select @change="selectYcpIndex()" v-model='currentId'>
                       <option v-for="(item,index) of getEquipName" :key="index" :value="item.id">{{item.label}}</option>
                     </select>
                     <div class="system_plug_list_lStyle">
                       <ul id="treeList_plug_ycp">
-                        <li v-for="(item,index) of yxpList" :key="index" :class="{active:currYcpIndex==index}" @click="selectYvpDate(index)">{{item.yc_nm}}</li>
+                        <li v-for="(item,index) of ycpList" :key="index" :class="{active:currYcpIndex==index}" @click="selectYcpData(index)">{{item.yc_nm}}</li>
                       </ul>
                     </div>
                   </div>
@@ -223,63 +223,64 @@
                       </li>
                       <li>
                         <span>模拟量名称：</span>
-                        <input type="text" v-model="currYcpData.yc_nm" @change="getChangeData(curractiveIndex,currYcpData.equip_no,'yc_nm',`${currYcpData.yc_nm}`)">
+                        <input type="text" v-model="currYcpData.yc_nm" @change="getChangeData(curractiveIndex,currYcpData.equip_no,'yc_nm',`${currYcpData.yc_nm}`,`${currYcpData.yc_no}`)">
                         <div class="clear"></div>
                       </li>
                       <li>
                         <span>下限值：</span>
-                        <input type="text" v-model="currYcpData.val_min" @change="getChangeData(curractiveIndex,currYcpData.equip_no,'val_min',`${currYcpData.val_min}`)">
+                        <input type="text" v-model="currYcpData.val_min" @change="getChangeData(curractiveIndex,currYcpData.equip_no,'val_min',`${currYcpData.val_min}`,`${currYcpData.yc_no}`)">
                         <div class="clear"></div>
                       </li>
                       <li>
                         <span>回复下限值：</span>
-                        <input type="text" v-model="currYcpData.restore_min" @change="getChangeData(curractiveIndex,currYcpData.equip_no,'restore_min',`${currYcpData.restore_min}`)">
+                        <input type="text" v-model="currYcpData.restore_min" @change="getChangeData(curractiveIndex,currYcpData.equip_no,'restore_min',`${currYcpData.restore_min}`,`${currYcpData.yc_no}`)">
                         <div class="clear"></div>
                       </li>
                       <li>
                         <span>回复上限值：</span>
-                        <input type="text" v-model="currYcpData.restore_max" @change="getChangeData(curractiveIndex,currYcpData.equip_no,'restore_max',`${currYcpData.restore_max}`)">
+                        <input type="text" v-model="currYcpData.restore_max" @change="getChangeData(curractiveIndex,currYcpData.equip_no,'restore_max',`${currYcpData.restore_max}`,`${currYcpData.yc_no}`)">
                         <div class="clear"></div>
                       </li>
                       <li>
                         <span>上限值：</span>
-                        <input type="text" v-model="currYcpData.val_max" @change="getChangeData(curractiveIndex,currYcpData.equip_no,'val_max',`${currYcpData.val_max}`)">
+                        <input type="text" v-model="currYcpData.val_max" @change="getChangeData(curractiveIndex,currYcpData.equip_no,'val_max',`${currYcpData.val_max}`,`${currYcpData.yc_no}`)">
                         <div class="clear"></div>
                       </li>
                       <li>
                         <span>单位：</span>
-                        <input type="text" v-model="currYcpData.unit" @change="getChangeData(curractiveIndex,currYcpData.equip_no,'unit',`${currYcpData.unit}`)">
+                        <input type="text" v-model="currYcpData.unit" @change="getChangeData(curractiveIndex,currYcpData.equip_no,'unit',`${currYcpData.unit}`,`${currYcpData.yc_no}`)">
                         <div class="clear"></div>
                       </li>
                       <li>
                         <span>关联页面：</span>
-                        <input type="text" v-model="currYcpData.related_pic" @change="getChangeData(curractiveIndex,currYcpData.equip_no,'related_pic',`${currYcpData.related_pic}`)">
+                        <input type="text" v-model="currYcpData.related_pic" @change="getChangeData(curractiveIndex,currYcpData.equip_no,'related_pic',`${currYcpData.related_pic}`,`${currYcpData.yc_no}`)">
                         <div class="clear"></div>
                       </li>
                       <li>
                         <span>关联视频：</span>
-                        <select v-model="currYcpData.related_video" @change="getChangeData(curractiveIndex,currYcpData.equip_no,'related_video',currYcpData.related_video)">
-                          <option v-for="(item,index) of QueryTableData[1].value" :key="index" :value="item.related_video">{{item.related_video}}</option>
+                        <select v-model="currYcpData.related_video" @change="getChangeData(curractiveIndex,currYcpData.equip_no,'related_video',currYcpData.related_video,currYcpData.yc_no)">
+                          <option v-for="(item,index) of QueryTableData[1].value" :key="index">{{item.related_video}}</option>
                         </select>
+                        <!-- <input type="text" v-model="currYcpData.related_video" @change="getChangeData(curractiveIndex,currYcpData.equip_no,'related_video',`${currYcpData.related_video}`,`${currYcpData.yc_no}`)"> -->
                         <div class="clear"></div>
                       </li>
                       <li>
                         <span>资产编号：</span>
-                        <select v-model="currYcpData.ZiChanID" @change="getChangeData(curractiveIndex,currYcpData.equip_no,'ZiChanID',currYcpData.ZiChanID)">
-                          <option v-for="(item,index) of QueryTableData[2].value" :key="index" :value="item.ZiChanID">{{item.ZiChanName}}</option>
+                        <select v-model="currYcpData.ZiChanID" @change="getChangeData(curractiveIndex,currYcpData.equip_no,'ZiChanID',currYcpData.ZiChanID,currYcpData.yc_no)">
+                          <option v-for="(item,index) of QueryTableData[2].value" :key="index">{{item.ZiChanName}}</option>
                         </select>
                         <div class="clear"></div>
                       </li>
                       <li>
                         <span>预案号：</span>
-                        <select v-model="currYcpData.PlanNo" @change="getChangeData(curractiveIndex,currYcpData.equip_no,'PlanNo',currYcpData.PlanNo)">
-                          <option v-for="(item,index) of QueryTableData[3].value" :key="index" :value="item.PlanNo">{{item.PlanNo}}</option>
+                        <select v-model="currYcpData.PlanNo" @change="getChangeData(curractiveIndex,currYcpData.equip_no,'PlanNo',currYcpData.PlanNo,currYcpData.yc_no)">
+                          <option v-for="(item,index) of QueryTableData[3].value" :key="index">{{item.PlanNo}}</option>
                         </select>
                         <div class="clear"></div>
                       </li>
                       <li>
                         <span>曲线记录：</span>
-                        <input type="checkbox" :checked="currYcpData.curve_rcd" @change="getChangeData(curractiveIndex,currYcpData.equip_no,'curve_rcd',`${currYcpData.curve_rcd}`)">
+                        <input type="checkbox" :checked="currYcpData.curve_rcd" @change="getChangeData(curractiveIndex,currYcpData.equip_no,'curve_rcd',`${currYcpData.curve_rcd}`,currYcpData.yc_no)">
                         <!-- <input type="text" v-model="currYcpData.curve_rcd" >  -->
                         <div class="clear"></div>
                       </li>
@@ -289,12 +290,12 @@
                     <ul>
                       <li>
                         <span>显示报警：</span>
-                        <input type="checkbox" :checked="alarmSchemes(currYcpData.alarm_scheme,1)" @change="getChangeData(curractiveIndex,currYcpData.equip_no,'alarm_scheme',`${currYcpData.alarm_scheme+1}`)">
+                        <input type="checkbox" :checked="alarmSchemes(currYcpData.alarm_scheme,1)" @change="getChangeData(curractiveIndex,currYcpData.equip_no,'alarm_scheme',`${currYcpData.alarm_scheme+1}`,currYcpData.yc_no)">
                         <div class="clear"></div>
                       </li>
                       <li>
                         <span>记录报警：</span>
-                        <input type="checkbox" :checked="alarmSchemes(currYcpData.alarm_scheme,2)" @change="getChangeData(curractiveIndex,currYcpData.equip_no,'alarm_scheme',`${currYcpData.alarm_scheme+2}`)">
+                        <input type="checkbox" :checked="alarmSchemes(currYcpData.alarm_scheme,2)" @change="getChangeData(curractiveIndex,currYcpData.equip_no,'alarm_scheme',`${currYcpData.alarm_scheme+2}`,currYcpData.yc_no)">
                         <div class="clear"></div>
                       </li>
                       <li>
@@ -322,102 +323,102 @@
                     <ul>
                       <li>
                         <span>比例变换：</span>
-                        <input type="checkbox" :checked="currYcpData.mapping" @change="getChangeData(curractiveIndex,tableItemName[curractiveIndex].value[currentLiIndex].equip_no,'detail',tableItemName[curractiveIndex].value[currentLiIndex].detail)">
+                        <input type="checkbox" :checked="currYcpData.mapping" @change="getChangeData(curractiveIndex,tableItemName[curractiveIndex].value[currentLiIndex].equip_no,'detail',tableItemName[curractiveIndex].value[currentLiIndex].detail,currYcpData.yc_no)">
                         <div class="clear"></div>
                       </li>
                       <li>
                         <span>曲线记录阈值：</span>
-                        <input type="text" v-model="currYcpData.curve_limit" @change="getChangeData(curractiveIndex,currYcpData.equip_no,'curve_limit',currYcpData.curve_limit)">
+                        <input type="text" v-model="currYcpData.curve_limit" @change="getChangeData(curractiveIndex,currYcpData.equip_no,'curve_limit',currYcpData.curve_limit,currYcpData.yc_no)">
                         <div class="clear"></div>
                       </li>
                       <li>
                         <span>实测最小值：</span>
-                        <input type="text" v-model="currYcpData.yc_min" @change="getChangeData(curractiveIndex,currYcpData.equip_no,'yc_min',currYcpData.yc_min)">
+                        <input type="text" v-model="currYcpData.yc_min" @change="getChangeData(curractiveIndex,currYcpData.equip_no,'yc_min',currYcpData.yc_min,currYcpData.yc_no)">
                         <div class="clear"></div>
                       </li>
                       <li>
                         <span>实测最大值：</span>
-                        <input type="text" v-model="currYcpData.yc_max" @change="getChangeData(curractiveIndex,currYcpData.equip_no,'yc_max',currYcpData.yc_max)">
+                        <input type="text" v-model="currYcpData.yc_max" @change="getChangeData(curractiveIndex,currYcpData.equip_no,'yc_max',currYcpData.yc_max,currYcpData.yc_no)">
                         <div class="clear"></div>
                       </li>
                       <li>
                         <span>最小值：</span>
-                        <input type="text" v-model="currYcpData.physic_min" @change="getChangeData(curractiveIndex,currYcpData.equip_no,'physic_min',currYcpData.physic_min)">
+                        <input type="text" v-model="currYcpData.physic_min" @change="getChangeData(curractiveIndex,currYcpData.equip_no,'physic_min',currYcpData.physic_min,currYcpData.yc_no)">
                         <div class="clear"></div>
                       </li>
                       <li>
                         <span>最大值：</span>
-                        <input type="text" v-model="currYcpData.physic_max" @change="getChangeData(curractiveIndex,currYcpData.equip_no,'physic_max',currYcpData.physic_max)">
+                        <input type="text" v-model="currYcpData.physic_max" @change="getChangeData(curractiveIndex,currYcpData.equip_no,'physic_max',currYcpData.physic_max),currYcpData.yc_no">
                         <div class="clear"></div>
                       </li>
                       <li>
                         <span>属性值：</span>
-                        <input type="text" v-model="currYcpData.val_trait" @change="getChangeData(curractiveIndex,currYcpData.equip_no,'val_trait',currYcpData.val_trait)">
+                        <input type="text" v-model="currYcpData.val_trait" @change="getChangeData(curractiveIndex,currYcpData.equip_no,'val_trait',currYcpData.val_trait,currYcpData.yc_no)">
                         <div class="clear"></div>
                       </li>
                       <li>
                         <span>操作指令：</span>
-                        <input type="text" v-model="currYcpData.main_instruction" @change="getChangeData(curractiveIndex,currYcpData.equip_no,'main_instruction',currYcpData.main_instruction)">
+                        <input type="text" v-model="currYcpData.main_instruction" @change="getChangeData(curractiveIndex,currYcpData.equip_no,'main_instruction',currYcpData.main_instruction,currYcpData.yc_no)">
                         <div class="clear"></div>
                       </li>
                       <li>
                         <span>操作参数：</span>
-                        <input type="text" v-model="currYcpData.minor_instruction" @change="getChangeData(curractiveIndex,currYcpData.equip_no,'minor_instruction',currYcpData.minor_instruction)">
+                        <input type="text" v-model="currYcpData.minor_instruction" @change="getChangeData(curractiveIndex,currYcpData.equip_no,'minor_instruction',currYcpData.minor_instruction,currYcpData.yc_no)">
                         <div class="clear"></div>
                       </li>
                       <li>
                         <span>越线滞纳时间(秒)：</span>
-                        <input type="text" v-model="currYcpData.alarm_acceptable_time" @change="getChangeData(curractiveIndex,currYcpData.equip_no,'alarm_acceptable_time',currYcpData.alarm_acceptable_time)">
+                        <input type="text" v-model="currYcpData.alarm_acceptable_time" @change="getChangeData(curractiveIndex,currYcpData.equip_no,'alarm_acceptable_time',currYcpData.alarm_acceptable_time,currYcpData.yc_no)">
                         <div class="clear"></div>
                       </li>
                       <li>
                         <span>恢复滞纳时间(秒)：</span>
-                        <input type="text" v-model="currYcpData.restore_acceptable_time" @change="getChangeData(curractiveIndex,currYcpData.equip_no,'restore_acceptable_time',currYcpData.restore_acceptable_time)">
+                        <input type="text" v-model="currYcpData.restore_acceptable_time" @change="getChangeData(curractiveIndex,currYcpData.equip_no,'restore_acceptable_time',currYcpData.restore_acceptable_time,currYcpData.yc_no)">
                         <div class="clear"></div>
                       </li>
                       <li>
                         <span>重复报警时间（分钟）：</span>
-                        <input type="text" v-model="currYcpData.alarm_repeat_time" @change="getChangeData(curractiveIndex,currYcpData.equip_no,'alarm_repeat_time',currYcpData.alarm_repeat_time)">
+                        <input type="text" v-model="currYcpData.alarm_repeat_time" @change="getChangeData(curractiveIndex,currYcpData.equip_no,'alarm_repeat_time',currYcpData.alarm_repeat_time,currYcpData.yc_no)">
                         <div class="clear"></div>
                       </li>
                       <li>
                         <span>处理意见：</span>
-                        <input type="text" v-model="currYcpData.proc_advice" @change="getChangeData(curractiveIndex,currYcpData.equip_no,'proc_advice',currYcpData.proc_advice)">
+                        <input type="text" v-model="currYcpData.proc_advice" @change="getChangeData(curractiveIndex,currYcpData.equip_no,'proc_advice',currYcpData.proc_advice,currYcpData.yc_no)">
                         <div class="clear"></div>
                       </li>
                       <li>
                         <span>报警级别：</span>
-                        <input type="text" v-model="currYcpData.lvl_level" @change="getChangeData(curractiveIndex,currYcpData.equip_no,'lvl_level',currYcpData.lvl_level)">
+                        <input type="text" v-model="currYcpData.lvl_level" @change="getChangeData(curractiveIndex,currYcpData.equip_no,'lvl_level',currYcpData.lvl_level,currYcpData.yc_no)">
                         <div class="clear"></div>
                       </li>
                       <li>
                         <span>报警升级周期：</span>
-                        <input type="text" v-model="currYcpData.AlarmRiseCycle" @change="getChangeData(curractiveIndex,currYcpData.equip_no,'AlarmRiseCycle',currYcpData.AlarmRiseCycle)">
+                        <input type="text" v-model="currYcpData.AlarmRiseCycle" @change="getChangeData(curractiveIndex,currYcpData.equip_no,'AlarmRiseCycle',currYcpData.AlarmRiseCycle,currYcpData.yc_no)">
                         <div class="clear"></div>
                       </li>
                       <li>
                         <span>越下限事件：</span>
-                        <input type="text" v-model="currYcpData.outmin_evt" @change="getChangeData(curractiveIndex,currYcpData.equip_no,'outmin_evt',currYcpData.outmin_evt)">
+                        <input type="text" v-model="currYcpData.outmin_evt" @change="getChangeData(curractiveIndex,currYcpData.equip_no,'outmin_evt',currYcpData.outmin_evt,currYcpData.yc_no)">
                         <div class="clear"></div>
                       </li>
                       <li>
                         <span>越上限事件：</span>
-                        <input type="text" v-model="currYcpData.outmax_evt" @change="getChangeData(curractiveIndex,currYcpData.equip_no,'outmax_evt',currYcpData.outmax_evt)">
+                        <input type="text" v-model="currYcpData.outmax_evt" @change="getChangeData(curractiveIndex,currYcpData.equip_no,'outmax_evt',currYcpData.outmax_evt,currYcpData.yc_no)">
                         <div class="clear"></div>
                       </li>
                       <li>
                         <span>声音文件：</span>
-                        <input type="text" v-model="currYcpData.wave_file" @change="getChangeData(curractiveIndex,currYcpData.equip_no,'wave_file',currYcpData.wave_file)">
+                        <input type="text" v-model="currYcpData.wave_file" @change="getChangeData(curractiveIndex,currYcpData.equip_no,'wave_file',currYcpData.wave_file,currYcpData.yc_no)">
                         <div class="clear"></div>
                       </li>
                       <li>
                         <span>报警屏蔽：</span>
-                        <input type="text" v-model="currYcpData.alarm_shield" @change="getChangeData(curractiveIndex,currYcpData.equip_no,'alarm_shield',currYcpData.alarm_shield)">
+                        <input type="text" v-model="currYcpData.alarm_shield" @change="getChangeData(curractiveIndex,currYcpData.equip_no,'alarm_shield',currYcpData.alarm_shield,currYcpData.yc_no)">
                         <div class="clear"></div>
                       </li>
                       <li>
                         <span>安全时段：</span>
-                        <input type="text" v-model="currYcpData.SafeTime" @change="getChangeData(curractiveIndex,currYcpData.equip_no,'SafeTime',currYcpData.SafeTime)">
+                        <input type="text" v-model="currYcpData.SafeTime" @change="getChangeData(curractiveIndex,currYcpData.equip_no,'SafeTime',currYcpData.SafeTime,currYcpData.yc_no)">
                         <div class="clear"></div>
                       </li>
                     </ul>
@@ -430,6 +431,205 @@
                 </div>
               </div>
             </article>
+            <article v-if="curractiveIndex==2">
+              <div id="commonlyList_Equip" v-if="!advancedConfigStatus[curractiveIndex]">
+                <!-- TODO:此处好像不能用虚标签做状态切换 -->
+                <div class="system_plug_list">
+                  <div class="listStyle">
+                    <select @change="selectYxpIndex()" v-model='currentId'>
+                      <option v-for="(item,index) of getEquipName" :key="index" :value="item.id">{{item.label}}</option>
+                    </select>
+                    <div class="system_plug_list_lStyle">
+                      <ul id="treeList_plug_ycp">
+                        <li v-for="(item,index) of yxpList" :key="index" :class="{active:currYxpIndex==index}" @click="selectYxpData(index)">{{item.yx_nm}}</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div class="system_plug_Data">
+                  <div class="sys_plug_ul_height_1">
+                    <ul>
+                      <li>
+                        <span>设备号：</span>
+                        <b>{{currYxpData.equip_no}}</b>
+                        <div class="clear"></div>
+                      </li>
+                      <li>
+                        <span>状态量编号：</span>
+                        <b>{{currYxpData.yx_no}}</b>
+                        <div class="clear"></div>
+                      </li>
+                      <li>
+                        <span>状态量名称：</span>
+                        <input type="text" v-model="currYxpData.yx_nm" @change="getChangeData(curractiveIndex,currYxpData.equip_no,'yx_nm',`${currYxpData.yx_nm}`,`${currYxpData.yx_no}`)">
+                        <div class="clear"></div>
+                      </li>
+                      <li>
+                        <span>0-1事件：</span>
+                        <input type="text" v-model="currYxpData.evt_01" @change="getChangeData(curractiveIndex,currYxpData.equip_no,'evt_01',`${currYxpData.evt_01}`,`${currYxpData.yx_no}`)">
+                        <div class="clear"></div>
+                      </li>
+                      <li>
+                        <span>1-0事件：</span>
+                        <input type="text" v-model="currYxpData.evt_10" @change="getChangeData(curractiveIndex,currYxpData.equip_no,'evt_10',`${currYxpData.evt_10}`,`${currYxpData.yx_no}`)">
+                        <div class="clear"></div>
+                      </li>
+                      <li>
+                        <span>关联页面：</span>
+                        <input type="text" v-model="currYxpData.related_pic" @change="getChangeData(curractiveIndex,currYxpData.equip_no,'related_pic',`${currYxpData.related_pic}`,`${currYxpData.yx_no}`)">
+                        <div class="clear"></div>
+                      </li>
+                      <li>
+                        <span>关联视频：</span>
+                        <select v-model="currYxpData.related_video" @change="getChangeData(curractiveIndex,currYxpData.equip_no,'related_video',currYxpData.related_video,currYxpData.yx_no)">
+                          <option v-for="(item,index) of QueryTableData[1].value" :key="index">{{item.related_video}}</option>
+                        </select>
+                        <!-- <input type="text" v-model="currYxpData.related_video" @change="getChangeData(curractiveIndex,currYxpData.equip_no,'related_video',`${currYxpData.related_video}`,`${currYxpData.yx_no}`)"> -->
+                        <div class="clear"></div>
+                      </li>
+                      <li>
+                        <span>资产编号：</span>
+                        <select v-model="currYxpData.ZiChanID" @change="getChangeData(curractiveIndex,currYxpData.equip_no,'ZiChanID',currYxpData.ZiChanID,currYxpData.yx_no)">
+                          <option v-for="(item,index) of QueryTableData[2].value" :key="index">{{item.ZiChanName}}</option>
+                        </select>
+                        <div class="clear"></div>
+                      </li>
+                      <li>
+                        <span>预案号：</span>
+                        <select v-model="currYxpData.PlanNo" @change="getChangeData(curractiveIndex,currYxpData.equip_no,'PlanNo',currYxpData.PlanNo,currYxpData.yx_no)">
+                          <option v-for="(item,index) of QueryTableData[3].value" :key="index">{{item.PlanNo}}</option>
+                        </select>
+                        <div class="clear"></div>
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="sys_plug_ul_height_2">
+                    <ul>
+                      <li>
+                        <span>显示报警：</span>
+                        <input type="checkbox" :checked="alarmSchemes(currYxpData.alarm_scheme,1)" @change="getChangeData(curractiveIndex,currYxpData.equip_no,'alarm_scheme',`${currYxpData.alarm_scheme+1}`,currYxpData.yx_no)">
+                        <div class="clear"></div>
+                      </li>
+                      <li>
+                        <span>记录报警：</span>
+                        <input type="checkbox" :checked="alarmSchemes(currYxpData.alarm_scheme,2)" @change="getChangeData(curractiveIndex,currYxpData.equip_no,'alarm_scheme',`${currYxpData.alarm_scheme+2}`,currYxpData.yx_no)">
+                        <div class="clear"></div>
+                      </li>
+                      <li>
+                        <!-- TODO:不确定判断字段 -->
+                        <span>Eamil报警</span>
+                        <input type="checkbox">
+                        <div class="clear"></div>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="system_plug_botton">
+                  <p>
+                    <span>配置更多属性，请单击</span>
+                    <button class="advancedSetparm" @click="advancedConfigUpdata()">
+                      高级配置
+                    </button>
+                  </p>
+                </div>
+              </div>
+              <!-- 状态量--高级配置页面 -->
+              <div id="advancedList_Equip" v-if="advancedConfigStatus[curractiveIndex]">
+                <div class="system_plug_Data">
+                  <div class="listStyle">
+                    <ul>
+                      <li>
+                        <span>取反：</span>
+                        <input type="checkbox" :checked="currYxpData.inversion" @change="getChangeData(curractiveIndex,currYxpData.equip_no,'inversion',currYxpData.inversion,currYxpData.yx_no)">
+                        <div class="clear"></div>
+                      </li>
+                      <li>
+                        <span>处理意见0-1：</span>
+                        <input type="text" v-model="currYxpData.proc_advice_r" @change="getChangeData(curractiveIndex,currYxpData.equip_no,'proc_advice_r',currYxpData.proc_advice_r,currYxpData.yx_no)">
+                        <div class="clear"></div>
+                      </li>
+                      <li>
+                        <span>处理意见1-0：</span>
+                        <input type="text" v-model="currYxpData.proc_advice_d" @change="getChangeData(curractiveIndex,currYxpData.equip_no,'proc_advice_d',currYxpData.proc_advice_d,currYxpData.yx_no)">
+                        <div class="clear"></div>
+                      </li>
+                      <li>
+                        <span>0-1级别：</span>
+                        <input type="text" v-model="currYxpData.level_r" @change="getChangeData(curractiveIndex,currYxpData.equip_no,'level_r',currYxpData.level_r,currYxpData.yx_no)">
+                        <div class="clear"></div>
+                      </li>
+                      <li>
+                        <span>1-0级别：</span>
+                        <input type="text" v-model="currYxpData.level_d" @change="getChangeData(curractiveIndex,currYxpData.equip_no,'level_d',currYxpData.level_d,currYxpData.yx_no)">
+                        <div class="clear"></div>
+                      </li>
+                      <li>
+                        <span>初始状态：</span>
+                        <input type="text" v-model="currYxpData.initval" @change="getChangeData(curractiveIndex,currYxpData.equip_no,'initval',currYxpData.initval),currYxpData.yx_no">
+                        <div class="clear"></div>
+                      </li>
+                      <li>
+                        <span>属性值：</span>
+                        <input type="text" v-model="currYxpData.val_trait" @change="getChangeData(curractiveIndex,currYxpData.equip_no,'val_trait',currYxpData.val_trait,currYxpData.yx_no)">
+                        <div class="clear"></div>
+                      </li>
+                      <li>
+                        <span>操作指令：</span>
+                        <input type="text" v-model="currYxpData.main_instruction" @change="getChangeData(curractiveIndex,currYxpData.equip_no,'main_instruction',currYxpData.main_instruction,currYxpData.yx_no)">
+                        <div class="clear"></div>
+                      </li>
+                      <li>
+                        <span>操作参数：</span>
+                        <input type="text" v-model="currYxpData.minor_instruction" @change="getChangeData(curractiveIndex,currYxpData.equip_no,'minor_instruction',currYxpData.minor_instruction,currYxpData.yx_no)">
+                        <div class="clear"></div>
+                      </li>
+                      <li>
+                        <span>越线滞纳时间(秒)：</span>
+                        <input type="text" v-model="currYxpData.alarm_acceptable_time" @change="getChangeData(curractiveIndex,currYxpData.equip_no,'alarm_acceptable_time',currYxpData.alarm_acceptable_time,currYxpData.yx_no)">
+                        <div class="clear"></div>
+                      </li>
+                      <li>
+                        <span>恢复滞纳时间(秒)：</span>
+                        <input type="text" v-model="currYxpData.restore_acceptable_time" @change="getChangeData(curractiveIndex,currYxpData.equip_no,'restore_acceptable_time',currYxpData.restore_acceptable_time,currYxpData.yx_no)">
+                        <div class="clear"></div>
+                      </li>
+                      <li>
+                        <span>重复报警时间（分钟）：</span>
+                        <input type="text" v-model="currYxpData.alarm_repeat_time" @change="getChangeData(curractiveIndex,currYxpData.equip_no,'alarm_repeat_time',currYxpData.alarm_repeat_time,currYxpData.yx_no)">
+                        <div class="clear"></div>
+                      </li>
+                      <li>
+                        <span>声音文件：</span>
+                        <input type="text" v-model="currYxpData.wave_file" @change="getChangeData(curractiveIndex,currYxpData.equip_no,'wave_file',currYxpData.wave_file,currYxpData.yx_no)">
+                        <div class="clear"></div>
+                      </li>
+                      <li>
+                        <span>报警屏蔽：</span>
+                        <input type="text" v-model="currYxpData.alarm_shield" @change="getChangeData(curractiveIndex,currYxpData.equip_no,'alarm_shield',currYxpData.alarm_shield,currYxpData.yx_no)">
+                        <div class="clear"></div>
+                      </li>
+                      <li>
+                        <span>报警升级周期(分钟)：</span>
+                        <input type="text" v-model="currYxpData.AlarmRiseCycle" @change="getChangeData(curractiveIndex,currYxpData.equip_no,'AlarmRiseCycle',currYxpData.AlarmRiseCycle,currYxpData.yx_no)">
+                        <div class="clear"></div>
+                      </li>
+                      <li>
+                        <span>安全时段：</span>
+                        <input type="text" v-model="currYxpData.SafeTime" @change="getChangeData(curractiveIndex,currYxpData.equip_no,'SafeTime',currYxpData.SafeTime,currYxpData.yx_no)">
+                        <div class="clear"></div>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="system_plug_botton">
+                  <p>
+                    <button @click="advancedConfigUpdata()">返回</button>
+                  </p>
+                </div>
+              </div>
+            </article>
+            <!-- <setparm class="setparm" v-if="curractiveIndex==2" :equip-no-arr-a="equipNoArr" :table-item-name="tableItemName" :curractive-index="curractiveIndex"></setparm> -->
+            <setparm class="setparm" v-if="curractiveIndex==3" :equip-no-arr-a="equipNoArr" :table-item-name="tableItemName" :curractive-index="curractiveIndex"></setparm>
           </div>
         </div>
       </template>
@@ -445,6 +645,7 @@
 </template>
 
  <script type="es6">
+import setparm from './optionModal/SetParm'
 
 Array.prototype.remove = function (from, to) {
   var rest = this.slice((to || from) + 1 || this.length);
@@ -468,6 +669,7 @@ export default {
       curractiveIndex: 0,
       tableItemName: this.optionModelData,
       equipData: '',
+      equipNoArr: [],
       QueryTableData: [{
         name: "AlarmProc",
         value: ''
@@ -481,7 +683,8 @@ export default {
         name: "GWPlan",
         value: ''
       }],
-      yxpList: [],
+      // 模拟量变量
+      ycpList: [],
       currYcpIndex: '',
       currYcpData: {
         equip_no: '',
@@ -493,6 +696,20 @@ export default {
         val_max: '',
         unit: '',
         related_pic: ''
+      },
+      // 状态量变量
+      yxpList: [],
+      currYxpIndex: '',
+      currYxpData: {
+        equip_no: '',
+        yx_no: '',
+        yx_nm: '',
+        evt_01: '',
+        evt_10: '',
+        related_pic: '',
+        related_video: '',
+        ZiChanID: '',
+        PlanNo: ''
       }
     }
   },
@@ -500,15 +717,27 @@ export default {
     this.getQueryTableData()
   },
   methods: {
-    selectYvpDate(index) {
-      this.currYcpIndex = index
-      this.currYcpData = this.yxpList[this.currYcpIndex]
-    },
     selectYxpIndex() {
       this.yxpList = [];
       for (let item of this.tableItemName[this.curractiveIndex].value) {
         if (this.currentId === item.equip_no) {
           this.yxpList.push(item);
+        }
+      }
+    },
+    selectYxpData(index) {
+      this.currYxpIndex = index
+      this.currYxpData = this.yxpList[this.currYxpIndex]
+    },
+    selectYcpData(index) {
+      this.currYcpIndex = index
+      this.currYcpData = this.ycpList[this.currYcpIndex]
+    },
+    selectYcpIndex() {
+      this.ycpList = [];
+      for (let item of this.tableItemName[this.curractiveIndex].value) {
+        if (this.currentId === item.equip_no) {
+          this.ycpList.push(item);
         }
       }
     },
@@ -521,22 +750,26 @@ export default {
     // 应用按钮单机事件
     onUsingModals() {
       const urlArr = ["SystemEquipChange", "SystemYcpChange", "SystemYxpChange", "SystemSetParmChange"];
-      // this.$http.all(this.$http.post(`${this.$store.state.urlCommon}${urlArr[0]}`, {
-      //   jsonChange: JSON.stringify(this.jsonChange[0])
-      // }), this.$http.post(`${this.$store.state.urlCommon}${urlArr[1]}`, {
-      //   jsonChange: JSON.stringify(this.jsonChange[1])
-      // }), this.$http.post(`${this.$store.state.urlCommon}${urlArr[2]}`, {
-      //   jsonChange: JSON.stringify(this.jsonChange[2])
-      // }), this.$http.post(`${this.$store.state.urlCommon}${urlArr[3]}`, {
-      //   jsonChange: JSON.stringify(this.jsonChange[3])
-      // })).then(this.$http.spread((res0, res1, res2, res3) => {
-      //   console.log(arguments);
-      // }));
-       this.$http.post(`${this.$store.state.urlCommon}${urlArr[1]}`, {
+      console.log(JSON.stringify(this.jsonChange[1]));
+      this.$http.all(this.$http.post(`${this.$store.state.urlCommon}${urlArr[0]}`, {
+        jsonChange: JSON.stringify(this.jsonChange[0])
+      }), this.$http.post(`${this.$store.state.urlCommon}${urlArr[1]}`, {
         jsonChange: JSON.stringify(this.jsonChange[1])
-      }).then((res)=>{
-        console.log(res.data.d);
-      })
+      }), this.$http.post(`${this.$store.state.urlCommon}${urlArr[2]}`, {
+        jsonChange: JSON.stringify(this.jsonChange[2])
+      }), this.$http.post(`${this.$store.state.urlCommon}${urlArr[3]}`, {
+        jsonChange: JSON.stringify(this.jsonChange[3])
+      })).then(this.$http.spread((res0, res1, res2, res3) => {
+        if (res1 == "true") {
+          console.log(tableName + "，修改成功");
+        }
+        else if (res1 == "false") {
+          console.log(tableName + "，未修改成功");
+        }
+        else {
+          console.log(tableName + "，部分修改成功");
+        }
+      }));
     },
     // 更改当前选项卡高级配置页面状态
     advancedConfigUpdata() {
@@ -545,6 +778,17 @@ export default {
     },
     select(param) {
       this.curractiveIndex = param
+      // this.equipNoArr=this.$store.state.equipNoArr;
+      let temEquipNo = this.$store.state.equipNoArr;
+      //遍历获取选中列表的设备信息传入子组件
+      temEquipNo.forEach((item_EquipNo) => {
+        for (let item_EquipName of this.getEquipName) {
+          if (item_EquipNo == item_EquipName.id) {
+            this.equipNoArr.push(item_EquipName);
+            break
+          }
+        }
+      })
     },
     exitModel() {
       this.$store.commit("optionModalStatus")
@@ -582,7 +826,8 @@ export default {
       }
     },
     // 获取更改的设备值
-    getChangeData(curractiveIndex, id, listName, value) {
+    getChangeData(curractiveIndex, id, listName, vlaue, yc_no) {
+      debugger
       let temArr = this.jsonChange[curractiveIndex]
       // 做一次过滤
       for (let index = 0; index < temArr.length; index++) {
@@ -591,11 +836,35 @@ export default {
           temArr.remove(index);
         }
       }
-      let obj = {
-        id,
-        listName,
-        value
-      };
+      let obj;
+      switch (curractiveIndex) {
+        case 0:
+          obj = {
+            id,
+            listName,
+            vlaue: `${vlaue}`
+          };
+          break;
+        case 1:
+          obj = {
+            id,
+            yc_no: yc_no,
+            listName,
+            vlaue: `${vlaue}`
+          };
+          break;
+        case 2:
+          obj = {
+            id,
+            yx_no: yc_no,
+            listName,
+            vlaue: vlaue ? `${vlaue}` : ""
+          };
+          break;
+        default:
+          break;
+      }
+
       temArr.push(obj)
     },
   },
@@ -603,25 +872,10 @@ export default {
     // 获取设备列表数据
     getEquipName() {
       return this.$store.state.optiontreeData[0].children
-    },
-    // 获取当前选中的模拟量测点
-    // currYcpData() {
-    //   if (this.currYcpIndex == "" || this.yxpList.length == 0) {
-    //     return {
-    //       equip_no: '',
-    //       yc_no: '',
-    //       yc_nm: '',
-    //       val_min: '',
-    //       restore_min: '',
-    //       restore_max: '',
-    //       val_max: '',
-    //       unit: '',
-    //       related_pic: ''
-    //     }
-    //   }
-    //   // return this.yxpList[this.currYcpIndex]
-    //   return this.yxpList
-    // }
+    }
+  },
+  components: {
+    setparm
   }
 }
 </script>
@@ -972,6 +1226,10 @@ export default {
               }
             }
           }
+        }
+        .setparm {
+          @include absoluteWH(auto, auto);
+          @include trbl(0, 0, 0, 0);
         }
         .active {
           display: block;

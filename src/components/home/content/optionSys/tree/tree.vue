@@ -74,16 +74,13 @@ export default {
     getSelectedNodeIds() {
       const allnodes = this.store.datas
       let selectedNodeIds = []
-      // debugger
       for (let [, node] of allnodes) {
         for (let nodeId of node.children) {
-          // debugger
           if (nodeId.checked) {
             selectedNodeIds.push(nodeId.id)
           }
         }
       }
-      // console.log(selectedNodeIds);
       return selectedNodeIds
     }
   },

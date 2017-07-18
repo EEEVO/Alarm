@@ -63,7 +63,6 @@ export default {
     },
     getEquipNo() {
       this.equipNo = this.$refs.tree.getSelectedNodeIds()
-      console.log("2。父组件查数据");
     },
     httpEquipItemList() {
       // 请求树形菜单数据
