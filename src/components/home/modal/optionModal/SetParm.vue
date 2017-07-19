@@ -17,7 +17,7 @@
       <!-- 右侧内容块 -->
       <div class="content">
         <div class="content_list">
-          <ul>
+          <ul @change="getChangeValue($event)">
             <li>
               <span>设备号：</span>
               <b>{{currentEquipMsgObj.equip_no}}</b>
@@ -30,12 +30,12 @@
             </li>
             <li>
               <span>设置名称：</span>
-              <input type="text" v-model="currentEquipMsgObj.set_nm">
+              <input type="text" v-model="currentEquipMsgObj.set_nm" listName="set_nm">
               <div class="clear"></div>
             </li>
             <li>
               <span>值：</span>
-              <input type="text" v-model="currentEquipMsgObj.value">
+              <input type="text" v-model="currentEquipMsgObj.value" listName="value">
               <div class="clear"></div>
             </li>
           </ul>
@@ -51,35 +51,35 @@
     <template v-if="this.advancedConfig_STATUS">
       <div class="detailedConfig">
         <div class="content_list">
-          <ul>
+          <ul @change="getChangeValue($event)">
             <li>
               <span>设置类型：</span>
-              <input type="text" v-model="currentEquipMsgObj.set_type">
+              <input type="text" v-model="currentEquipMsgObj.set_type" listName="set_type">
               <div class="clear"></div>
             </li>
             <li>
               <span>动作：</span>
-              <input type="text" v-model="currentEquipMsgObj.action">
+              <input type="text" v-model="currentEquipMsgObj.action" listName="action">
               <div class="clear"></div>
             </li>
             <li>
               <span>操作命令：</span>
-              <input type="text" v-model="currentEquipMsgObj.main_instruction">
+              <input type="text" v-model="currentEquipMsgObj.main_instruction" listName="main_instruction">
               <div class="clear"></div>
             </li>
             <li>
               <span>操作参数：</span>
-              <input type="text" v-model="currentEquipMsgObj.minor_instruction">
+              <input type="text" v-model="currentEquipMsgObj.minor_instruction" listName="minor_instruction">
               <div class="clear"></div>
             </li>
             <li>
               <span>记录：</span>
-              <input type="checkbox" :checked="currentEquipMsgObj.record">
+              <input type="checkbox" :checked="currentEquipMsgObj.record" listName="record" @click="updataCheckbox($event,'record')">
               <div class="clear"></div>
             </li>
             <li>
               <span>是否可以执行：</span>
-              <input type="checkbox" :checked="currentEquipMsgObj.canexecution">
+              <input type="checkbox" :checked="currentEquipMsgObj.canexecution" listName="canexecution" @click="updataCheckbox($event,'canexecution')">
               <div class="clear"></div>
             </li>
           </ul>
@@ -106,10 +106,39 @@ export default {
       // 当前被选中的设备详细信息index
       currentEquipMsgObjIndex: '',
       // 当前被选中的设备详细信息
-      currentEquipMsgObj: {}
+      currentEquipMsgObj: {},
+
+      // 提交上去的jsonChange
+      temJsonChange: []
     }
   },
   methods: {
+    updataCheckbox(e, item) {
+      this.currentEquipMsgObj[item] = e.target.checked
+    },
+    getChangeValue(e) {
+      let temObj
+      if (e.target.type === "checkbox") {
+        temObj = {
+          id: this.currentEquipMsgObj.equip_no,
+          SetParm_ID: this.currentEquipMsgObj.set_no,
+          listName: e.target.getAttribute('listName'),
+          // vlaue: e.target.checked
+          vlaue: `'${e.target.checked}'`
+        }
+      } else {
+        temObj = {
+          id: this.currentEquipMsgObj.equip_no,
+          SetParm_ID: this.currentEquipMsgObj.set_no,
+          listName: e.target.getAttribute('listName'),
+          // vlaue: e.target.value
+          vlaue: `'${e.target.value}'`
+        }
+      }
+      this.temJsonChange.push(temObj)
+      // console.log(temObj);
+      this.$emit("getJsonChangeArr", temObj)
+    },
     advancedConfig() {
       this.advancedConfig_STATUS = !this.advancedConfig_STATUS
     },
@@ -145,7 +174,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import '../../../../style/mixin.scss';
 
 @mixin ul-li {
@@ -205,6 +234,45 @@ export default {
     }
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

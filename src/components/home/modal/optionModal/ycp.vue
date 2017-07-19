@@ -3,10 +3,14 @@
     <template v-if="!this.advancedConfig_STATUS">
       <!-- 左侧列表 -->
       <div class="nav">
+        <!-- 导航条件选择快 -->
+        <select class="nav_source" v-model="currentEquipNo" @change="getCurrentEquipMsg()">
+          <option value="" v-for="(item,index) of equipNoArr" :key="index" :value="item.id">{{item.label}}</option>
+        </select>
         <!-- 导航列表 -->
         <div class="nav_list">
           <ul>
-            <li v-for="(item,index) of equipNoArr.value" :key="index" @click="getEquipMsgObj(item,index)" :class="{active:currentEquipMsgObjIndex==index}">{{item.equip_nm}}</li>
+            <li v-for="(item,index) of currentEquipMsg" :key="index" @click="getEquipMsgObj(item,index)" :class="{active:currentEquipMsgObjIndex==index}">{{item.yc_nm}}</li>
           </ul>
         </div>
       </div>
@@ -21,8 +25,38 @@
               <div class="clear"></div>
             </li>
             <li>
-              <span>设备名称： </span>
-              <input type="text" v-model="currentEquipMsgObj.equip_nm" listName="equip_nm">
+              <span>模拟量编号： </span>
+              <b>{{currentEquipMsgObj.yc_no}}</b>
+              <div class="clear"></div>
+            </li>
+            <li>
+              <span>模拟量名称：</span>
+              <input type="text" v-model="currentEquipMsgObj.yc_nm" listName="yc_nm">
+              <div class="clear"></div>
+            </li>
+            <li>
+              <span>下限值：</span>
+              <input type="text" v-model="currentEquipMsgObj.val_min" listName="val_min">
+              <div class="clear"></div>
+            </li>
+            <li>
+              <span>回复下限值：</span>
+              <input type="text" v-model="currentEquipMsgObj.restore_min" listName="restore_min">
+              <div class="clear"></div>
+            </li>
+            <li>
+              <span>回复上限值：</span>
+              <input type="text" v-model="currentEquipMsgObj.restore_max" listName="restore_max">
+              <div class="clear"></div>
+            </li>
+            <li>
+              <span>上限值：</span>
+              <input type="text" v-model="currentEquipMsgObj.val_max" listName="val_max">
+              <div class="clear"></div>
+            </li>
+            <li>
+              <span>单位：</span>
+              <input type="text" v-model="currentEquipMsgObj.unit" listName="unit">
               <div class="clear"></div>
             </li>
             <li>
@@ -49,6 +83,11 @@
               <select v-model="currentEquipMsgObj.PlanNo" listName="PlanNo">
                 <option v-for="(item,index) of QueryTableData[3].value" :key="index">{{item.PlanNo}}</option>
               </select>
+              <div class="clear"></div>
+            </li>
+            <li>
+              <span>曲线记录：</span>
+              <input type="checkbox" :checked="currentEquipMsgObj.curve_rcd" listName="curve_rcd">
               <div class="clear"></div>
             </li>
           </ul>
@@ -87,61 +126,73 @@
         <div class="content_list">
           <ul @change="getChangeValue($event)">
             <li>
-              <span>设备属性：</span>
-              <input type="text" v-model="currentEquipMsgObj.detail" listName="detail">
+              <span>比例变换：</span>
+              <input type="checkbox" :checked="currentEquipMsgObj.mapping" listName="mapping">
               <div class="clear"></div>
             </li>
             <li>
-              <span>通讯刷新周期：</span>
-              <input type="text" v-model="currentEquipMsgObj.acc_cyc" listName="acc_cyc">
+              <span>曲线记录阈值：</span>
+              <input type="text" v-model="currentEquipMsgObj.curve_limit" listName="curve_limit">
               <div class="clear"></div>
             </li>
             <li>
-              <span>通故障处理意见：</span>
+              <span>实测最小值：</span>
+              <input type="text" v-model="currentEquipMsgObj.yc_min" listName="yc_min">
+              <div class="clear"></div>
+            </li>
+            <li>
+              <span>实测最大值：</span>
+              <input type="text" v-model="currentEquipMsgObj.yc_max" listName="yc_max">
+              <div class="clear"></div>
+            </li>
+            <li>
+              <span>最小值：</span>
+              <input type="text" v-model="currentEquipMsgObj.physic_min" listName="physic_min">
+              <div class="clear"></div>
+            </li>
+            <li>
+              <span>最大值：</span>
+              <input type="text" v-model="currentEquipMsgObj.physic_max" listName="physic_max">
+              <div class="clear"></div>
+            </li>
+            <li>
+              <span>属性值：</span>
+              <input type="text" v-model="currentEquipMsgObj.val_trait" listName="val_trait">
+              <div class="clear"></div>
+            </li>
+            <li>
+              <span>操作指令：</span>
+              <input type="text" v-model="currentEquipMsgObj.main_instruction" listName="main_instruction">
+              <div class="clear"></div>
+            </li>
+            <li>
+              <span>操作参数：</span>
+              <input type="text" v-model="currentEquipMsgObj.minor_instruction" listName="minor_instruction">
+              <div class="clear"></div>
+            </li>
+            <li>
+              <span>越线滞纳时间(秒)：</span>
+              <input type="text" v-model="currentEquipMsgObj.alarm_acceptable_time" listName="alarm_acceptable_time">
+              <div class="clear"></div>
+            </li>
+            <li>
+              <span>恢复滞纳时间(秒)：</span>
+              <input type="text" v-model="currentEquipMsgObj.restore_acceptable_time" listName="restore_acceptable_time">
+              <div class="clear"></div>
+            </li>
+            <li>
+              <span>重复报警时间（分钟）：</span>
+              <input type="text" v-model="currentEquipMsgObj.alarm_repeat_time" listName="alarm_repeat_time">
+              <div class="clear"></div>
+            </li>
+            <li>
+              <span>处理意见：</span>
               <input type="text" v-model="currentEquipMsgObj.proc_advice" listName="proc_advice">
               <div class="clear"></div>
             </li>
             <li>
-              <span>故障提示：</span>
-              <input type="text" v-model="currentEquipMsgObj.out_of_contact" listName="out_of_contact">
-              <div class="clear"></div>
-            </li>
-            <li>
-              <span>故障恢复提示：</span>
-              <input type="text" v-model="currentEquipMsgObj.contacted" listName="contacted">
-              <div class="clear"></div>
-            </li>
-            <li>
-              <span>报警声音文件：</span>
-              <input type="text" v-model="currentEquipMsgObj.event_wav" listName="event_wav">
-              <div class="clear"></div>
-            </li>
-            <li>
-              <span>驱动文件：</span>
-              <input type="text" v-model="currentEquipMsgObj.communication_drv" listName="communication_drv">
-              <div class="clear"></div>
-            </li>
-  
-            <li>
-              <span>通讯端口：</span>
-              <input type="text" v-model="currentEquipMsgObj.local_addr" listName="local_addr">
-              <div class="clear"></div>
-            </li>
-  
-            <li>
-              <span>设备地址：</span>
-              <input type="text" v-model="currentEquipMsgObj.equip_addr" listName="equip_addr">
-              <div class="clear"></div>
-            </li>
-  
-            <li>
-              <span>通讯参数：</span>
-              <input type="text" v-model="currentEquipMsgObj.communication_param" listName="communication_param">
-              <div class="clear"></div>
-            </li>
-            <li>
-              <span>通讯时间参数：</span>
-              <input type="text" v-model="currentEquipMsgObj.communication_time_param" listName="communication_time_param">
+              <span>报警级别：</span>
+              <input type="text" v-model="currentEquipMsgObj.lvl_level" listName="lvl_level">
               <div class="clear"></div>
             </li>
             <li>
@@ -150,20 +201,26 @@
               <div class="clear"></div>
             </li>
             <li>
-              <span>模板设备号：</span>
-              <input type="text" v-model="currentEquipMsgObj.raw_equip_no" listName="raw_equip_no">
+              <span>越下限事件：</span>
+              <input type="text" v-model="currentEquipMsgObj.outmin_evt" listName="outmin_evt">
               <div class="clear"></div>
             </li>
             <li>
-              <span>附表名称：</span>
-              <input type="text" v-model="currentEquipMsgObj.tabname" listName="tabname">
+              <span>越上限事件：</span>
+              <input type="text" v-model="currentEquipMsgObj.outmax_evt" listName="outmax_evt">
               <div class="clear"></div>
             </li>
             <li>
-              <span>属性：</span>
-              <input type="text" v-model="currentEquipMsgObj.attrib" listName="attrib">
+              <span>声音文件：</span>
+              <input type="text" v-model="currentEquipMsgObj.wave_file" listName="wave_file">
               <div class="clear"></div>
             </li>
+            <li>
+              <span>报警屏蔽：</span>
+              <input type="text" v-model="currentEquipMsgObj.alarm_shield" listName="alarm_shield">
+              <div class="clear"></div>
+            </li>
+  
             <li>
               <span>安全时段：</span>
               <input type="text" v-model="currentEquipMsgObj.SafeTime" listName="SafeTime">
@@ -181,7 +238,7 @@
 
 <script type="es6">
 export default {
-  props: ["equipNoArrA", "curractiveIndex", "queryTableData"],
+  props: ["equipNoArrA", "tableItemName", "curractiveIndex", "queryTableData"],
   data() {
     return {
       advancedConfig_STATUS: false,
@@ -204,15 +261,16 @@ export default {
       this.currentEquipMsgObj[item] = e.target.checked
     },
     getChangeValue(e) {
-
-      if (!this.currentEquipMsgObj.equip_no) {
+      if (!this.currentEquipMsgObj.equip_no || !this.currentEquipMsgObj.yc_no) {
         return
       }
       let temObj
       if (e.target.type === "checkbox") {
         temObj = {
           id: this.currentEquipMsgObj.equip_no,
+          yc_no: this.currentEquipMsgObj.yc_no,
           listName: e.target.getAttribute('listName'),
+          // vlaue: e.target.checked
           vlaue: `'${e.target.checked}'`
         }
       } else {
@@ -221,7 +279,9 @@ export default {
         }
         temObj = {
           id: this.currentEquipMsgObj.equip_no,
+          yc_no: this.currentEquipMsgObj.yc_no,
           listName: e.target.getAttribute('listName'),
+          // vlaue: e.target.value
           vlaue: `'${e.target.value}'`
         }
       }
@@ -231,6 +291,16 @@ export default {
     },
     advancedConfig() {
       this.advancedConfig_STATUS = !this.advancedConfig_STATUS
+    },
+    // 通过select选中的设备号获取该设备下的测点什么的信息
+    getCurrentEquipMsg() {
+      this.currentEquipMsg = []
+      this.tableItemName[this.curractiveIndex].value.forEach((item) => {
+        if (this.currentEquipNo === item.equip_no) {
+          // debugger
+          this.currentEquipMsg.push(item);
+        }
+      })
     },
     // 点击二级设备列表获取当前详细信息
     getEquipMsgObj(item, index) {
@@ -248,7 +318,16 @@ export default {
   },
   computed: {
     equipNoArr() {
-      return this.equipNoArrA
+      let temArr = [];
+      this.equipNoArrA.forEach((itemA) => {
+        for (let itemB of this.tableItemName[this.curractiveIndex].value) {
+          if (itemA.id === itemB.equip_no) {
+            temArr.push(itemA)
+            break
+          }
+        }
+      });
+      return temArr
     },
     QueryTableData() {
       return this.queryTableData
