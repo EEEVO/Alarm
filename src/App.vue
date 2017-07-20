@@ -57,6 +57,7 @@ export default {
 @import '../src/style/scrollbarStyle.css';
 @import '../src/style/animate.min.css';
 
+@import '../src/style/common.scss';
 @import '../src/style/mixin.scss';
 
 /*@import '../src/style/Skin/bg1.css';*/

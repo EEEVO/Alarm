@@ -2,6 +2,13 @@
   <div>
     <!--写个树形例子-->
     <tree ref='tree' :treeData="treeData" :options="options" @node-click='handleNode' class="tree"></tree>
+    <div class="timeSelect">
+      <vtime></vtime>
+      <button @click="configuration()">
+        <i class="iconfont icon-chaxun"></i>
+        查询
+      </button>
+    </div>
     <vtable class="vtalbe"></vtable>
   </div>
 </template>
@@ -9,6 +16,7 @@
 <script type="es6">
 import tree from './tree/tree'
 import vtable from './table'
+import vtime from './time'
 
 export default {
   data() {
@@ -38,9 +46,14 @@ export default {
   },
   components: {
     tree,
-    vtable
+    vtable,
+    vtime
   },
   methods: {
+    // 查询
+    configuration() {
+
+    },
     // 节点的点击回调
     // 查询设备数据
     handleNode(e) {
@@ -87,9 +100,21 @@ div {
     @include absoluteWH(auto, 100%);
     @include trbl(0, 77%, 0, 0);
   }
+  .timeSelect {
+    position: absolute;
+    @include trbl(0, 0, atuo, 23%);
+    margin: 0 0 4px 13px;
+  }
+  button {
+    @include btn(rgba(50, 219, 1, 0.3), rgba(50, 219, 1, 0.6));
+    padding: 6px 12px;
+    &:hover {
+      box-shadow: 0 0 2rem 0.5rem rgba(50, 219, 1, 0.3);
+    }
+  }
   .vtalbe {
     position: absolute;
-    @include trbl(0, 0, 0, 23%);
+    @include trbl(40px, 0, 0, 23%);
   }
 }
 </style>

@@ -9,7 +9,7 @@
         </span>
       </div>
       <div class="contentBody">
-  
+        <Vue2DataPicker></Vue2DataPicker>
       </div>
     </div>
   </div>
@@ -17,6 +17,7 @@
 
 <script type="es6">
 import commontHeader from '../commontHeader'
+import Vue2DataPicker from '../evtSelect/Vue2-DataPick'
 
 export default {
   data() {
@@ -27,6 +28,7 @@ export default {
   components: {
     commontHeader,
     // navList
+    Vue2DataPicker
   }
 }
 </script>
