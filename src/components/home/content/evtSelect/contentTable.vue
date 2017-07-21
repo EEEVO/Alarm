@@ -1,15 +1,15 @@
 <template>
   <div>
     <!--写个树形例子-->
-    <tree ref='tree' :treeData="treeData" :options="options" @node-click='handleNode' class="tree"></tree>
+    <tree ref='tree' :treeData="treeData" :options="options" @node-click='handleNode' class="tree" v-if="treeDataStatus"></tree>
     <div class="timeSelect">
-      <vtime></vtime>
+      <vtime class="vtime" @goTime="goTime" @endTime="endTime"></vtime>
       <button @click="configuration()">
         <i class="iconfont icon-chaxun"></i>
         查询
       </button>
     </div>
-    <vtable class="vtalbe"></vtable>
+    <vtable class="vtalbe" :equip-np="equipNo"></vtable>
   </div>
 </template>
 
@@ -31,6 +31,7 @@ export default {
           customFilter: null
         }
       },
+      treeDataStatus: false,
       treeData: [{
         checked: false,
         id: null,
@@ -42,6 +43,10 @@ export default {
         visible: true,
         children: []
       }],
+      // 所勾选的设备号列表
+      equipNo: '',
+      goDate: '',
+      endDate: ''
     }
   },
   components: {
@@ -50,9 +55,15 @@ export default {
     vtime
   },
   methods: {
+    goTime(goTime) {
+      this.goDate = goTime
+    },
+    endTime(endTime) {
+      this.endDate = endTime
+    },
     // 查询
     configuration() {
-
+      this.equipNo = this.$refs.tree.getSelectedNodeIds()
     },
     // 节点的点击回调
     // 查询设备数据
@@ -80,6 +91,7 @@ export default {
             this.treeData[0].children.push(obj_tem);
           }
         }
+        this.treeDataStatus = true;
       })
     }
   },
@@ -101,9 +113,15 @@ div {
     @include trbl(0, 77%, 0, 0);
   }
   .timeSelect {
+    .vtime {
+      vertical-align: top;
+    }
     position: absolute;
     @include trbl(0, 0, atuo, 23%);
     margin: 0 0 4px 13px;
+    button {
+      vertical-align: top;
+    }
   }
   button {
     @include btn(rgba(50, 219, 1, 0.3), rgba(50, 219, 1, 0.6));

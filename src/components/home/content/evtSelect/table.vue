@@ -1,6 +1,6 @@
 <template>
   <div>
-    
+  
     <ul class="nav-tabList">
       <li v-for="(item,index) of tabsItemName" :key="index" :class="{active:curractiveIndex==index}" @click="select(index)">{{tabsItemName[index]}}</li>
     </ul>
@@ -50,6 +50,7 @@
 
 <script type="es6">
 export default {
+  props: ["equipNo"],
   data() {
     return {
       tabsItemName: ["设备事件", "设置事件", "系统事件"],

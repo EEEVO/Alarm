@@ -1,7 +1,7 @@
 <template>
   <div>
     <!--写个树形例子-->
-    <tree ref='tree' :treeData="treeData" :options="options" @node-click='handleNode' class="tree"></tree>
+    <tree ref='tree' :treeData="treeData" :options="options" @node-click='handleNode' class="tree" v-if="treeDataStatus"></tree>
     <vtable class="vtalbe" @get-equipno='getEquipNo' :equip-no="equipNo" :query-table-data="QueryTableData"></vtable>
   </div>
 </template>
@@ -24,6 +24,7 @@ export default {
           customFilter: null
         }
       },
+      treeDataStatus: false,
       treeData: [{
         checked: false,
         id: null,
@@ -84,6 +85,7 @@ export default {
             this.treeData[0].children.push(obj_tem);
           }
         }
+        this.treeDataStatus = true;
         // 提交到vuex，给配置model弹出层用
         this.$store.commit("getoptionModelData", this.treeData)
       })

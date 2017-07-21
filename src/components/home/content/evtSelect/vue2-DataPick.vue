@@ -23,9 +23,9 @@
         <span v-for="(item,index) of week" :key="index">{{item}}</span>
       </div>
       <div class="date-list">
-        <span v-for="(item,index) of previousMonth" :key="index" class="lastMonth">{{item}}</span>
-        <span v-for="(item,index) of monthDay[month - 1]" :key="index" :class="{active:currIndex==index}" @click="selectDay($event,index)" class="nowMonth">{{item}}</span>
-        <span v-for="(item,index) of nextMonth" :key="index" class="nextMonth">{{item}}</span>
+        <span v-for="(item,index) of previousMonth" class="lastMonth">{{item}}</span>
+        <span v-for="(item,index) of monthDay[month - 1]" :class="{active:currIndex==index}" @click="selectDay($event,index)" class="nowMonth">{{item}}</span>
+        <span v-for="(item,index) of nextMonth" class="nextMonth">{{item}}</span>
       </div>
     </div>
   </div>
@@ -39,12 +39,13 @@ export default {
       year: new Date().getFullYear(),
       month: new Date().getMonth() + 1,
       day: 0,
-
-      week: ['日', '一', '二', '三', '四', '五', '六'],
+      // 上月剩余
       previousMonth: [],
       monthDay: [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31],
+      // 下月剩余
       nextMonth: [],
-      currIndex: '',
+      // 当前被点击索引
+      currIndex: new Date().getDate() - 1,
     }
   },
   created() {
@@ -85,59 +86,54 @@ export default {
     isActive(index) {
       this.currIndex = index;
     },
+    // 获取当前日期
     selectDay(e, index) {
       this.isActive(index);
+      let currDate = new Date(this.year, this.month - 1, e.target.innerText),
+        currNodeDate = this.formatDate(currDate)
+      this.$emit("node-click", currNodeDate);
     },
     reduceYear() {
-      this.year -= 1
+      this.year--
     },
     reduceMonth() {
-      this.month -= 1
+      this.month--
     },
     addMonth() {
-      this.month += 1
+      this.month++
     },
     addYear() {
-      this.year += 1
-    },
-    // 计算当月的前一月与后一月能剩多少天
-    getNeighbourMonth() {
-      //1.先求得当月第一天与最后一天是周几
-      let currMonthFirstDay = new Date(`${this.year} ${this.month} 1`).getDay(),
-        currMonthEndDay = new Date(`${this.year} ${this.month} ${this.monthDay[this.month]}`).getDay();
-      //2.获取上月与下月有多少天
-      let previousMonthNum = this.monthDay[this.month - 1],
-        nextMonthNum = this.monthDay[this.month + 1];
-      //3.求得当前页面分别剩余上下月的日期
-      for (let i = currMonthFirstDay; i > 0; i--) {
-        this.previousMonth.push(previousMonthNum - i);
-      }
+      this.year++
     },
     //TODO:调用第三次出bug
     // 日期显示
     dayScreen() {
       // 上一个月
-      let firstDate = new Date(this.year, this.month - 1, 1);
-      // 获取上个月的第一天是周几
-      let firstWeek = firstDate.getDay();
+      let firstDate = new Date(this.year, this.month - 1, 1),
+        // 获取上个月的第一天是周几
+        firstWeek = firstDate.getDay(),
+        preMonthDay = null;
 
-      let preMonthDay = null;
-      
+      // 如果当前是1月
       if (this.month == 1) {
+        // 则上月天数为12月的
         preMonthDay = this.monthDay[11];
       } else {
-        preMonthDay = this.monthDay[this.month - 2];
+        // 否则就是上个月的
+        preMonthDay = this.monthDay[this.month - 1];
       }
+      // 遍历上个月的天数
       for (let i = 0; i < preMonthDay; i++) {
         this.previousMonth[i] = i + 1;
       }
+      // 取出最后几个天数
       if (firstWeek == 0) {
         this.previousMonth = this.previousMonth.slice(-7);
       } else {
         this.previousMonth = this.previousMonth.slice(-firstWeek);
       }
       // 下一个月
-      let endDate = new Date(this.year, this.month - 1, this.monthDay[this.month - 1]);
+      let endDate = new Date(this.year, this.month + 1, this.monthDay[this.month + 1]);
       let endWeek = endDate.getDay();
       let nextMonthDay = null;
       if (this.month == 12) {
@@ -153,7 +149,20 @@ export default {
       } else {
         this.nextMonth = this.nextMonth.slice(0, 6 - endWeek);
       }
-    }
+    },
+    //格式化日期：yyyy-MM-dd
+    formatDate(date) {
+      let myyear = date.getFullYear();
+      let mymonth = date.getMonth() + 1;
+      let myweekday = date.getDate();
+      if (mymonth < 10) {
+        mymonth = `0${mymonth}`;
+      }
+      if (myweekday < 10) {
+        myweekday = `0${myweekday}`;
+      }
+      return (myyear + "-" + mymonth + "-" + myweekday);
+    },
   },
   computed: {
   }
@@ -162,7 +171,7 @@ export default {
 
 <style lang="scss" scoped>
 .main {
-  background: rgba(0, 0, 0, .4);
+  background: rgba(0, 0, 0, .8);
   border-color: rgba(0, 0, 0, .2);
   width: 260px;
   padding: 2px;

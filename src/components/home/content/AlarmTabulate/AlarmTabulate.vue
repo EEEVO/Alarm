@@ -9,15 +9,17 @@
         </span>
       </div>
       <div class="contentBody">
-        <Vue2DataPicker></Vue2DataPicker>
+        <!-- <Vue2DataPicker @node-click="getDate"></Vue2DataPicker> -->
       </div>
     </div>
   </div>
+  
+  
 </template>
 
 <script type="es6">
 import commontHeader from '../commontHeader'
-import Vue2DataPicker from '../evtSelect/Vue2-DataPick'
+// import Vue2DataPicker from '../evtSelect/Vue2-DataPick'
 
 export default {
   data() {
@@ -25,10 +27,17 @@ export default {
       currentPageName: '报警排表'
     }
   },
+  methods: {
+    // 节点的点击回调，获取当前点击的时间对象yyyy-MM-dd
+    getDate(date) {
+      console.log("111");
+      console.log(date);
+    }
+  },
   components: {
     commontHeader,
     // navList
-    Vue2DataPicker
+    // Vue2DataPicker
   }
 }
 </script>
