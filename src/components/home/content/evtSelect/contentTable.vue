@@ -3,13 +3,13 @@
     <!--写个树形例子-->
     <tree ref='tree' :treeData="treeData" :options="options" @node-click='handleNode' class="tree" v-if="treeDataStatus"></tree>
     <div class="timeSelect">
-      <vtime class="vtime" @goTime="goTime" @endTime="endTime"></vtime>
+      <vtime class="vtime" ref="vtime" @goTime="goTime" @endTime="endTime"></vtime>
       <button @click="configuration()">
         <i class="iconfont icon-chaxun"></i>
         查询
       </button>
     </div>
-    <vtable class="vtalbe" :equip-np="equipNo"></vtable>
+    <vtable class="vtalbe" :equip-data="equip_Data"></vtable>
   </div>
 </template>
 
@@ -44,9 +44,7 @@ export default {
         children: []
       }],
       // 所勾选的设备号列表
-      equipNo: '',
-      goDate: '',
-      endDate: ''
+      equip_Data: '',
     }
   },
   components: {
@@ -63,7 +61,12 @@ export default {
     },
     // 查询
     configuration() {
-      this.equipNo = this.$refs.tree.getSelectedNodeIds()
+      let equip_no_list = this.$refs.tree.getSelectedNodeIds().join(",")
+      let times = this.$refs.vtime.getDateTime()
+      this.equip_Data = {
+        times,
+        equip_no_list
+      }
     },
     // 节点的点击回调
     // 查询设备数据

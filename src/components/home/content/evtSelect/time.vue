@@ -129,6 +129,11 @@ export default {
         nowYear = new Date().getFullYear(),             //当前年
         nowDay = 1
       return this.formatDate(new Date(nowYear, nowMonth, nowDay)) + " 00:00:00";
+    },
+    // 将数据抛出去
+    getDateTime() {
+      console.log("2");
+      return `${this.time.goTime},${this.time.endTime}`
     }
   },
   components: {

@@ -1,6 +1,5 @@
 <template>
   <div>
-  
     <ul class="nav-tabList">
       <li v-for="(item,index) of tabsItemName" :key="index" :class="{active:curractiveIndex==index}" @click="select(index)">{{tabsItemName[index]}}</li>
     </ul>
@@ -15,6 +14,13 @@
                 <th>时间</th>
               </tr>
             </thead>
+            <tbody>
+              <tr v-for="(item,index) of EquipEvtData" :key="index">
+                <td>{{item.equip_nm}}</td>
+                <td>{{item.event}}</td>
+                <td>{{item.time}}</td>
+              </tr>
+            </tbody>
           </table>
         </div>
       </article>
@@ -29,6 +35,14 @@
                 <th>时间</th>
               </tr>
             </thead>
+            <tbody>
+              <tr v-for="(item,index) of SetupsEvtData" :key="index">
+                <td>{{item.equip_nm}}</td>
+                <td>{{item.event}}</td>
+                <td>{{item.operator}}</td>
+                <td>{{item.time}}</td>
+              </tr>
+            </tbody>
           </table>
         </div>
       </article>
@@ -41,6 +55,12 @@
                 <th>时间</th>
               </tr>
             </thead>
+            <tbody>
+              <tr v-for="(item,index) of SystemEvtData" :key="index">
+                <td>{{item.event}}</td>
+                <td>{{item.time}}</td>
+              </tr>
+            </tbody>
           </table>
         </div>
       </article>
@@ -50,11 +70,39 @@
 
 <script type="es6">
 export default {
-  props: ["equipNo"],
+  props: ["equipData"],
   data() {
     return {
       tabsItemName: ["设备事件", "设置事件", "系统事件"],
-      curractiveIndex: 0
+      curractiveIndex: 0,
+      EquipEvtData: '',
+      SetupsEvtData: '',
+      SystemEvtData: '',
+    }
+  },
+  watch: {
+    equipData() {
+      const url = this.$store.state.urlCommon
+      this.$http.all([this.$http.post(`${url}QueryEquipEvt`, {
+        times: this.equipData.times,
+        equip_no_list: this.equipData.equip_no_list,
+      }), this.$http.post(`${url}QuerySetupsEvt`, {
+        times: this.equipData.times,
+        equip_no_list: this.equipData.equip_no_list,
+      }), this.$http.post(`${url}QuerySystemEvt`, {
+        times: this.equipData.times,
+        equip_no_list: this.equipData.equip_no_list,
+      })]).then(this.$http.spread((resEquipEvt, resSetupsEvt, resSystemEvt) => {
+        if (resEquipEvt.data.d !== "false") {
+          this.EquipEvtData = JSON.parse(resEquipEvt.data.d)
+        }
+        if (resSetupsEvt.data.d !== "false") {
+          this.SetupsEvtData = JSON.parse(resSetupsEvt.data.d)
+        }
+        if (resSystemEvt.data.d !== "false") {
+          this.SystemEvtData = JSON.parse(resSystemEvt.data.d)
+        }
+      }))
     }
   },
   methods: {
@@ -117,6 +165,25 @@ export default {
               padding: 8px 10px;
               border-top: none;
               text-align: left;
+            }
+          }
+        }
+        tbody {
+          tr {
+            transition: all 300ms linear 0s;
+            &:nth-child(odd) {
+              background: rgba(0, 0, 0, .13);
+              border: 1px solid rgba(255, 255, 225, .15);
+            }
+            &:nth-child(even) {
+              background-color: transparent;
+            }
+            &:hover {
+              background: rgba(255, 255, 255, .2)!important;
+            }
+            td {
+              border: 1px solid rgba(255, 255, 225, .15);
+              padding: 8px 10px;
             }
           }
         }
