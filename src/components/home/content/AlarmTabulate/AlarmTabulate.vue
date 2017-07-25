@@ -12,22 +12,24 @@
         <div class="contentBodyInAn">
           <!-- 操作按钮 -->
           <div class="btn-block">
-            <button class="btn">
-              <i class="iconfont icon-baocun"></i>保存</button>
-            <button class="btn">
-              <i class="iconfont icon-shanchu"></i>删除</button>
-            <button class="btn">
+            <button class="btn" @click="saveData()">
+              <i class="iconfont icon-baocun"></i>保存
+            </button>
+            <button class="btn" @click="remove()">
+              <i class="iconfont icon-shanchu"></i>删除
+            </button>
+            <button class="btn" @click="add()">
               <i class="iconfont icon-tianjia"></i>添加</button>
           </div>
           <div class="clear"></div>
           <ul class="nav-tabList">
             <li v-for="(item,index) of tabsItemName" :key="index" :class="{active:curractiveIndex==index}" @click="select(index)">{{tabsItemName[index]}}</li>
           </ul>
-          <peopleMsg v-if="curractiveIndex==0"></peopleMsg>
-          <equipGroup v-if="curractiveIndex==1"></equipGroup>
-          <almReport v-if="curractiveIndex==2"></almReport>
-          <weekAlrReport v-if="curractiveIndex==3"></weekAlrReport>
-          <speAlmReport v-if="curractiveIndex==4"></speAlmReport>
+          <peopleMsg v-if="curractiveIndex==0" ref="peopleMsg"></peopleMsg>
+          <equipGroup v-if="curractiveIndex==1" ref="equipGroup"></equipGroup>
+          <almReport v-if="curractiveIndex==2" ref="almReport"></almReport>
+          <weekAlrReport v-if="curractiveIndex==3" ref="weekAlrReport"></weekAlrReport>
+          <speAlmReport v-if="curractiveIndex==4" ref="speAlmReport"></speAlmReport>
         </div>
       </div>
     </div>
@@ -47,7 +49,8 @@ export default {
     return {
       currentPageName: '报警排表',
       tabsItemName: ["人员信息", "设备监控分组", "管理范围", "周排表", "特定日期排表"],
-      curractiveIndex: 0
+      curractiveIndex: 0,
+      // AlarmSubmitStatus: 
     }
   },
   methods: {
@@ -58,6 +61,57 @@ export default {
     },
     select(index) {
       this.curractiveIndex = index
+    },
+    saveData() {
+      switch (this.curractiveIndex) {
+        case 0:
+          this.$refs.peopleMsg.saveData()
+          break;
+        case 1:
+          this.$refs.equipGroup.saveData()
+          break;
+        case 2:
+          this.$refs.almReport.saveData()
+          break;
+        case 3:
+          this.$refs.weekAlrReport.saveData()
+          break;
+        case 4:
+          this.$refs.speAlmReport.saveData()
+          break;
+        default:
+          console.log("请重新保存");
+          break;
+      }
+    },
+    // 增加新行
+    add() {
+      // debugger
+      // const childComponents = ["peopleMsg", "equipGroup", "almReport", "weekAlrReport", "speAlmReport"]
+      // this.$refs.childComponents[this.curractiveIndex].addTr()
+      switch (this.curractiveIndex) {
+        case 0:
+          this.$refs.peopleMsg.addTr()
+          break;
+        case 1:
+          this.$refs.equipGroup.addTr()
+          break;
+        case 2:
+          this.$refs.almReport.addTr()
+          break;
+        case 3:
+          this.$refs.weekAlrReport.addTr()
+          break;
+        case 4:
+          this.$refs.speAlmReport.addTr()
+          break;
+        default:
+          console.log("添加失败");
+          break;
+      }
+    },
+    remove() {
+      this.$store.commit("AlarmModelStatus")
     }
   },
   components: {
@@ -69,6 +123,38 @@ export default {
     equipGroup
     // navList
     // Vue2DataPicker
+  },
+  watch: {
+    AlarmSubmitStatus() {
+      if (this.AlarmSubmitStatus) {
+        switch (this.curractiveIndex) {
+          case 0:
+            this.$refs.peopleMsg.deleteTr()
+            break;
+          case 1:
+            this.$refs.equipGroup.deleteTr()
+            break;
+          case 2:
+            this.$refs.almReport.deleteTr()
+            break;
+          case 3:
+            this.$refs.weekAlrReport.deleteTr()
+            break;
+          case 4:
+            this.$refs.speAlmReport.deleteTr()
+            break;
+          default:
+            console.log("添加失败");
+            break;
+        }
+      }
+      this.$store.commit("AlarmModalSubmitStatus", false)
+    }
+  },
+  computed: {
+    AlarmSubmitStatus() {
+      return this.$store.state.AlarmSubmitStatus
+    }
   }
 }
 </script>

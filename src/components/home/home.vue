@@ -48,6 +48,9 @@
     <transition enter-active-class="bounceInDown  animated" leave-active-class="fadeOut animated">
       <optionModal v-if="OPTIONMODAL_STATUS" :option-model-data="optionModelData"></optionModal>
     </transition>
+    <transition enter-active-class="bounceInDown  animated" leave-active-class="fadeOut animated">
+      <deleteModal v-if="AlarmTabulateModelStatus"></deleteModal>
+    </transition>
   </div>
 </template>
 
@@ -64,6 +67,8 @@ import foot from './foot'
 import refreshMsg from './content/refreshMsg'
 // 系统配置模态框
 import optionModal from './modal/optionModal'
+// 报警排表模态框
+import deleteModal from './modal/AlarmTabulate/delete'
 
 export default {
   data() {
@@ -87,6 +92,9 @@ export default {
     },
     refreshStatus() {
       return this.$store.state.REFRESH_STATUS
+    },
+    AlarmTabulateModelStatus() {
+      return this.$store.state.AlarmTabulateModelStatus
     }
   },
   methods: {
@@ -135,7 +143,8 @@ export default {
     toggleMenu,
     foot,
     refreshMsg,
-    optionModal
+    optionModal,
+    deleteModal
     // commontHeader
   }
 }

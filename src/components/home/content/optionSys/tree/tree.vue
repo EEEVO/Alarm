@@ -2,9 +2,9 @@
   <div class="halo-tree">
     <!--上面的搜索框-->
     <!--<div class="input">
-                                                          <input type="text" v-model="search">
-                                                          <span class="icon search"></span>
-                                                        </div>-->
+                                                            <input type="text" v-model="search">
+                                                            <span class="icon search"></span>
+                                                          </div>-->
     <!--树形菜单-->
     <tree-node :treeData='store.root' :options="options" @handlecheckedChange="handlecheckedChange"></tree-node>
   </div>
@@ -75,9 +75,11 @@ export default {
       const allnodes = this.store.datas
       let selectedNodeIds = []
       for (let [, node] of allnodes) {
-        for (let nodeId of node.children) {
-          if (nodeId.checked) {
-            selectedNodeIds.push(nodeId.id)
+        if (node.children) {
+          for (let nodeId of node.children) {
+            if (nodeId.checked) {
+              selectedNodeIds.push(nodeId.id)
+            }
           }
         }
       }

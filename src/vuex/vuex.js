@@ -35,10 +35,20 @@ const state = {
   optiontreeData: '',
 
   // 配置模态框当前配置页面所需设备数据
-  equipNoArr: []
+  equipNoArr: [],
+  // 报警排表模态框--状态
+  AlarmTabulateModelStatus: false,
+  AlarmSubmitStatus: false
 }
 
 const mutations = {
+  AlarmModelStatus(state) {
+    state.AlarmTabulateModelStatus = !state.AlarmTabulateModelStatus
+  },
+  // 确定提交
+  AlarmModalSubmitStatus(state, param = true) {
+    state.AlarmSubmitStatus = param
+  },
   getEquipNoArr(state, param) {
     state.equipNoArr = param
   },

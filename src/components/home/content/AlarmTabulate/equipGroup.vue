@@ -7,9 +7,11 @@
             <th>设备分组名称</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody @change="changeData($event)" @click="clickObj($event)">
           <tr v-for="(item,index) of data" :key="index" :class="{active:currentIndex==index}" @click="currentIndex=index">
-            <td>{{item.group_name}}</td>
+            <td>
+              <input type="text" v-model="item.group_name">
+            </td>
           </tr>
         </tbody>
       </table>
@@ -17,16 +19,24 @@
     <div class="col8">
       <table>
         <thead>
-          <tr>
-            <th>所选设备</th>
+          <tr class="col8-thead-tr">
+            <th>
+              <span></span>所选设备
+              <span class="tabu-control1" @click="empty2checkAll(false)">
+                <i class="iconfont icon-qingkong"></i>清空
+              </span>
+              <span class="tabu-control2" @click="empty2checkAll(true)">
+                <i class="iconfont icon-quanxuan"></i>全选
+              </span>
+            </th>
           </tr>
         </thead>
         <tbody>
-          <tr>
+          <tr class="col8-tbody-tr">
             <td class="clearfix">
               <div class="equipList">
-                <div class="equipListContent" v-for="(item,index) of equipList" :key="index">
-                  <input type="checkbox">
+                <div class="equipListContent" v-for="(item,index) of equipData" :key="index">
+                  <input type="checkbox" :checked="item.checked">
                   <span>{{item.name}}</span>
                 </div>
               </div>
@@ -44,14 +54,75 @@ export default {
     return {
       data: [],
       equipList: '',
-      currentIndex: ''
+      currentIndex: '',
+      text: ''
     }
   },
   created() {
     this.initData()
     this.initEquipList()
   },
+  computed: {
+    equipData() {
+      // 转数组
+      if (this.currentIndex != '') {
+        let tem_Obj = this.data[this.currentIndex]
+        if (tem_Obj.equipcomb) {
+          this.text = tem_Obj.equipcomb.split("#")
+        }
+      } else {
+        let tem_Obj = this.data[0]
+        if (tem_Obj.equipcomb) {
+          this.text = tem_Obj.equipcomb.split("#")
+        }
+      }
+
+      // 过滤
+      for (let i = 0; i < this.text.length; i++) {
+        if (this.text[i] == '' || this.text[i] == null || typeof (this.text[i]) == undefined) {
+          this.text.splice(i, 1);
+          i = i - 1
+        }
+      }
+      for (let item_equipList of this.equipList) {
+        item_equipList.checked = false
+        for (let i = 0; i < this.text.length; i++) {
+          if (item_equipList.value == this.text[i]) {
+            item_equipList.checked = true
+            break
+          }
+        }
+      }
+      return this.equipList
+    }
+  },
   methods: {
+    // TODO:清空所选
+    empty2checkAll(statu) {
+      for (let i = 0; i < this.equipList.length; i++) {
+        let element = this.equipList[i];
+        element.checked = statu
+        this.$set(this.equipList, i, element)
+      }
+    },
+    clickObj(e) {
+      // 获取到当前tr的index
+      this.currTrIndex = e.target.parentNode.parentNode.getAttribute("index")
+
+    },
+    deleteTr() {
+      this.data.splice(parseInt(this.currTrIndex), 1);
+    },
+    // 增加新行
+    addTr() {
+      this.data.push({
+        Administrator: '',
+        Telphone: '',
+        MobileTel: '',
+        EMail: '',
+        AckLevel: ''
+      })
+    },
     // 初始化请求数据
     initData() {
       this.$http.post(`${this.$store.state.urlCommon}QueryTableData`, {
@@ -63,6 +134,11 @@ export default {
     initEquipList() {
       this.$http.post(`${this.$store.state.urlCommon}EquipItemList`).then((res) => {
         this.equipList = JSON.parse(this.getXmlStr(res.data))
+        this.equipList = this.equipList.filter((item) => {
+          if (item.value != "") {
+            return item
+          }
+        })
         console.log(this.equipList);
       })
     },
@@ -86,6 +162,17 @@ export default {
 
 <style lang="scss" scoped>
 @import "../../../../style/mixin.scss";
+
+@mixin commom-table-control {
+  cursor: pointer;
+  position: absolute;
+  font-weight: 500;
+  line-height: 34px;
+  padding: 0 13px;
+  transition: all 300ms linear 0s;
+  height: 34px;
+}
+
 .main {
   @include absoluteWH(auto, auto);
   @include trbl(0, 0, 0, 0);
@@ -129,6 +216,14 @@ export default {
         td {
           border: 1px solid rgba(255, 255, 225, .15);
           padding: 8px 10px;
+          input {
+            border: none;
+            background-color: transparent;
+            color: #fff;
+            &:focus {
+              color: #FBE863;
+            }
+          }
         }
       }
     }
@@ -143,9 +238,27 @@ export default {
     table {
       height: 100%;
       position: relative;
-      tr:hover {
-        background: none;
+      .tabu-control1 {
+        @include commom-table-control;
+        @include trbl(0, 72px, auto, auto);
+        &:hover {
+          background: rgba(255, 255, 255, .2);
+        }
       }
+      .tabu-control2 {
+        @include commom-table-control;
+        @include trbl(0, 0, auto, auto);
+        &:hover {
+          background: rgba(255, 255, 255, .2);
+        }
+      }
+      .col8-thead-tr:hover {
+        background: rgba(0, 0, 0, .43);
+      }
+      .col8-tbody-tr:hover {
+        background: rgba(0, 0, 0, 0.13);
+      }
+      background: rgba(0, 0, 0, 0.13);
       .equipList {
         position: absolute;
         @include trbl(34px, 0, 0, 0);

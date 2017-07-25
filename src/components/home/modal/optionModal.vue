@@ -175,21 +175,9 @@ export default {
 
 <style lang="scss" scoped>
 @import '../../../style/mixin.scss';
+@import '../../../style/common.scss';
 
-@mixin child-odd {
-  background: rgba(0, 0, 0, .13);
-  border-top: 1px solid rgba(255, 255, 225, .15);
-  border-bottom: 1px solid rgba(255, 255, 225, .15);
-}
 
-@mixin comBtn {
-  border: none;
-  border-radius: 2px;
-  padding: 6px 12px;
-  box-shadow: inset 0 -2px 0 rgba(0, 0, 0, .05);
-  color: #fff;
-  font-family: "Microsoft YaHei";
-}
 
 .fullScreenPopup {
   @include absoluteWH(100%, 100%);

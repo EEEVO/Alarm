@@ -37,7 +37,17 @@ export default {
       }).then((res) => {
         this.data = JSON.parse(res.data.d)
       })
-    }
+    },
+    // 增加新行
+    addTr() {
+      this.data.push({
+        Administrator: '',
+        Telphone: '',
+        MobileTel: '',
+        EMail: '',
+        AckLevel: ''
+      })
+    },
   }
 }
 </script>
