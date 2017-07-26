@@ -7,10 +7,10 @@
             <th>设备分组名称</th>
           </tr>
         </thead>
-        <tbody @change="changeData($event)" @click="clickObj($event)">
-          <tr v-for="(item,index) of data" :key="index" :class="{active:currentIndex==index}" @click="currentIndex=index">
-            <td>
-              <input type="text" v-model="item.group_name">
+        <tbody @click="clickObj($event)">
+          <tr v-for="(item,index) of data" :key="index" :class="{active:currentIndex===index}" :index="index">
+            <td :index="index">
+              <input type="text" v-model="item.group_name" :index="index">
             </td>
           </tr>
         </tbody>
@@ -31,12 +31,12 @@
             </th>
           </tr>
         </thead>
-        <tbody>
+        <tbody @click="getCheckEquipNo($event)">
           <tr class="col8-tbody-tr">
             <td class="clearfix">
               <div class="equipList">
                 <div class="equipListContent" v-for="(item,index) of equipData" :key="index">
-                  <input type="checkbox" :checked="item.checked">
+                  <input type="checkbox" :checked="item.checked" :index="item.value">
                   <span>{{item.name}}</span>
                 </div>
               </div>
@@ -55,7 +55,7 @@ export default {
       data: [],
       equipList: '',
       currentIndex: '',
-      text: ''
+      text: '',
     }
   },
   created() {
@@ -65,25 +65,25 @@ export default {
   computed: {
     equipData() {
       // 转数组
-      if (this.currentIndex != '') {
-        let tem_Obj = this.data[this.currentIndex]
-        if (tem_Obj.equipcomb) {
-          this.text = tem_Obj.equipcomb.split("#")
-        }
+      if (this.currentIndex === '') {
+        return null
+      }
+      let tem_Obj = this.data[this.currentIndex]
+      console.log(tem_Obj.equipcomb);
+      if (tem_Obj.equipcomb) {
+        this.text = tem_Obj.equipcomb.split("#")
       } else {
-        let tem_Obj = this.data[0]
-        if (tem_Obj.equipcomb) {
-          this.text = tem_Obj.equipcomb.split("#")
-        }
+        this.text = []
       }
 
-      // 过滤
+      // 过滤空位
       for (let i = 0; i < this.text.length; i++) {
         if (this.text[i] == '' || this.text[i] == null || typeof (this.text[i]) == undefined) {
           this.text.splice(i, 1);
           i = i - 1
         }
       }
+
       for (let item_equipList of this.equipList) {
         item_equipList.checked = false
         for (let i = 0; i < this.text.length; i++) {
@@ -97,31 +97,43 @@ export default {
     }
   },
   methods: {
-    // TODO:清空所选
+    //TODO: 获取点击复选框上的设备号
+    getCheckEquipNo(e) {
+      // 然后在text数组中删除该设备号，拼成字符串添加到对应的equipcomb中
+    },
+    // TODO:清空或者全选所选
     empty2checkAll(statu) {
-      for (let i = 0; i < this.equipList.length; i++) {
-        let element = this.equipList[i];
-        element.checked = statu
-        this.$set(this.equipList, i, element)
+      // true代表全选
+      this.data[parseInt(this.currentIndex)].equipcomb = ''
+      if (statu) {
+        let temStr = ""
+        this.equipList.forEach((element) => {
+          temStr += `#${element.value}`
+        });
+        this.data[parseInt(this.currentIndex)].equipcomb = temStr
       }
     },
-    clickObj(e) {
-      // 获取到当前tr的index
-      this.currTrIndex = e.target.parentNode.parentNode.getAttribute("index")
 
-    },
-    deleteTr() {
-      this.data.splice(parseInt(this.currTrIndex), 1);
-    },
+    // // 列表菜单单机事件
+    // clickTr(index) {
+    //   this.currentIndex = index
+    // },
     // 增加新行
     addTr() {
       this.data.push({
-        Administrator: '',
-        Telphone: '',
-        MobileTel: '',
-        EMail: '',
-        AckLevel: ''
+        equipcomb: '',
+        group_name: '',
+        group_no: `${this.data.length + 1}`,
+        sta_n: '0'
       })
+    },
+    // TODO:下面两方法没用
+    clickObj(e) {
+      // 获取到当前tr的index
+      this.currentIndex = parseInt(e.target.getAttribute("index"))
+    },
+    deleteTr() {
+      this.data.splice(parseInt(this.currentIndex), 1);
     },
     // 初始化请求数据
     initData() {
