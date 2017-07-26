@@ -10,10 +10,15 @@
       <tbody @click="clickObj($event)">
         <tr v-for="(item,index) of data" :key="index" :index="index" :class="{active:currTrIndex==index}">
           <td>
-            <input type="text" v-model="item.Administrator">
+            <!-- <input v-model="item.Administrator"> -->
+            <select v-model="item.Administrator">
+              <option value="" v-for="(item_Admin,index_Admin) of Administrator" :key="index_Admin" :value="item_Admin.Administrator">{{item_Admin.Administrator}}</option>
+            </select>
           </td>
           <td>
-            <input type="text" v-model="item.group_no">
+            <select v-model="item.group_no">
+              <option value="" v-for="(item_Admin,index_Admin) of EquipGroup" :key="index_Admin" :value="item_Admin.group_no">{{item_Admin.group_name}}</option>
+            </select>
           </td>
         </tr>
       </tbody>
@@ -26,8 +31,16 @@ export default {
   data() {
     return {
       data: [],
+      // 设备分组名
+      EquipGroup: [],
+      Administrator: [],
       // 当前被选中的tr
       currTrIndex: ''
+    }
+  },
+  computed: {
+    EquipGroupName() {
+
     }
   },
   created() {
@@ -40,6 +53,18 @@ export default {
         tableName: 'AlmReport'
       }).then((res) => {
         this.data = JSON.parse(res.data.d)
+      })
+      // 获取设备分组名
+      this.$http.post(`${this.$store.state.urlCommon}QueryTableData`, {
+        tableName: 'EquipGroup'
+      }).then((res) => {
+        this.EquipGroup = JSON.parse(res.data.d)
+      })
+      // 获取人员姓名
+      this.$http.post(`${this.$store.state.urlCommon}QueryTableData`, {
+        tableName: 'Administrator'
+      }).then((res) => {
+        this.Administrator = JSON.parse(res.data.d)
       })
     },
     // 增加新行
@@ -57,18 +82,18 @@ export default {
       this.data.splice(parseInt(this.currTrIndex), 1);
     },
     saveData() {
-      // console.log(this.data);
       let currData = this.data,
         data = ''
       for (let item of currData) {
-        if (item.Administrator) {
+        if (item.Administrator && item.group_no) {
           data += `${item.Administrator.replace(/\s/g, "")},
                     ${item.group_no.replace(/\s/g, "")};`
         } else {
-          alert("请输入人员姓名!");
+          alert("不能留未选项!");
           return
         }
       }
+      data = data.substr(0, data.length - 1)
       this.$http.post(`${this.$store.state.urlCommon}ResetAlarmTab`, {
         tabName: "AlmReport",
         data: data.replace(/\s/g, "")
@@ -126,7 +151,20 @@ div {
         }
         td {
           border: 1px solid rgba(255, 255, 225, .15);
-          padding: 8px 10px;
+          /*  padding: 8px 10px; */
+          select {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background-color: transparent;
+            color: #FFF;
+            transition: all 300ms linear 0s;
+            padding: 5px 10px;
+            outline: 0;
+            &:focus {
+              color: #FBE863;
+            }
+          }
           input {
             border: none;
             background-color: transparent;
