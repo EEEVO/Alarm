@@ -36,7 +36,7 @@
             <td class="clearfix">
               <div class="equipList">
                 <div class="equipListContent" v-for="(item,index) of equipData" :key="index">
-                  <input type="checkbox" :checked="item.checked" :index="item.value">
+                  <input type="checkbox" :checked="item.checked" :index="index">
                   <span>{{item.name}}</span>
                 </div>
               </div>
@@ -69,7 +69,6 @@ export default {
         return null
       }
       let tem_Obj = this.data[this.currentIndex]
-      console.log(tem_Obj.equipcomb);
       if (tem_Obj.equipcomb) {
         this.text = tem_Obj.equipcomb.split("#")
       } else {
@@ -97,11 +96,26 @@ export default {
     }
   },
   methods: {
-    //TODO: 获取点击复选框上的设备号
+    // 获取点击复选框上的设备号
     getCheckEquipNo(e) {
-      // 然后在text数组中删除该设备号，拼成字符串添加到对应的equipcomb中
+      // 过滤掉不是复选框的元素点击事件
+      if (e.target.type !== "checkbox") {
+        return
+      }
+      // 获取被点击的checkbox索引
+      let index = parseInt(e.target.getAttribute("index"))
+      // 将其置反
+      this.equipList[index].checked = !this.equipList[index].checked
+      let temStr = ""
+      this.equipList.forEach((element) => {
+        if (element.checked) {
+          temStr += `#${element.value}`
+        }
+      })
+      console.log(temStr);
+      this.data[this.currentIndex].equipcomb = temStr
     },
-    // TODO:清空或者全选所选
+    //清空或者全选所选
     empty2checkAll(statu) {
       // true代表全选
       this.data[parseInt(this.currentIndex)].equipcomb = ''
@@ -114,11 +128,8 @@ export default {
       }
     },
 
-    // // 列表菜单单机事件
-    // clickTr(index) {
-    //   this.currentIndex = index
-    // },
-    // 增加新行
+
+    // 增加新行事件
     addTr() {
       this.data.push({
         equipcomb: '',
@@ -126,14 +137,42 @@ export default {
         group_no: `${this.data.length + 1}`,
         sta_n: '0'
       })
+      this.currentIndex = this.data.length - 1
     },
-    // TODO:下面两方法没用
+    // 保存事件
+    saveData() {
+      let temDateStr = "",
+        index = 1,
+        urlData = ""
+      this.data.forEach((item) => {
+        urlData += `${index},${item.group_name},${item.equipcomb}#;`
+        index++
+      });
+      urlData = urlData.substr(0, urlData.length - 1)
+      this.$http.post(`${this.$store.state.urlCommon}ResetAlarmTab`, {
+        data: urlData,
+        tabName: 'EquipGroup'
+      }).then((res) => {
+        if (res.data.d === "true") {
+          alert("保存成功")
+        }
+      })
+    },
+    // 删除当行
+    deleteTr() {
+      if (this.data.length == 1) {
+        this.data.splice(parseInt(this.currentIndex), 1);
+        this.currentIndex = ""
+        return
+      }
+      this.data.splice(parseInt(this.currentIndex), 1);
+      if (this.currentIndex > 0) {
+        this.currentIndex--
+      }
+    },
     clickObj(e) {
       // 获取到当前tr的index
       this.currentIndex = parseInt(e.target.getAttribute("index"))
-    },
-    deleteTr() {
-      this.data.splice(parseInt(this.currentIndex), 1);
     },
     // 初始化请求数据
     initData() {
@@ -151,7 +190,6 @@ export default {
             return item
           }
         })
-        console.log(this.equipList);
       })
     },
     // 转成xml对象
