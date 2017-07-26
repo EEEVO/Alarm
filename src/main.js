@@ -19,7 +19,9 @@ Vue.prototype.$http = Axios;
 Vue.use(VueRouter);
 Vue.use(Vuex);
 
-const router = new VueRouter({ routes });
+const router = new VueRouter({
+  routes
+});
 
 const store = new Vuex.Store({ state, mutations })
 

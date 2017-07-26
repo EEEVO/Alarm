@@ -136,6 +136,7 @@ div {
     tbody {
       tr {
         transition: all 300ms linear 0s;
+
         &:nth-child(odd) {
           background: rgba(0, 0, 0, .13);
           border: 1px solid rgba(255, 255, 225, .15);
@@ -151,7 +152,7 @@ div {
         }
         td {
           border: 1px solid rgba(255, 255, 225, .15);
-          /*  padding: 8px 10px; */
+          padding: 8px 10px;
           select {
             width: 100%;
             height: 100%;

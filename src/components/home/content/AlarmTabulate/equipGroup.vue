@@ -28,6 +28,7 @@
               <span class="tabu-control2" @click="empty2checkAll(true)">
                 <i class="iconfont icon-quanxuan"></i>全选
               </span>
+  
             </th>
           </tr>
         </thead>
@@ -96,6 +97,7 @@ export default {
     }
   },
   methods: {
+
     // 获取点击复选框上的设备号
     getCheckEquipNo(e) {
       // 过滤掉不是复选框的元素点击事件
@@ -127,7 +129,7 @@ export default {
         this.data[parseInt(this.currentIndex)].equipcomb = temStr
       }
     },
-
+ 
 
     // 增加新行事件
     addTr() {

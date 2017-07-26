@@ -4,7 +4,7 @@
     <div class="contents">
       <div class="contentHeader">
         <span>
-          <i class="iconfont icon-shishizhuangtai"></i>
+          <i class="iconfont icon-chaxun"></i>
           {{currentPageName}}
         </span>
       </div>

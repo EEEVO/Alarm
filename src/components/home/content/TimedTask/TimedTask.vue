@@ -4,12 +4,16 @@
     <div class="contents">
       <div class="contentHeader">
         <span>
-          <i class="iconfont icon-shishizhuangtai"></i>
+          <i class="iconfont icon-dingshirenwu"></i>
           {{currentPageName}}
         </span>
       </div>
       <div class="contentBody">
-  
+        <div class="contentBodyInAn">
+          <ul class="nav-tabList">
+            <li v-for="(item,index) of tabsItemName" :key="index" :class="{active:curractiveIndex==index}" @click="select(index)">{{tabsItemName[index]}}</li>
+          </ul>
+        </div>
       </div>
     </div>
   </div>
@@ -21,25 +25,29 @@ import commontHeader from '../commontHeader'
 export default {
   data() {
     return {
-      currentPageName: '定时任务'
+      currentPageName: '定时任务',
+      tabsItemName: [" 普通任务", "循环任务", "每周任务安排", "特殊日期安排"],
+      curractiveIndex: 0
     }
   },
   components: {
     commontHeader,
     // navList
+  },
+  methods: {
+    select(index) {
+      this.curractiveIndex = index
+    },
   }
 }
 </script>
 
 <style lang="scss" scoped>
+@import "../../../../style/mixin.scss";
+
 .contents {
-  width: auto;
-  height: auto;
-  position: absolute;
-  left: 0px;
-  top: 40px;
-  bottom: 0;
-  right: 0px;
+  @include absoluteWH(auto, auto);
+  @include trbl(40px, 0, 0, 0);
   .contentHeader {
     width: auto;
     height: 34px;
@@ -51,15 +59,37 @@ export default {
   }
 
   .contentBody {
-    width: auto;
-    height: auto;
-    position: absolute;
-    left: 0px;
-    top: 34px;
-    bottom: 13px;
-    right: 0px;
+    @include absoluteWH(auto, auto);
+    @include trbl(34px, 0, 13px, 0);
     background: rgba(0, 0, 0, .18)!important;
     border: 1px solid rgba(0, 0, 0, .13)!important;
+    .contentBodyInAn {
+      animation: slideInTopSlow 900ms forwards;
+      @include absoluteWH(auto, auto);
+      @include trbl(13px, 13px, 13px, 13px);
+      .nav-tabList {
+        list-style: none;
+        margin: 0;
+        padding-left: 0;
+        li {
+          float: left;
+          margin-right: 4px;
+          cursor: pointer;
+          padding: 6px 12px;
+          background: rgba(255, 255, 255, .13);
+          border-radius: 4px 4px 0 0;
+          transition: all 300ms linear 0s;
+          &:hover {
+            background: rgba(255, 255, 255, .36);
+            color: #fff;
+          }
+        }
+        .active {
+          background: rgba(255, 255, 255, .8)!important;
+          color: #000!important;
+        }
+      }
+    }
   }
 }
 </style>
