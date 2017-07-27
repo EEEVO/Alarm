@@ -13,6 +13,38 @@
           <ul class="nav-tabList">
             <li v-for="(item,index) of tabsItemName" :key="index" :class="{active:curractiveIndex==index}" @click="select(index)">{{tabsItemName[index]}}</li>
           </ul>
+          <!-- 选项卡内容块 -->
+          <div class="tab-content">
+            <!-- <NormalQuest></NormalQuest> -->
+            <transition v-if="curractiveIndex==0">
+              <div class="main-block">
+                <div class="block-left">
+                  <NormalQuest></NormalQuest>
+                </div>
+                <div class="block-center">
+                  <systemsControl></systemsControl>
+                </div>
+                <div class="block-right">
+                  <equipControe></equipControe>
+                </div>
+              </div>
+            </transition>
+            <transition v-if="curractiveIndex==1">
+              <div class="main-block">
+                <cyclicTask></cyclicTask>
+              </div>
+            </transition>
+            <transition v-if="curractiveIndex==2">
+              <div class="main-block">
+                <WeeklyTasks></WeeklyTasks>
+              </div>
+            </transition>
+            <transition v-if="curractiveIndex==3">
+              <div class="main-block">
+                <SpecialDate></SpecialDate>
+              </div>
+            </transition>
+          </div>
         </div>
       </div>
     </div>
@@ -21,6 +53,13 @@
 
 <script type="es6">
 import commontHeader from '../commontHeader'
+import NormalQuest from './NormalQuest'
+import equipControe from './equipControe'
+import systemsControl from './systemsControl'
+import cyclicTask from './cyclicTask'
+import WeeklyTasks from './WeeklyTasks'
+import SpecialDate from './SpecialDate'
+
 
 export default {
   data() {
@@ -30,15 +69,21 @@ export default {
       curractiveIndex: 0
     }
   },
-  components: {
-    commontHeader,
-    // navList
-  },
   methods: {
     select(index) {
       this.curractiveIndex = index
     },
-  }
+  },
+  components: {
+    commontHeader,
+    NormalQuest,
+    equipControe,
+    systemsControl,
+    cyclicTask,
+    WeeklyTasks,
+    SpecialDate
+    // navList
+  },
 }
 </script>
 
@@ -87,6 +132,28 @@ export default {
         .active {
           background: rgba(255, 255, 255, .8)!important;
           color: #000!important;
+        }
+      }
+    }
+    .tab-content {
+      border: 1px solid rgba(255, 255, 255, .15);
+      clear: both;
+      @include absoluteWH(auto, auto);
+      @include trbl(29px, 0, 0, 0);
+      .main-block {
+        @include absoluteWH(auto, auto);
+        @include trbl(0, 0, 0, 0);
+        .block-left {
+          @include absoluteWH(auto, auto);
+          @include trbl(0, 70%, 0, 0);
+        }
+        .block-center {
+          @include absoluteWH(auto, auto);
+          @include trbl(0, 30%, 0, 30%);
+        }
+        .block-right {
+          @include absoluteWH(auto, auto);
+          @include trbl(0, 0, 0, 70%);
         }
       }
     }
