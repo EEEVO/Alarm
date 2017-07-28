@@ -8,6 +8,7 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Vuex from 'vuex'
 import Axios from 'axios'
+import qs from 'qs'
 
 import App from './App';
 import routes from './router/index';
@@ -15,6 +16,7 @@ import { state, mutations } from './vuex/vuex';
 
 Vue.config.productionTip = false;
 Vue.prototype.$http = Axios;
+Vue.prototype.$qs = qs;
 
 Vue.use(VueRouter);
 Vue.use(Vuex);

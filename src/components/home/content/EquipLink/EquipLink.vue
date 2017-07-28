@@ -13,6 +13,20 @@
           <ul class="nav-tabList">
             <li v-for="(item,index) of tabsItemName" :key="index" :class="{active:curractiveIndex==index}" @click="select(index)">{{tabsItemName[index]}}</li>
           </ul>
+          <!-- 选项卡内容块 -->
+          <div class="tab-content">
+            <!-- <NormalQuest></NormalQuest> -->
+            <transition v-if="curractiveIndex==0">
+              <div class="main-block">
+                <linkageSet></linkageSet>
+              </div>
+            </transition>
+            <transition v-if="curractiveIndex==1">
+              <div class="main-block">
+                <ScenarioEditor></ScenarioEditor>
+              </div>
+            </transition>
+          </div>
         </div>
       </div>
     </div>
@@ -21,6 +35,8 @@
 
 <script type="es6">
 import commontHeader from '../commontHeader'
+import linkageSet from './linkageSet'
+import ScenarioEditor from './ScenarioEditor'
 
 export default {
   data() {
@@ -32,7 +48,8 @@ export default {
   },
   components: {
     commontHeader,
-    // navList
+    linkageSet,
+    ScenarioEditor
   },
   methods: {
     select(index) {
@@ -87,6 +104,28 @@ export default {
         .active {
           background: rgba(255, 255, 255, .8)!important;
           color: #000!important;
+        }
+      }
+      .tab-content {
+        border: 1px solid rgba(255, 255, 255, .15);
+        clear: both;
+        @include absoluteWH(auto, auto);
+        @include trbl(29px, 0, 0, 0);
+        .main-block {
+          @include absoluteWH(auto, auto);
+          @include trbl(0, 0, 0, 0);
+          .block-left {
+            @include absoluteWH(auto, auto);
+            @include trbl(0, 70%, 0, 0);
+          }
+          .block-center {
+            @include absoluteWH(auto, auto);
+            @include trbl(0, 30%, 0, 30%);
+          }
+          .block-right {
+            @include absoluteWH(auto, auto);
+            @include trbl(0, 0, 0, 70%);
+          }
         }
       }
     }

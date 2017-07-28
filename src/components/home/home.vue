@@ -51,6 +51,9 @@
     <transition enter-active-class="bounceInDown  animated" leave-active-class="fadeOut animated">
       <deleteModal v-if="AlarmTabulateModelStatus"></deleteModal>
     </transition>
+    <transition enter-active-class="bounceInDown  animated" leave-active-class="fadeOut animated">
+      <add v-if="EquipLink_ADD"></add>
+    </transition>
   </div>
 </template>
 
@@ -69,6 +72,8 @@ import refreshMsg from './content/refreshMsg'
 import optionModal from './modal/optionModal'
 // 报警排表模态框
 import deleteModal from './modal/AlarmTabulate/delete'
+// 设备联动add模态框
+import add from './modal/EquipLink/add'
 
 export default {
   data() {
@@ -81,6 +86,9 @@ export default {
     }
   },
   computed: {
+    EquipLink_ADD() {
+      return this.$store.state.EquipLink_ADD
+    },
     OPTIONMODAL_STATUS() {
       return this.$store.state.OPTIONMODAL_STATUS
     },
@@ -144,7 +152,8 @@ export default {
     foot,
     refreshMsg,
     optionModal,
-    deleteModal
+    deleteModal,
+    add
     // commontHeader
   }
 }

@@ -38,10 +38,21 @@ const state = {
   equipNoArr: [],
   // 报警排表模态框--状态
   AlarmTabulateModelStatus: false,
-  AlarmSubmitStatus: false
+  AlarmSubmitStatus: false,
+
+  // 设备联动模态框--状态
+  EquipLink_ADD: false,
+  // 场景名称
+  scenarioName: ''
 }
 
 const mutations = {
+  EquipLink_ADD_Status(state, param = '') {
+    state.EquipLink_ADD = !state.EquipLink_ADD
+    if (param != '') {
+      state.scenarioName = param
+    }
+  },
   AlarmModelStatus(state) {
     state.AlarmTabulateModelStatus = !state.AlarmTabulateModelStatus
   },
@@ -55,7 +66,6 @@ const mutations = {
   getoptionModelData(state, param) {
     state.optiontreeData = param
   },
-
   updatequeryEquip(state) {
     // console.log("配置按钮点击");
     state.queryEquip = !state.queryEquip
@@ -66,7 +76,6 @@ const mutations = {
     state.OPTIONMODAL_STATUS = !state.OPTIONMODAL_STATUS
     state.optionModelData = modelData
   },
-
   getWebUser(state, getWebUser) {
     state.getWebUser = getWebUser
   },
