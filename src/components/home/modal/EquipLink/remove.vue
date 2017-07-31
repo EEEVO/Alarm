@@ -22,18 +22,13 @@
 
  <script type="es6">
 export default {
-  data() {
-    return {
-      scenarioName: ''
-    }
-  },
   methods: {
     exitModel() {
-      this.$store.commit("EquipLink_ADD_Status")
+      this.$store.commit("EquipLink_REMOVE_Status", false)
     },
     submit() {
-      this.$store.commit("EquipLink_ADD_Status", this.scenarioName)
-      this.scenarioName = ''
+      this.$store.commit("EquipLink_REMOVE_Status", true)
+      // this.scenarioName = ''
     }
   }
 }

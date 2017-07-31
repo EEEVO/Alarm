@@ -54,6 +54,9 @@
     <transition enter-active-class="bounceInDown  animated" leave-active-class="fadeOut animated">
       <add v-if="EquipLink_ADD"></add>
     </transition>
+    <transition enter-active-class="bounceInDown  animated" leave-active-class="fadeOut animated">
+      <remove v-if="EquipLink_REMOVE"></remove>
+    </transition>
   </div>
 </template>
 
@@ -74,6 +77,8 @@ import optionModal from './modal/optionModal'
 import deleteModal from './modal/AlarmTabulate/delete'
 // 设备联动add模态框
 import add from './modal/EquipLink/add'
+// 设备联动remove模态框
+import remove from './modal/EquipLink/remove'
 
 export default {
   data() {
@@ -86,6 +91,9 @@ export default {
     }
   },
   computed: {
+    EquipLink_REMOVE() {
+      return this.$store.state.EquipLink_REMOVE
+    },
     EquipLink_ADD() {
       return this.$store.state.EquipLink_ADD
     },
@@ -140,10 +148,6 @@ export default {
       }
       //TODO:给根节点元素设置背景图片
     },
-    // optionModalStatus() {
-    //   console.log("触发了？");
-    //   this.OPTIONMODAL_STATUS = !this.OPTIONMODAL_STATUS
-    // }
   },
   components: {
     popupSkin,
@@ -153,7 +157,8 @@ export default {
     refreshMsg,
     optionModal,
     deleteModal,
-    add
+    add,
+    remove
     // commontHeader
   }
 }

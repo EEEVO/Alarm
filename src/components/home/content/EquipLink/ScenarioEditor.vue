@@ -4,16 +4,16 @@
       <p class="title">场景列表</p>
       <div class="list">
         <ul>
-          <li v-for="(item,index) of SetParmTable" :key="index" v-if="item.set_type==='J'" :class="{active:currParmTableIndex===index}" @click="setIndex(item,index)">{{item.set_nm}}</li>
+          <li v-for="(item,index) of SetParmTable" :key="index" v-if="item.set_type==='J'&&item.set_nm" :class="{active:currParmTableIndex===index}" @click="setIndex(item,index)">{{item.set_nm}}</li>
         </ul>
       </div>
     </div>
     <div class="content2">
       <div class="btn-block">
-        <button class="btn" @click="saveData()">
+        <button class="btn" @click="saveData()" :disabled="currParmTableIndex===''">
           <i class="iconfont icon-baocun"></i>保存
         </button>
-        <button class="btn" @click="remove()">
+        <button class="btn" @click="remove()" :disabled="currParmTableIndex===''">
           <i class="iconfont icon-shanchu"></i>删除
         </button>
         <button class="btn" @click="add()">
@@ -30,7 +30,7 @@
           <div class="content">
             <ul>
               <li v-for="(item,index) of SetParmItemContent" :key="index" @click="SetParmItemContentIndex=parseInt(index)" :class="{active:SetParmItemContentIndex===index}">
-                {{item}}
+                {{item.name}}
               </li>
             </ul>
           </div>
@@ -106,11 +106,79 @@ export default {
       // 温度设置区块显示状态
       temperatureStatus: false,
       // TODO:数据没响应式更新
-      // addName: this.$store.state.scenarioName
+      // addName: this.$store.state.scenarioName,
+      // 被删除的状态
+      // EquipLink_REMOVE_item: this.$store.state.EquipLink_REMOVE_item
     }
+  },
+  watch: {
+    SetParmItemName() {
+      let tem_obj = this.SetParmTable[this.currParmTableIndex]
+      tem_obj.set_nm = this.SetParmItemName
+      this.SetParmTable.splice(this.currParmTableIndex, 1, tem_obj)
+    },
+    addName() {
+      // debugger
+      if (this.$store.state.scenarioName) {
+        this.addParmName()
+        console.log("添加成功");
+        this.$store.commit('delete_ScenarioName', '')
+      }
+      console.log("添加未成功");
+      // return this.$store.state.scenarioName
+    },
+    EquipLink_REMOVE_item() {
+      // debugger
+      if (this.$store.state.EquipLink_REMOVE_item) {
+        this.SetParmTable.splice(this.currParmTableIndex, 1)
+        console.log("删除成功");
+      }
+
+    },
   },
   computed: {
     addName() {
+      return this.$store.state.scenarioName
+    },
+    EquipLink_REMOVE_item() {
+      return this.$store.state.EquipLink_REMOVE_item
+    }
+  },
+  created() {
+    this.$http.post(`${this.$store.state.urlCommon}QueryMultiTable`, this.$qs.stringify({
+      tableNames: "Equip,SetParm,ycp,yxp,AutoProc"
+    })).then((res) => {
+      const temXML = this.XMLStr2XMLObj(res.data)
+      this.equipTable = JSON.parse(temXML.getElementsByTagName("string")[0].innerHTML);
+      this.SetParmTable = JSON.parse(temXML.getElementsByTagName("string")[1].innerHTML);
+      this.ycpTable = JSON.parse(temXML.getElementsByTagName("string")[2].innerHTML);
+      this.yxpTable = JSON.parse(temXML.getElementsByTagName("string")[3].innerHTML);
+      this.autoTable = JSON.parse(temXML.getElementsByTagName("string")[4].innerHTML);
+    }).catch((error) => {
+      console.log(error);
+    })
+  },
+  methods: {
+    // 保存事件
+    saveData() {
+      let data = ""
+      this.SetParmTable.forEach((item, index) => {
+        if (item.set_type == "J") {
+          data += `${item.equip_no}.${item.set_no}.${item.set_nm}.${item.set_type}.${item.value};`
+        }
+      })
+      data = data.substring(0, data.length - 1)
+      data == "" ? "|" : data
+      this.$http.post(`${this.$store.state.urlCommon}SceneEditor`, {
+        data
+      }).then((res) => {
+        if (res.data.d === "true") {
+          alert("保存成功！")
+        }
+      })
+    },
+    addParmName() {
+      // debugger
       let temArr = []
       this.SetParmTable.forEach((item) => {
         if (item.set_type === "J") {
@@ -127,34 +195,16 @@ export default {
         });
       }
       let obj = {
-        equio_no: temArr[0].equip_no,
+        equip_no: temArr[0].equip_no,
         set_no: parseInt(temArr[temArr.length - 1].set_no) + 1,
         set_nm: this.$store.state.scenarioName,
         set_type: 'J',
         value: ''
       }
       this.SetParmTable.unshift(obj)
-      return this.$store.state.scenarioName
-    }
-  },
-  created() {
-    this.$http.post(`${this.$store.state.urlCommon}QueryMultiTable`, this.$qs.stringify({
-      tableNames: "Equip,SetParm,ycp,yxp,AutoProc"
-    })).then((res) => {
-      const temXML = this.XMLStr2XMLObj(res.data)
-
-      this.equipTable = JSON.parse(temXML.getElementsByTagName("string")[0].innerHTML);
-      this.SetParmTable = JSON.parse(temXML.getElementsByTagName("string")[1].innerHTML);
-      this.ycpTable = JSON.parse(temXML.getElementsByTagName("string")[2].innerHTML);
-      this.yxpTable = JSON.parse(temXML.getElementsByTagName("string")[3].innerHTML);
-      this.autoTable = JSON.parse(temXML.getElementsByTagName("string")[4].innerHTML);
-    }).catch((error) => {
-      console.log(error);
-    })
-  },
-  methods: {
-    remove(){
-
+    },
+    remove() {
+      this.$store.commit('EquipLink_REMOVE_Status', false)
     },
     add() {
       this.$store.commit('EquipLink_ADD_Status')
@@ -171,7 +221,6 @@ export default {
       }
       // 设备控制
       if (document.querySelector('#equipCtrl').checked) {
-        // let Str_values = `${this.SetParmTable[0].equip_no},${this.SetParmTable[0].set_no},${this.SetParmTable[0].set_nm},${this.SetParmTable[0].equip_no},${this.SetParmTable[0].set_type},${this.SetParmTable[0].value}`
         let temIndex = this.SetParmTableIndex || 0
         let Obj_values = {
           equip_no: this.SetParmTable[temIndex].equip_no,
@@ -180,12 +229,14 @@ export default {
           set_type: this.SetParmTable[temIndex].set_type,
           value: this.SetParmTable[temIndex].value
         }
-        // let Arr_values = Str_values.split(',')
         for (let i = 0, n = this.equipTable.length; i < n; i++) {
           var item = this.equipTable[i];
           if (Obj_values.equip_no == item.equip_no) {
-            this.SetParmItemContent.push(`${item.equip_nm} ${Obj_values.set_nm}`)
-            // 这里好像没有相等的情况            
+            this.SetParmItemContent.push({
+              name: `${item.equip_nm} ${Obj_values.set_nm}`,
+              no: `${item.equip_no},${Obj_values.set_no}`,
+            })
+            // 这里好像没有相等的情况
             if (Obj_values.set_nm == "V") {
               this.SetParmTable[this.currParmTableIndex].value += `${m + Obj_values.equip_no},${Obj_values.set_no},${Obj_values.value}`
             } else {
@@ -194,7 +245,6 @@ export default {
             break
           }
         }
-
       }
       // 延时间隔
       else {
@@ -224,7 +274,11 @@ export default {
         }
 
         if (numb != 4) {
-          this.SetParmItemContent.push(`延时间隔 ${num} 毫秒`)
+          this.SetParmItemContent.push({
+            name: `延时间隔 ${num} 毫秒`,
+            no: num
+          }
+          )
           this.SetParmTable[this.currParmTableIndex].value += m + num;
         }
       }
@@ -246,6 +300,17 @@ export default {
     },
     // 删除场景内容块中选中行
     delete_scenelist() {
+      const no = this.SetParmItemContent[this.SetParmItemContentIndex].no;
+      let tem_value = this.SetParmTable[this.currParmTableIndex].value.split("+")
+      console.log(tem_value)
+      let tem_token
+      tem_value.forEach((item, index) => {
+        if (item == no) {
+          tem_token = index
+        }
+      });
+      tem_value.splice(tem_token, 1)
+      this.SetParmTable[this.currParmTableIndex].value = tem_value.join("+")
       this.SetParmItemContent.splice(this.SetParmItemContentIndex, 1);
     },
     move_scenelist(param) {
@@ -260,10 +325,12 @@ export default {
           if (this.SetParmItemContentIndex == 0) {
             this.SetParmItemContent.splice(this.SetParmItemContentIndex, 1);
             this.SetParmItemContent.push(tem_up)
+            this.SetParmItemContentIndex = this.SetParmItemContent.length - 1
           } else {
             let tem_up_2 = this.SetParmItemContent[this.SetParmItemContentIndex - 1]
             this.SetParmItemContent.splice(this.SetParmItemContentIndex, 1, tem_up_2)
             this.SetParmItemContent.splice(this.SetParmItemContentIndex - 1, 1, tem_up)
+            this.SetParmItemContentIndex--
           }
           break;
         // 下移
@@ -271,12 +338,14 @@ export default {
           let tem_down = this.SetParmItemContent[this.SetParmItemContentIndex]
           if (this.SetParmItemContentIndex == this.SetParmItemContent.length - 1) {
             this.SetParmItemContent.splice(this.SetParmItemContentIndex, 1);
-            this.SetParmItemContent.unshift(tem_up)
+            this.SetParmItemContent.unshift(tem_down)
+            this.SetParmItemContentIndex = 0
           } else {
             // 获取后一位的值
             let tem_down_2 = this.SetParmItemContent[this.SetParmItemContentIndex + 1]
             this.SetParmItemContent.splice(this.SetParmItemContentIndex, 1, tem_down_2)
             this.SetParmItemContent.splice(this.SetParmItemContentIndex + 1, 1, tem_down)
+            this.SetParmItemContentIndex++
           }
           break;
         default:
@@ -285,36 +354,55 @@ export default {
       }
     },
     setIndex(item, index) {
-      // console.log(item);
+      // 获取当前点击行的"场景名称"
       this.SetParmItemName = item.set_nm
+      // 获取当前点击行的"索引"
       this.currParmTableIndex = parseInt(index)
       // 拿到当前的设备号与设置号
       let temStr = item.value
-      let valuelist
+      // 用来存放设备号,设置号的数组
+      let valuelist = [null]
+      // 如果当前设备号，设置号存在。分割成数组，每一组(设备号，设置号)这种格式
       if (temStr) {
         valuelist = temStr.split('+')
       }
+      // 场景下设备列表清空
       this.SetParmItemContent = []
+      // 如果一组设备都没，直接跳过
       if (valuelist[0] != null) {
+        // 遍历每组设备号与设置号字符串
         valuelist.forEach((item) => {
+          // values:[设备号，设置号]
           let values = item.split(',')
+          // 如果只有一个，代表只是添加了时间事件
           if (values.length === 1) {
-            this.SetParmItemContent.push(`延时间隔 ${values[0]}`)
-          } else {
+            this.SetParmItemContent.push({
+              name: `延时间隔 ${values[0]}`,
+              no: values[0]
+            })
+          }
+          // 设备控制
+          else {
             let tem_set_nm = ''
+            // 场景列表
             this.SetParmTable.forEach((item) => {
-              // 通过设备号与设置号获取对应的设置名
+              // 通过设备号与设置号获取对应的设备名
               if (values[0] == item.equip_no && values[1] == item.set_no) {
                 tem_set_nm += item.set_nm
               }
             });
+
             this.equipTable.forEach((item) => {
               // 通过设备号与获取对应的设备名
               if (values[0] == item.equip_no) {
                 tem_set_nm = `${item.equip_nm} ${tem_set_nm}`
               }
             });
-            this.SetParmItemContent.push(tem_set_nm)
+
+            this.SetParmItemContent.push({
+              name: tem_set_nm,
+              no: item
+            })
           }
         })
       }

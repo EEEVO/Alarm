@@ -42,11 +42,20 @@ const state = {
 
   // 设备联动模态框--状态
   EquipLink_ADD: false,
+  EquipLink_REMOVE: false,
+  EquipLink_REMOVE_item: false,
   // 场景名称
   scenarioName: ''
 }
 
 const mutations = {
+  delete_ScenarioName(state, param) {
+    state.scenarioName = param
+  },
+  EquipLink_REMOVE_Status(state, param = '') {
+    state.EquipLink_REMOVE = !state.EquipLink_REMOVE
+    state.EquipLink_REMOVE_item = param
+  },
   EquipLink_ADD_Status(state, param = '') {
     state.EquipLink_ADD = !state.EquipLink_ADD
     if (param != '') {
