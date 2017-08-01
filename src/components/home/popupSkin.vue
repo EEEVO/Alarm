@@ -30,17 +30,11 @@ export default {
       console.log(currentURL);
       // 存入localStorage
       window.localStorage.bg_url = currentURL
-      this.$store.commit('updata_bg_url', {
-        currentURL
-      })
+      this.$store.commit('updata_bg_url',currentURL)
     }
   }
 }
 </script>
-
-<style lang="scss">
-
-</style>
 
 <style lang="scss" scopedSlots>
 /*皮肤块*/

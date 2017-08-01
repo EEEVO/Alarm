@@ -15,7 +15,7 @@ const state = {
   //全屏状态，true为全屏，false反之
   FULL_STATUS: false,
   LOGOUT_STATUS: false,
-  bg_url: 'bg_1.jpg',
+  bg_url: null,
   REFRESH_STATUS: false,
 
   // 系统配置模态框数据与状态
