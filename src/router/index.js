@@ -1,7 +1,5 @@
 import Login from '../components/login/login';
 import Home from '../components/home/home.vue';
-
-// import commontHeader from '../components/home/content/commontHeader.vue'
 import index from '../components/home/content/index/index.vue'
 import realTime from '../components/home/content/realTime/realTime.vue'
 import actualSys from '../components/home/content/actualSys/actualSys.vue'
@@ -62,5 +60,5 @@ export default [
         component: EquipLink
       },
     ]
-  }
+  },
 ];

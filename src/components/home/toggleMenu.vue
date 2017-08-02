@@ -31,39 +31,37 @@ export default {
   props: ['toggleMenuStatus'],
   data() {
     return {
-      // isAcitve: this.items[0].name,
-      isAcitve: "",
       userName: window.localStorage.userName,
       items: items
     }
   },
-  // TODO:还需要一个实时监听 this.$store.state.isAcitve去改变this.isAcitve
-  // 此方法好像不能用
-  watch: {
-    updataisAcitve1() {
-      this.isAcitve = this.$store.state.isAcitve
+  computed: {
+    isAcitve() {
+      return this.$store.state.isAcitve
     }
   },
   // 让首页初始化被选中
   created() {
-    this.isAcitve = this.$store.state.isAcitve
+    if (window.localStorage.urlHash) {
+      let hash = window.localStorage.urlHash
+      items.forEach((item) => {
+        if (item.nameUrl == hash) {
+          this.selected(item.name)
+        }
+      })
+      this.$router.push(hash)
+    }
   },
-
   methods: {
     selected(gameName) {
-      // this.isAcitve = gameName
       this.$store.commit("updata_isAcitve", gameName);
-      this.updataisAcitve();
-    },
-    updataisAcitve() {
-      return this.isAcitve = this.$store.state.isAcitve
     }
   }
 }
 </script>
 
 
-<style lang="scss" scopedSlots>
+<style lang="scss" scoped>
 a {
   text-decoration: none;
 }

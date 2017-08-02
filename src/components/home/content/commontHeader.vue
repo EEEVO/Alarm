@@ -13,8 +13,11 @@ export default {
   props: ["currentPageName"],
   methods: {
     Refresh() {
-      // TODO:此处功能疑问
-      this.$store.commit('switchREFRESH_STATUS');
+      // TODO:此处功能疑问,
+      // 我想的是解析url获取hash，然后push重新进入这个路由，
+      // 但是现在这个push好像没用。子组件内部并没有重新加载
+      window.localStorage.urlHash = window.location.hash.split("/")[1]
+      this.$router.go(0)
     }
   }
 }
@@ -22,7 +25,7 @@ export default {
 
 <style lang="scss" scoped>
 // .ribbon 
-div{
+div {
   height: 40px;
   line-height: 40px;
   font-family: "Open Sans", Arial, Helvetica, Sans-Serif;
@@ -36,7 +39,10 @@ div{
     padding: 4px 6px;
     line-height: normal;
     margin-right: 10px;
-
+    &:hover {
+      cursor: pointer
+    }
+    ;
     i {
       font-size: 13px!important;
     }

@@ -5,7 +5,6 @@ let items = [
     value: '1',
     icon: 'icon-yingsaitong',
     nameUrl: "index",
-    // img: '/static/indexNav/nav_1.png'
   },
   {
     name: '设备数据',

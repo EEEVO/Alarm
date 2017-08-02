@@ -43,12 +43,14 @@ const vue = new Vue({
       // TODO:代码可用
       try {
         if (window.localStorage.userName != "" && window.localStorage.userName != null && window.localStorage.LOGIN_COMPLETE === "true") {
-          this.$router.push('/index');
+          // this.$router.push('/index');
+          this.$router.push({ name: "index" });
         } else {
-          this.$router.push('/login');
+          this.$router.push({ name: "Login" });
         }
       } catch (ex) {
-        this.$router.push('/login');
+        // this.$router.push('/login');
+        this.$router.push({ name: "Login" });
       }
     }
   }
