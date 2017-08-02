@@ -1,13 +1,13 @@
-import Login from '../components/login/login';
-import Home from '../components/home/home.vue';
-import index from '../components/home/content/index/index.vue'
-import realTime from '../components/home/content/realTime/realTime.vue'
-import actualSys from '../components/home/content/actualSys/actualSys.vue'
-import optionSys from '../components/home/content/optionSys/optionSys.vue'
-import evtSelect from '../components/home/content/evtSelect/evtSelect.vue'
-import AlarmTabulate from '../components/home/content/AlarmTabulate/AlarmTabulate.vue'
-import TimedTask from '../components/home/content/TimedTask/TimedTask.vue'
-import EquipLink from '../components/home/content/EquipLink/EquipLink.vue'
+const Login = resolve => require(['../components/login/login'], resolve)
+const Home = resolve => require(['../components/home/home.vue'], resolve)
+const index = resolve => require(['../components/home/content/index/index.vue'], resolve)
+const realTime = resolve => require(['../components/home/content/realTime/realTime.vue'], resolve)
+const actualSys = resolve => require(['../components/home/content/actualSys/actualSys.vue'], resolve)
+const optionSys = resolve => require(['../components/home/content/optionSys/optionSys.vue'], resolve)
+const evtSelect = resolve => require(['../components/home/content/evtSelect/evtSelect.vue'], resolve)
+const AlarmTabulate = resolve => require(['../components/home/content/AlarmTabulate/AlarmTabulate.vue'], resolve)
+const TimedTask = resolve => require(['../components/home/content/TimedTask/TimedTask.vue'], resolve)
+const EquipLink = resolve => require(['../components/home/content/EquipLink/EquipLink.vue'], resolve)
 
 export default [
   {
