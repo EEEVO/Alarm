@@ -9,8 +9,8 @@ var HtmlWebpackPlugin = require('html-webpack-plugin')
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
 var OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 
-const UglifyJsparallelPlugin = require('webpack-uglify-parallel');
 const os = require('os');
+const UglifyJsParallelPlugin = require('webpack-uglify-parallel');
 
 var env = process.env.NODE_ENV === 'testing'
   ? require('../config/test.env')
@@ -34,22 +34,21 @@ var webpackConfig = merge(baseWebpackConfig, {
     new webpack.DefinePlugin({
       'process.env': env
     }),
-    // new webpack.optimize.UglifyJsPlugin({
-    //   compress: {
-    //     warnings: false
-    //   },
-    //   sourceMap: true
-    // }),
-
-    new UglifyJsparallelPlugin({
-      workers: os.cpus().length,
-      mangle: true,
-      compressor: {
-        warings: false,
-        drop_console: true,
-        drop_debugger: true
-      }
+    new webpack.optimize.UglifyJsPlugin({
+      compress: {
+        warnings: false
+      },
+      sourceMap: true
     }),
+    // new UglifyJsparallelPlugin({
+    //   workers: os.cpus().length,
+    //   mangle: true,
+    //   compressor: {
+    //     warings: false,
+    //     drop_console: true,
+    //     drop_debugger: true
+    //   }
+    // }),
     // extract css into its own file
     new ExtractTextPlugin({
       filename: utils.assetsPath('css/[name].[contenthash].css')
